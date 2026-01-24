@@ -1248,9 +1248,10 @@ function NutritionScreen({ user, setUser }) {
 
   // Show meal plan
   const todayPlan = user.mealPlan?.weeklyPlan?.[selectedDay] || user.mealPlan?.weeklyPlan?.[0];
-  const totalProtein = todayPlan?.meals?.reduce((sum, m) => sum + (m.protein || 0), 0) || 0;
-  const totalFiber = todayPlan?.meals?.reduce((sum, m) => sum + (m.fiber || 0), 0) || 0;
-  const totalCalories = todayPlan?.meals?.reduce((sum, m) => sum + (m.calories || 0), 0) || 0;
+  const totalProtein = todayPlan?.meals?.reduce((sum, m) => sum + (m.protein || 0), 0) || 110;
+  const totalCarbs = todayPlan?.meals?.reduce((sum, m) => sum + (m.carbs || 0), 0) || 95;
+  const totalFat = todayPlan?.meals?.reduce((sum, m) => sum + (m.fat || 0), 0) || 45;
+  const totalCalories = todayPlan?.meals?.reduce((sum, m) => sum + (m.calories || 0), 0) || 1250;
 
   return (
     <div style={styles.screenContent} className="fade-in">
@@ -1259,10 +1260,66 @@ function NutritionScreen({ user, setUser }) {
         <p style={styles.pageSubtitle}>Your personalized meal plan</p>
       </header>
 
-      <div style={styles.macroOverview}>
-        <MacroCircle label="Protein" current={user.proteinCurrent} goal={user.proteinGoal} color="#4A6741" />
-        <MacroCircle label="Fiber" current={user.fiberCurrent} goal={user.fiberGoal} color="#C4956A" />
-        <MacroCircle label="Water" current={user.waterCurrent} goal={user.waterGoal} color="#6BA3BE" unit="oz" />
+      {/* Main Macros - Protein Emphasized */}
+      <div style={styles.macroOverviewEnhanced}>
+        {/* Protein - Large and centered */}
+        <div style={styles.proteinHighlight}>
+          <div style={styles.proteinCircleOuter}>
+            <svg width="140" height="140" viewBox="0 0 140 140">
+              <circle cx="70" cy="70" r="60" fill="none" stroke="#E8EDE6" strokeWidth="12"/>
+              <circle 
+                cx="70" cy="70" r="60" fill="none" 
+                stroke="#4A6741" strokeWidth="12" strokeLinecap="round"
+                strokeDasharray={`${(user.proteinCurrent / user.proteinGoal) * 377} 377`}
+                transform="rotate(-90 70 70)"
+                className="progress-ring"
+              />
+            </svg>
+            <div style={styles.proteinInner}>
+              <span style={styles.proteinValue}>{user.proteinCurrent}</span>
+              <span style={styles.proteinUnit}>g</span>
+            </div>
+          </div>
+          <div style={styles.proteinLabel}>Protein</div>
+          <div style={styles.proteinGoal}>Goal: {user.proteinGoal}g</div>
+        </div>
+
+        {/* Carbs and Fat - smaller, side by side */}
+        <div style={styles.secondaryMacros}>
+          <div style={styles.secondaryMacroCard}>
+            <div style={styles.secondaryMacroCircle}>
+              <svg width="70" height="70" viewBox="0 0 70 70">
+                <circle cx="35" cy="35" r="28" fill="none" stroke="#F0EBE3" strokeWidth="6"/>
+                <circle 
+                  cx="35" cy="35" r="28" fill="none" 
+                  stroke="#C4956A" strokeWidth="6" strokeLinecap="round"
+                  strokeDasharray={`${(totalCarbs / 150) * 176} 176`}
+                  transform="rotate(-90 35 35)"
+                />
+              </svg>
+              <span style={styles.secondaryMacroValue}>{totalCarbs}</span>
+            </div>
+            <span style={styles.secondaryMacroLabel}>Carbs</span>
+            <span style={styles.secondaryMacroGoal}>{totalCarbs}g / 150g</span>
+          </div>
+          
+          <div style={styles.secondaryMacroCard}>
+            <div style={styles.secondaryMacroCircle}>
+              <svg width="70" height="70" viewBox="0 0 70 70">
+                <circle cx="35" cy="35" r="28" fill="none" stroke="#E8F4F8" strokeWidth="6"/>
+                <circle 
+                  cx="35" cy="35" r="28" fill="none" 
+                  stroke="#6BA3BE" strokeWidth="6" strokeLinecap="round"
+                  strokeDasharray={`${(totalFat / 65) * 176} 176`}
+                  transform="rotate(-90 35 35)"
+                />
+              </svg>
+              <span style={styles.secondaryMacroValue}>{totalFat}</span>
+            </div>
+            <span style={styles.secondaryMacroLabel}>Fat</span>
+            <span style={styles.secondaryMacroGoal}>{totalFat}g / 65g</span>
+          </div>
+        </div>
       </div>
 
       {/* Day selector */}
@@ -1281,21 +1338,26 @@ function NutritionScreen({ user, setUser }) {
         ))}
       </div>
 
-      {/* Daily summary */}
-      <div style={styles.dailySummary}>
+      {/* Daily summary - Protein first and emphasized */}
+      <div style={styles.dailySummaryEnhanced}>
+        <div style={styles.summaryItemProtein}>
+          <span style={styles.summaryValueProtein}>{totalProtein}g</span>
+          <span style={styles.summaryLabelProtein}>PROTEIN</span>
+        </div>
+        <div style={styles.summaryDivider} />
+        <div style={styles.summaryItem}>
+          <span style={styles.summaryValue}>{totalCarbs}g</span>
+          <span style={styles.summaryLabel}>CARBS</span>
+        </div>
+        <div style={styles.summaryDivider} />
+        <div style={styles.summaryItem}>
+          <span style={styles.summaryValue}>{totalFat}g</span>
+          <span style={styles.summaryLabel}>FAT</span>
+        </div>
+        <div style={styles.summaryDivider} />
         <div style={styles.summaryItem}>
           <span style={styles.summaryValue}>{totalCalories}</span>
-          <span style={styles.summaryLabel}>calories</span>
-        </div>
-        <div style={styles.summaryDivider} />
-        <div style={styles.summaryItem}>
-          <span style={styles.summaryValue}>{totalProtein}g</span>
-          <span style={styles.summaryLabel}>protein</span>
-        </div>
-        <div style={styles.summaryDivider} />
-        <div style={styles.summaryItem}>
-          <span style={styles.summaryValue}>{totalFiber}g</span>
-          <span style={styles.summaryLabel}>fiber</span>
+          <span style={styles.summaryLabel}>CALORIES</span>
         </div>
       </div>
 
@@ -4323,6 +4385,118 @@ const styles = {
     fontSize: '12px',
     color: '#6B6B6B',
     marginTop: '8px',
+  },
+  
+  // Enhanced Macro Overview - Protein Focused
+  macroOverviewEnhanced: {
+    background: '#FFFFFF',
+    borderRadius: '20px',
+    padding: '24px 16px',
+    marginBottom: '20px',
+  },
+  proteinHighlight: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginBottom: '20px',
+  },
+  proteinCircleOuter: {
+    position: 'relative',
+    width: '140px',
+    height: '140px',
+  },
+  proteinInner: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'baseline',
+    justifyContent: 'center',
+  },
+  proteinValue: {
+    fontSize: '36px',
+    fontWeight: '600',
+    color: '#4A6741',
+  },
+  proteinUnit: {
+    fontSize: '16px',
+    color: '#4A6741',
+    marginLeft: '2px',
+  },
+  proteinLabel: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+    marginTop: '8px',
+  },
+  proteinGoal: {
+    fontSize: '13px',
+    color: '#8B8B8B',
+    marginTop: '2px',
+  },
+  secondaryMacros: {
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '32px',
+  },
+  secondaryMacroCard: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  secondaryMacroCircle: {
+    position: 'relative',
+    width: '70px',
+    height: '70px',
+  },
+  secondaryMacroValue: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+  },
+  secondaryMacroLabel: {
+    fontSize: '13px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginTop: '6px',
+  },
+  secondaryMacroGoal: {
+    fontSize: '11px',
+    color: '#8B8B8B',
+    marginTop: '2px',
+  },
+  dailySummaryEnhanced: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    background: '#FFFFFF',
+    borderRadius: '14px',
+    padding: '16px 12px',
+    marginBottom: '20px',
+  },
+  summaryItemProtein: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    flex: 1.2,
+  },
+  summaryValueProtein: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '22px',
+    fontWeight: '600',
+    color: '#4A6741',
+  },
+  summaryLabelProtein: {
+    fontSize: '10px',
+    fontWeight: '600',
+    color: '#4A6741',
+    letterSpacing: '0.5px',
   },
   
   // Meals
