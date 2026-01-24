@@ -275,7 +275,7 @@ const globalStyles = `
   }
   
   .btn-primary {
-    background: linear-gradient(135deg, #4A6741 0%, #5B7B50 100%);
+    background: linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%);
     transition: all 0.3s ease;
   }
   
@@ -312,11 +312,11 @@ function OnboardingFlow({ onComplete }) {
         <svg width="200" height="160" viewBox="0 0 200 160" fill="none">
           <circle cx="100" cy="80" r="60" fill="#E8EDE6"/>
           <circle cx="100" cy="80" r="45" fill="#F5F7F4"/>
-          <path d="M85 70C85 70 90 90 100 90C110 90 115 70 115 70" stroke="#4A6741" strokeWidth="3" strokeLinecap="round"/>
-          <circle cx="85" cy="65" r="5" fill="#4A6741"/>
-          <circle cx="115" cy="65" r="5" fill="#4A6741"/>
+          <path d="M85 70C85 70 90 90 100 90C110 90 115 70 115 70" stroke="#3B7D3B" strokeWidth="3" strokeLinecap="round"/>
+          <circle cx="85" cy="65" r="5" fill="#3B7D3B"/>
+          <circle cx="115" cy="65" r="5" fill="#3B7D3B"/>
           <circle cx="70" cy="50" r="8" fill="#C4956A" opacity="0.6"/>
-          <circle cx="130" cy="50" r="8" fill="#6BA3BE" opacity="0.6"/>
+          <circle cx="130" cy="50" r="8" fill="#26A69A" opacity="0.6"/>
           <circle cx="100" cy="130" r="10" fill="#9B7E9B" opacity="0.6"/>
         </svg>
       )
@@ -329,9 +329,9 @@ function OnboardingFlow({ onComplete }) {
       image: (
         <svg width="200" height="160" viewBox="0 0 200 160" fill="none">
           <circle cx="100" cy="80" r="50" fill="#E8EDE6"/>
-          <circle cx="70" cy="70" r="15" fill="#4A6741"/>
+          <circle cx="70" cy="70" r="15" fill="#3B7D3B"/>
           <circle cx="130" cy="70" r="15" fill="#C4956A"/>
-          <circle cx="100" cy="100" r="18" fill="#6BA3BE"/>
+          <circle cx="100" cy="100" r="18" fill="#26A69A"/>
           <text x="70" y="75" textAnchor="middle" fill="white" fontSize="14">🥩</text>
           <text x="130" y="75" textAnchor="middle" fill="white" fontSize="14">🥬</text>
           <text x="100" y="105" textAnchor="middle" fill="white" fontSize="16">💧</text>
@@ -347,10 +347,10 @@ function OnboardingFlow({ onComplete }) {
         <svg width="200" height="160" viewBox="0 0 200 160" fill="none">
           <rect x="60" y="30" width="80" height="100" rx="10" fill="#2D2D2D"/>
           <rect x="65" y="35" width="70" height="85" rx="5" fill="#3D3D4D"/>
-          <circle cx="100" cy="75" r="25" stroke="#4A6741" strokeWidth="2" strokeDasharray="5 3"/>
-          <circle cx="100" cy="65" r="8" fill="#4A6741"/>
-          <path d="M90 85L100 75L110 85" stroke="#4A6741" strokeWidth="2"/>
-          <path d="M85 95L100 105L115 95" stroke="#4A6741" strokeWidth="2"/>
+          <circle cx="100" cy="75" r="25" stroke="#3B7D3B" strokeWidth="2" strokeDasharray="5 3"/>
+          <circle cx="100" cy="65" r="8" fill="#3B7D3B"/>
+          <path d="M90 85L100 75L110 85" stroke="#3B7D3B" strokeWidth="2"/>
+          <path d="M85 95L100 105L115 95" stroke="#3B7D3B" strokeWidth="2"/>
         </svg>
       )
     },
@@ -363,10 +363,10 @@ function OnboardingFlow({ onComplete }) {
         <svg width="200" height="160" viewBox="0 0 200 160" fill="none">
           <rect x="50" y="100" width="20" height="40" fill="#E8EDE6" rx="4"/>
           <rect x="80" y="80" width="20" height="60" fill="#C4956A" rx="4"/>
-          <rect x="110" y="60" width="20" height="80" fill="#6BA3BE" rx="4"/>
-          <rect x="140" y="40" width="20" height="100" fill="#4A6741" rx="4"/>
-          <path d="M50 90L80 70L110 50L150 30" stroke="#4A6741" strokeWidth="2" strokeDasharray="4 2"/>
-          <circle cx="150" cy="30" r="6" fill="#4A6741"/>
+          <rect x="110" y="60" width="20" height="80" fill="#26A69A" rx="4"/>
+          <rect x="140" y="40" width="20" height="100" fill="#3B7D3B" rx="4"/>
+          <path d="M50 90L80 70L110 50L150 30" stroke="#3B7D3B" strokeWidth="2" strokeDasharray="4 2"/>
+          <circle cx="150" cy="30" r="6" fill="#3B7D3B"/>
         </svg>
       )
     },
@@ -379,12 +379,12 @@ function OnboardingFlow({ onComplete }) {
         <svg width="200" height="160" viewBox="0 0 200 160" fill="none">
           <circle cx="70" cy="70" r="30" fill="#E8EDE6"/>
           <circle cx="130" cy="70" r="30" fill="#E8EDE6"/>
-          <circle cx="70" cy="60" r="12" fill="#4A6741"/>
-          <path d="M58 85C58 78 63 75 70 75C77 75 82 78 82 85" stroke="#4A6741" strokeWidth="2"/>
-          <circle cx="130" cy="60" r="12" fill="#6BA3BE"/>
-          <path d="M118 85C118 78 123 75 130 75C137 75 142 78 142 85" stroke="#6BA3BE" strokeWidth="2"/>
-          <path d="M95 70H105" stroke="#4A6741" strokeWidth="2" strokeLinecap="round"/>
-          <path d="M100 65V75" stroke="#4A6741" strokeWidth="2" strokeLinecap="round"/>
+          <circle cx="70" cy="60" r="12" fill="#3B7D3B"/>
+          <path d="M58 85C58 78 63 75 70 75C77 75 82 78 82 85" stroke="#3B7D3B" strokeWidth="2"/>
+          <circle cx="130" cy="60" r="12" fill="#26A69A"/>
+          <path d="M118 85C118 78 123 75 130 75C137 75 142 78 142 85" stroke="#26A69A" strokeWidth="2"/>
+          <path d="M95 70H105" stroke="#3B7D3B" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M100 65V75" stroke="#3B7D3B" strokeWidth="2" strokeLinecap="round"/>
           <text x="70" y="120" textAnchor="middle" fill="#6B6B6B" fontSize="10">You</text>
           <text x="130" y="120" textAnchor="middle" fill="#6B6B6B" fontSize="10">Provider</text>
         </svg>
@@ -591,7 +591,7 @@ function PatientMiniCard({ patient }) {
           <span style={styles.pmcStatLabel}>Lost</span>
         </div>
         <div style={styles.pmcStatItem}>
-          <span style={{...styles.pmcStatValue, color: compliance >= 80 ? '#4A6741' : '#C4956A'}}>{compliance}%</span>
+          <span style={{...styles.pmcStatValue, color: compliance >= 80 ? '#3B7D3B' : '#C4956A'}}>{compliance}%</span>
           <span style={styles.pmcStatLabel}>Compliance</span>
         </div>
         <div style={styles.pmcStatItem}>
@@ -662,7 +662,7 @@ function PatientListScreen({ patients, setCurrentScreen }) {
                 <div style={{
                   ...styles.plcCompliance,
                   background: compliance >= 80 ? '#E8EDE6' : '#FFF5F0',
-                  color: compliance >= 80 ? '#4A6741' : '#C4956A'
+                  color: compliance >= 80 ? '#3B7D3B' : '#C4956A'
                 }}>
                   {compliance}%
                 </div>
@@ -752,7 +752,7 @@ function PatientDetailScreen({ patient, onBack }) {
                     <div style={{
                       ...styles.pdChartBarFill,
                       height: `${avg}%`,
-                      background: avg >= 80 ? '#4A6741' : avg >= 60 ? '#C4956A' : '#E57373'
+                      background: avg >= 80 ? '#3B7D3B' : avg >= 60 ? '#C4956A' : '#E57373'
                     }} />
                     <span style={styles.pdChartLabel}>W{week.week}</span>
                   </div>
@@ -803,7 +803,7 @@ function PatientDetailScreen({ patient, onBack }) {
                 <span style={styles.nutritionPercent}>{Math.round((patient.proteinCurrent / patient.proteinGoal) * 100)}%</span>
               </div>
               <div style={styles.nutritionBar}>
-                <div style={{...styles.nutritionBarFill, width: `${(patient.proteinCurrent / patient.proteinGoal) * 100}%`, background: '#4A6741'}} />
+                <div style={{...styles.nutritionBarFill, width: `${(patient.proteinCurrent / patient.proteinGoal) * 100}%`, background: '#3B7D3B'}} />
               </div>
               <p style={styles.nutritionMeta}>{patient.proteinCurrent}g / {patient.proteinGoal}g today</p>
             </div>
@@ -814,7 +814,7 @@ function PatientDetailScreen({ patient, onBack }) {
                 <span style={styles.nutritionPercent}>{Math.round((patient.waterCurrent / patient.waterGoal) * 100)}%</span>
               </div>
               <div style={styles.nutritionBar}>
-                <div style={{...styles.nutritionBarFill, width: `${(patient.waterCurrent / patient.waterGoal) * 100}%`, background: '#6BA3BE'}} />
+                <div style={{...styles.nutritionBarFill, width: `${(patient.waterCurrent / patient.waterGoal) * 100}%`, background: '#26A69A'}} />
               </div>
               <p style={styles.nutritionMeta}>{patient.waterCurrent}oz / {patient.waterGoal}oz today</p>
             </div>
@@ -920,8 +920,8 @@ function AnalyticsScreen({ patients }) {
         <h3 style={styles.sectionTitle}>Compliance by Category</h3>
         <div style={styles.complianceBreakdown}>
           {[
-            { label: 'Protein Goals', value: 85, color: '#4A6741' },
-            { label: 'Hydration', value: 78, color: '#6BA3BE' },
+            { label: 'Protein Goals', value: 85, color: '#3B7D3B' },
+            { label: 'Hydration', value: 78, color: '#26A69A' },
             { label: 'Exercise', value: 72, color: '#9B7E9B' },
             { label: 'Meal Logging', value: 91, color: '#C4956A' },
           ].map((item, idx) => (
@@ -988,7 +988,7 @@ function ProviderBottomNav({ currentScreen, setCurrentScreen }) {
           key={item.id}
           style={{
             ...styles.navButton,
-            color: currentScreen === item.id ? '#4A6741' : '#9B9B9B'
+            color: currentScreen === item.id ? '#3B7D3B' : '#9B9B9B'
           }}
           onClick={() => setCurrentScreen(item.id)}
           className="nav-item"
@@ -1012,6 +1012,19 @@ function HomeScreen({ user, setUser, setActiveModal }) {
 
   return (
     <div style={styles.screenContent} className="fade-in">
+      {/* HYDR801 Logo Header */}
+      <div style={styles.brandHeader}>
+        <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
+          {/* Leaves */}
+          <path d="M50 20 C35 25, 25 40, 30 55 C35 45, 45 38, 50 35 C55 38, 65 45, 70 55 C75 40, 65 25, 50 20Z" fill="#3B7D3B"/>
+          <path d="M30 55 C20 60, 15 75, 25 85 C30 75, 40 68, 50 65 C40 62, 32 58, 30 55Z" fill="#4CAF50"/>
+          <path d="M70 55 C80 60, 85 75, 75 85 C70 75, 60 68, 50 65 C60 62, 68 58, 70 55Z" fill="#4CAF50"/>
+          {/* Center H */}
+          <text x="50" y="58" textAnchor="middle" fontSize="24" fontWeight="bold" fill="#26A69A">H</text>
+        </svg>
+        <span style={styles.brandName}>HYDR801</span>
+      </div>
+
       <header style={styles.header}>
         <div>
           <p style={styles.greeting}>{greeting()},</p>
@@ -1033,11 +1046,10 @@ function HomeScreen({ user, setUser, setActiveModal }) {
         </div>
         <div style={styles.heroImagePlaceholder}>
           <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-            <circle cx="40" cy="40" r="35" fill="#E8EDE6"/>
-            <path d="M30 50C30 50 35 45 40 45C45 45 50 50 50 50" stroke="#4A6741" strokeWidth="2" strokeLinecap="round"/>
-            <circle cx="32" cy="38" r="3" fill="#4A6741"/>
-            <circle cx="48" cy="38" r="3" fill="#4A6741"/>
-            <path d="M25 30C25 30 30 25 40 25C50 25 55 30 55 30" stroke="#4A6741" strokeWidth="2" strokeLinecap="round"/>
+            <circle cx="40" cy="40" r="35" fill="#E8F5E9"/>
+            <path d="M40 20 C28 24, 20 36, 24 48 C28 40, 36 34, 40 32 C44 34, 52 40, 56 48 C60 36, 52 24, 40 20Z" fill="#3B7D3B"/>
+            <path d="M24 48 C16 52, 12 64, 20 72 C24 64, 32 58, 40 56 C32 54, 26 50, 24 48Z" fill="#4CAF50"/>
+            <path d="M56 48 C64 52, 68 64, 60 72 C56 64, 48 58, 40 56 C48 54, 54 50, 56 48Z" fill="#4CAF50"/>
           </svg>
         </div>
       </div>
@@ -1051,7 +1063,7 @@ function HomeScreen({ user, setUser, setActiveModal }) {
             current={user.waterCurrent}
             goal={user.waterGoal}
             unit="oz"
-            color="#6BA3BE"
+            color="#26A69A"
             onIncrement={() => setUser({...user, waterCurrent: Math.min(user.waterCurrent + 8, user.waterGoal)})}
           />
           <GoalCard
@@ -1060,7 +1072,7 @@ function HomeScreen({ user, setUser, setActiveModal }) {
             current={user.proteinCurrent}
             goal={user.proteinGoal}
             unit="g"
-            color="#4A6741"
+            color="#3B7D3B"
             onIncrement={() => setUser({...user, proteinCurrent: Math.min(user.proteinCurrent + 10, user.proteinGoal)})}
           />
           <GoalCard
@@ -1179,9 +1191,9 @@ function NutritionScreen({ user, setUser }) {
         </header>
 
         <div style={styles.macroOverview}>
-          <MacroCircle label="Protein" current={user.proteinCurrent} goal={user.proteinGoal} color="#4A6741" />
+          <MacroCircle label="Protein" current={user.proteinCurrent} goal={user.proteinGoal} color="#3B7D3B" />
           <MacroCircle label="Fiber" current={user.fiberCurrent} goal={user.fiberGoal} color="#C4956A" />
-          <MacroCircle label="Water" current={user.waterCurrent} goal={user.waterGoal} color="#6BA3BE" unit="oz" />
+          <MacroCircle label="Water" current={user.waterCurrent} goal={user.waterGoal} color="#26A69A" unit="oz" />
         </div>
 
         <div style={styles.mealPlanPrompt}>
@@ -1194,10 +1206,10 @@ function NutritionScreen({ user, setUser }) {
             <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
               <circle cx="60" cy="60" r="55" fill="#E8EDE6"/>
               <circle cx="60" cy="60" r="40" fill="#F5F7F4"/>
-              <circle cx="45" cy="50" r="8" fill="#4A6741"/>
+              <circle cx="45" cy="50" r="8" fill="#3B7D3B"/>
               <circle cx="75" cy="50" r="8" fill="#C4956A"/>
-              <circle cx="60" cy="75" r="10" fill="#6BA3BE"/>
-              <path d="M35 40L45 50L35 60" stroke="#4A6741" strokeWidth="2" strokeLinecap="round"/>
+              <circle cx="60" cy="75" r="10" fill="#26A69A"/>
+              <path d="M35 40L45 50L35 60" stroke="#3B7D3B" strokeWidth="2" strokeLinecap="round"/>
               <path d="M85 40L75 50L85 60" stroke="#C4956A" strokeWidth="2" strokeLinecap="round"/>
             </svg>
           </div>
@@ -1269,7 +1281,7 @@ function NutritionScreen({ user, setUser }) {
               <circle cx="70" cy="70" r="60" fill="none" stroke="#E8EDE6" strokeWidth="12"/>
               <circle 
                 cx="70" cy="70" r="60" fill="none" 
-                stroke="#4A6741" strokeWidth="12" strokeLinecap="round"
+                stroke="#3B7D3B" strokeWidth="12" strokeLinecap="round"
                 strokeDasharray={`${(user.proteinCurrent / user.proteinGoal) * 377} 377`}
                 transform="rotate(-90 70 70)"
                 className="progress-ring"
@@ -1309,7 +1321,7 @@ function NutritionScreen({ user, setUser }) {
                 <circle cx="35" cy="35" r="28" fill="none" stroke="#E8F4F8" strokeWidth="6"/>
                 <circle 
                   cx="35" cy="35" r="28" fill="none" 
-                  stroke="#6BA3BE" strokeWidth="6" strokeLinecap="round"
+                  stroke="#26A69A" strokeWidth="6" strokeLinecap="round"
                   strokeDasharray={`${(totalFat / 65) * 176} 176`}
                   transform="rotate(-90 35 35)"
                 />
@@ -2076,13 +2088,13 @@ function FitnessScreen({ user, setUser }) {
           <div style={styles.assessmentIllustration}>
             <svg width="140" height="140" viewBox="0 0 140 140" fill="none">
               <circle cx="70" cy="70" r="65" fill="#E8EDE6"/>
-              <circle cx="70" cy="70" r="50" stroke="#4A6741" strokeWidth="2" strokeDasharray="8 4"/>
-              <path d="M70 40V70L90 90" stroke="#4A6741" strokeWidth="3" strokeLinecap="round"/>
-              <circle cx="70" cy="70" r="6" fill="#4A6741"/>
-              <circle cx="70" cy="30" r="4" fill="#6BA3BE"/>
+              <circle cx="70" cy="70" r="50" stroke="#3B7D3B" strokeWidth="2" strokeDasharray="8 4"/>
+              <path d="M70 40V70L90 90" stroke="#3B7D3B" strokeWidth="3" strokeLinecap="round"/>
+              <circle cx="70" cy="70" r="6" fill="#3B7D3B"/>
+              <circle cx="70" cy="30" r="4" fill="#26A69A"/>
               <circle cx="110" cy="70" r="4" fill="#C4956A"/>
               <circle cx="70" cy="110" r="4" fill="#9B7E9B"/>
-              <circle cx="30" cy="70" r="4" fill="#4A6741"/>
+              <circle cx="30" cy="70" r="4" fill="#3B7D3B"/>
             </svg>
           </div>
           <h2 style={styles.assessmentTitle}>Smart Fitness Assessment</h2>
@@ -2218,26 +2230,98 @@ function AIFitnessAssessment({ onComplete, onCancel }) {
     }
   };
 
-  // Camera setup
+  // Camera setup - Mobile optimized
   const startCamera = useCallback(async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { 
-          facingMode: 'user',
-          width: { ideal: 640 },
-          height: { ideal: 480 }
-        } 
-      });
+      // Check if we're in a secure context (HTTPS required for camera)
+      if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
+        setCameraError('Camera requires a secure connection (HTTPS). Please access this app via HTTPS.');
+        return;
+      }
+      
+      // Check if camera is supported
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        setCameraError('Camera not supported on this device. Please use the manual assessment instead.');
+        return;
+      }
+      
+      // Mobile-optimized constraints
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const constraints = {
+        video: {
+          facingMode: 'user', // Front camera for selfie view
+          width: isMobile ? { ideal: 480 } : { ideal: 640 },
+          height: isMobile ? { ideal: 640 } : { ideal: 480 },
+        },
+        audio: false
+      };
+      
+      // Try to get camera stream
+      let stream;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia(constraints);
+      } catch (firstError) {
+        // If specific constraints fail, try with basic constraints
+        console.log('First attempt failed, trying basic constraints');
+        stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      }
+      
       streamRef.current = stream;
+      
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        
+        // Mobile-specific attributes
+        videoRef.current.setAttribute('autoplay', '');
+        videoRef.current.setAttribute('playsinline', '');
+        videoRef.current.setAttribute('muted', '');
+        
+        // Wait for video to be ready
+        videoRef.current.onloadedmetadata = async () => {
+          try {
+            // Mobile browsers often need user interaction to play
+            await videoRef.current.play();
+            setStage('exercise');
+          } catch (playErr) {
+            console.warn('Auto-play prevented, proceeding anyway:', playErr);
+            setStage('exercise');
+          }
+        };
+        
+        // Fallback if onloadedmetadata doesn't fire
+        setTimeout(() => {
+          if (stage === 'camera-setup') {
+            videoRef.current?.play().catch(() => {});
+            setStage('exercise');
+          }
+        }, 3000);
+      } else {
+        setStage('exercise');
       }
-      setStage('exercise');
     } catch (err) {
       console.error('Camera error:', err);
-      setCameraError('Unable to access camera. Please grant camera permissions and try again.');
+      let errorMessage = 'Unable to access camera. ';
+      
+      if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+        errorMessage = 'Camera permission denied. Please allow camera access:\n\n';
+        errorMessage += '• iPhone/iPad: Settings → Safari → Camera → Allow\n';
+        errorMessage += '• Android: Settings → Apps → Browser → Permissions → Camera\n';
+        errorMessage += '• Or tap the camera icon in your browser\'s address bar';
+      } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+        errorMessage = 'No camera found. Please make sure your device has a camera.';
+      } else if (err.name === 'NotReadableError' || err.name === 'TrackStartError') {
+        errorMessage = 'Camera is in use by another app. Please close other apps using the camera and try again.';
+      } else if (err.name === 'OverconstrainedError') {
+        errorMessage = 'Camera settings not supported. Please try again.';
+      } else if (err.name === 'SecurityError') {
+        errorMessage = 'Camera access blocked. This app requires HTTPS for camera access.';
+      } else {
+        errorMessage += 'Please check your camera permissions and try again.';
+      }
+      
+      setCameraError(errorMessage);
     }
-  }, []);
+  }, [stage]);
 
   const stopCamera = useCallback(() => {
     if (streamRef.current) {
@@ -2596,6 +2680,9 @@ Important considerations:
           <button style={styles.primaryButton} className="btn-primary" onClick={() => { setStage('camera-setup'); startCamera(); }}>
             Enable Camera & Start
           </button>
+          <button style={styles.secondaryButton} onClick={() => setStage('manual')}>
+            Quick Assessment (No Camera)
+          </button>
         </div>
       </div>
     );
@@ -2607,14 +2694,69 @@ Important considerations:
         <div style={styles.errorContainer}>
           <div style={styles.errorIcon}>📷</div>
           <h2 style={styles.errorTitle}>Camera Access Needed</h2>
-          <p style={styles.errorText}>{cameraError}</p>
+          <p style={{...styles.errorText, whiteSpace: 'pre-line', textAlign: 'left', maxWidth: '300px'}}>{cameraError}</p>
           <button style={styles.primaryButton} className="btn-primary" onClick={() => { setCameraError(null); startCamera(); }}>
             Try Again
           </button>
-          <button style={styles.secondaryButton} onClick={onCancel}>
-            Skip Assessment
+          <button style={styles.secondaryButton} onClick={() => setStage('manual')}>
+            Quick Assessment Instead
+          </button>
+          <button style={{...styles.secondaryButton, marginTop: '8px', background: 'transparent'}} onClick={onCancel}>
+            Cancel
           </button>
         </div>
+      </div>
+    );
+  }
+
+  // Manual/Quick Assessment without camera
+  if (stage === 'manual') {
+    const fitnessLevels = [
+      { id: 'beginner', label: 'Beginner', desc: 'New to exercise or returning after a long break', icon: '🌱' },
+      { id: 'intermediate', label: 'Intermediate', desc: 'Exercise 2-3 times per week regularly', icon: '🌿' },
+      { id: 'advanced', label: 'Advanced', desc: 'Exercise 4+ times per week with good form', icon: '🌳' }
+    ];
+    
+    return (
+      <div style={styles.screenContent} className="fade-in">
+        <header style={styles.pageHeader}>
+          <h1 style={styles.pageTitle}>Quick Assessment</h1>
+          <p style={styles.pageSubtitle}>Select your fitness level</p>
+        </header>
+        
+        <div style={styles.manualAssessmentList}>
+          {fitnessLevels.map(level => (
+            <button
+              key={level.id}
+              style={styles.fitnessLevelCard}
+              onClick={() => {
+                setStage('equipment');
+                // Set a mock result based on selection
+                setAnalysisResult({
+                  fitnessLevel: level.id,
+                  scores: {
+                    strength: level.id === 'beginner' ? 40 : level.id === 'intermediate' ? 65 : 85,
+                    flexibility: level.id === 'beginner' ? 45 : level.id === 'intermediate' ? 60 : 80,
+                    balance: level.id === 'beginner' ? 50 : level.id === 'intermediate' ? 70 : 85,
+                    endurance: level.id === 'beginner' ? 35 : level.id === 'intermediate' ? 60 : 82
+                  },
+                  summary: `Based on your self-assessment as ${level.label.toLowerCase()}, we'll create a personalized workout plan.`
+                });
+              }}
+            >
+              <span style={styles.fitnessLevelIcon}>{level.icon}</span>
+              <div style={styles.fitnessLevelContent}>
+                <h3 style={styles.fitnessLevelTitle}>{level.label}</h3>
+                <p style={styles.fitnessLevelDesc}>{level.desc}</p>
+              </div>
+              <span style={styles.fitnessLevelArrow}>→</span>
+            </button>
+          ))}
+        </div>
+        
+        <button style={styles.secondaryButton} onClick={onCancel}>
+          Cancel
+        </button>
       </div>
     );
   }
@@ -2628,7 +2770,15 @@ Important considerations:
           </div>
           <p style={styles.setupText}>Setting up camera...</p>
         </div>
-        <video ref={videoRef} autoPlay playsInline muted style={{ display: 'none' }} />
+        <video 
+          ref={videoRef} 
+          autoPlay 
+          playsInline 
+          muted 
+          webkit-playsinline="true"
+          x5-playsinline="true"
+          style={{ display: 'none' }} 
+        />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
     );
@@ -2643,8 +2793,14 @@ Important considerations:
           ref={videoRef} 
           autoPlay 
           playsInline 
-          muted 
-          style={styles.cameraVideo}
+          muted
+          webkit-playsinline="true"
+          x5-playsinline="true"
+          x5-video-player-type="h5"
+          style={{
+            ...styles.cameraVideo,
+            transform: 'scaleX(-1)', // Mirror for selfie view
+          }}
         />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
         
@@ -2657,7 +2813,7 @@ Important considerations:
                 key={idx} 
                 style={{
                   ...styles.exerciseProgressDot,
-                  backgroundColor: idx < currentExercise ? '#4A6741' : idx === currentExercise ? '#FFFFFF' : 'rgba(255,255,255,0.3)'
+                  backgroundColor: idx < currentExercise ? '#3B7D3B' : idx === currentExercise ? '#FFFFFF' : 'rgba(255,255,255,0.3)'
                 }}
               />
             ))}
@@ -3375,8 +3531,8 @@ function TreatmentsScreen({ setActiveModal }) {
               <span style={{
                 ...styles.tierBadge,
                 background: service.tier === 'premium' ? '#9B7E9B' : 
-                           service.tier === 'advanced' ? '#4A6741' :
-                           service.tier === 'upgrade' ? '#6BA3BE' :
+                           service.tier === 'advanced' ? '#3B7D3B' :
+                           service.tier === 'upgrade' ? '#26A69A' :
                            service.tier === 'high-dose' ? '#C4956A' : '#E8EDE6'
               }}>
                 {service.tier === 'premium' ? '⭐ Premium' : 
@@ -3983,13 +4139,13 @@ function BottomNav({ currentScreen, setCurrentScreen }) {
           key={item.id}
           style={{
             ...styles.navButton,
-            color: currentScreen === item.id ? '#4A6741' : '#9B9B9B'
+            color: currentScreen === item.id ? '#3B7D3B' : '#9B9B9B'
           }}
           onClick={() => setCurrentScreen(item.id)}
           className="nav-item"
         >
           {React.cloneElement(item.icon, { 
-            color: currentScreen === item.id ? '#4A6741' : '#9B9B9B' 
+            color: currentScreen === item.id ? '#3B7D3B' : '#9B9B9B' 
           })}
           <span style={styles.navLabel}>{item.label}</span>
         </button>
@@ -4042,7 +4198,7 @@ function ProfileIcon({ color = '#9B9B9B' }) {
   );
 }
 
-function WaterIcon({ color = '#6BA3BE' }) {
+function WaterIcon({ color = '#26A69A' }) {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <path d="M10 2L5 10C5 14 7 17 10 17C13 17 15 14 15 10L10 2Z" stroke={color} strokeWidth="1.5"/>
@@ -4050,7 +4206,7 @@ function WaterIcon({ color = '#6BA3BE' }) {
   );
 }
 
-function ProteinIcon({ color = '#4A6741' }) {
+function ProteinIcon({ color = '#3B7D3B' }) {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <circle cx="10" cy="10" r="6" stroke={color} strokeWidth="1.5"/>
@@ -4104,8 +4260,8 @@ const styles = {
     transition: 'all 0.2s',
   },
   modeBtnActive: {
-    borderColor: '#4A6741',
-    background: '#4A6741',
+    borderColor: '#3B7D3B',
+    background: '#3B7D3B',
     color: '#FFFFFF',
   },
   phoneFrame: {
@@ -4137,6 +4293,18 @@ const styles = {
     alignItems: 'flex-start',
     marginBottom: '24px',
   },
+  brandHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    marginBottom: '16px',
+  },
+  brandName: {
+    fontSize: '14px',
+    fontWeight: '600',
+    color: '#3B7D3B',
+    letterSpacing: '1px',
+  },
   greeting: {
     fontSize: '14px',
     color: '#8B8B8B',
@@ -4167,12 +4335,12 @@ const styles = {
     fontFamily: "'Fraunces', serif",
     fontSize: '20px',
     fontWeight: '600',
-    color: '#4A6741',
+    color: '#3B7D3B',
   },
   
   // Hero Card
   heroCard: {
-    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
     borderRadius: '20px',
     padding: '24px',
     display: 'flex',
@@ -4231,7 +4399,7 @@ const styles = {
     borderRadius: '20px',
     padding: '6px 14px',
     fontSize: '13px',
-    color: '#4A6741',
+    color: '#3B7D3B',
     cursor: 'pointer',
     marginBottom: '16px',
   },
@@ -4329,7 +4497,7 @@ const styles = {
   },
   treatmentArrow: {
     fontSize: '20px',
-    color: '#4A6741',
+    color: '#3B7D3B',
   },
   
   // Page Header
@@ -4418,11 +4586,11 @@ const styles = {
   proteinValue: {
     fontSize: '36px',
     fontWeight: '600',
-    color: '#4A6741',
+    color: '#3B7D3B',
   },
   proteinUnit: {
     fontSize: '16px',
-    color: '#4A6741',
+    color: '#3B7D3B',
     marginLeft: '2px',
   },
   proteinLabel: {
@@ -4490,12 +4658,12 @@ const styles = {
     fontFamily: "'Fraunces', serif",
     fontSize: '22px',
     fontWeight: '600',
-    color: '#4A6741',
+    color: '#3B7D3B',
   },
   summaryLabelProtein: {
     fontSize: '10px',
     fontWeight: '600',
-    color: '#4A6741',
+    color: '#3B7D3B',
     letterSpacing: '0.5px',
   },
   
@@ -4544,7 +4712,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: '14px',
-    color: '#4A6741',
+    color: '#3B7D3B',
   },
   
   // Tips
@@ -4586,7 +4754,7 @@ const styles = {
     display: 'inline-flex',
     alignItems: 'center',
     gap: '6px',
-    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
     borderRadius: '20px',
     padding: '6px 14px',
     marginBottom: '20px',
@@ -4657,7 +4825,7 @@ const styles = {
     transition: 'all 0.2s',
   },
   daySelectorBtnActive: {
-    background: '#4A6741',
+    background: '#3B7D3B',
     color: '#FFFFFF',
   },
 
@@ -4678,7 +4846,7 @@ const styles = {
   summaryValue: {
     fontSize: '20px',
     fontWeight: '600',
-    color: '#4A6741',
+    color: '#3B7D3B',
     display: 'block',
   },
   summaryLabel: {
@@ -4800,12 +4968,12 @@ const styles = {
   },
   glp1TipText: {
     fontSize: '13px',
-    color: '#4A6741',
+    color: '#3B7D3B',
     lineHeight: '1.4',
   },
   logMealButton: {
     width: '100%',
-    background: '#4A6741',
+    background: '#3B7D3B',
     color: '#FFFFFF',
     border: 'none',
     borderRadius: '10px',
@@ -4817,7 +4985,7 @@ const styles = {
   },
   logMealButtonLogged: {
     background: '#E8EDE6',
-    color: '#4A6741',
+    color: '#3B7D3B',
   },
 
   // Snacks
@@ -4909,7 +5077,7 @@ const styles = {
     background: '#E0E0E0',
   },
   mpProgressDotActive: {
-    background: '#4A6741',
+    background: '#3B7D3B',
   },
   mpStepTitle: {
     fontFamily: "'Fraunces', serif",
@@ -4939,7 +5107,7 @@ const styles = {
     transition: 'all 0.2s',
   },
   mpOptionCardSelected: {
-    borderColor: '#4A6741',
+    borderColor: '#3B7D3B',
     background: '#F5F8F4',
   },
   mpOptionIcon: {
@@ -4977,7 +5145,7 @@ const styles = {
     color: '#2D2D2D',
   },
   mpChipSelected: {
-    borderColor: '#4A6741',
+    borderColor: '#3B7D3B',
     background: '#F5F8F4',
   },
   mpDislikesSection: {
@@ -5015,7 +5183,7 @@ const styles = {
     transition: 'all 0.2s',
   },
   mpCookingOptionSelected: {
-    borderColor: '#4A6741',
+    borderColor: '#3B7D3B',
     background: '#F5F8F4',
   },
   mpCookingIcon: {
@@ -5063,7 +5231,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color: '#4A6741',
+    color: '#3B7D3B',
   },
   mpCounterValue: {
     fontSize: '20px',
@@ -5081,7 +5249,7 @@ const styles = {
   mpSummaryTitle: {
     fontSize: '14px',
     fontWeight: '500',
-    color: '#4A6741',
+    color: '#3B7D3B',
     marginBottom: '12px',
   },
   mpSummaryItem: {
@@ -5131,7 +5299,7 @@ const styles = {
     transition: 'all 0.3s',
   },
   onboardingDotActive: {
-    background: '#4A6741',
+    background: '#3B7D3B',
     width: '24px',
   },
   skipButton: {
@@ -5170,7 +5338,7 @@ const styles = {
   },
   onboardingSubtitle: {
     fontSize: '16px',
-    color: '#4A6741',
+    color: '#3B7D3B',
     marginBottom: '16px',
   },
   onboardingDesc: {
@@ -5202,7 +5370,7 @@ const styles = {
   providerStatsRow: {
     display: 'flex',
     justifyContent: 'space-between',
-    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
     borderRadius: '16px',
     padding: '20px',
     marginBottom: '24px',
@@ -5281,7 +5449,7 @@ const styles = {
   appointmentTime: {
     fontSize: '13px',
     fontWeight: '500',
-    color: '#4A6741',
+    color: '#3B7D3B',
     minWidth: '70px',
   },
   appointmentInfo: {
@@ -5302,7 +5470,7 @@ const styles = {
     borderRadius: '8px',
     padding: '6px 12px',
     fontSize: '12px',
-    color: '#4A6741',
+    color: '#3B7D3B',
     cursor: 'pointer',
   },
   noAppointments: {
@@ -5314,7 +5482,7 @@ const styles = {
   viewAllBtn: {
     background: 'none',
     border: 'none',
-    color: '#4A6741',
+    color: '#3B7D3B',
     fontSize: '13px',
     cursor: 'pointer',
   },
@@ -5338,7 +5506,7 @@ const styles = {
     width: '40px',
     height: '40px',
     borderRadius: '20px',
-    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -5448,7 +5616,7 @@ const styles = {
     width: '44px',
     height: '44px',
     borderRadius: '22px',
-    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -5495,7 +5663,7 @@ const styles = {
     width: '80px',
     height: '80px',
     borderRadius: '40px',
-    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -5543,7 +5711,7 @@ const styles = {
     whiteSpace: 'nowrap',
   },
   pdTabActive: {
-    background: '#4A6741',
+    background: '#3B7D3B',
     color: '#FFFFFF',
   },
   pdMetricsGrid: {
@@ -5561,7 +5729,7 @@ const styles = {
   pdMetricValue: {
     fontSize: '24px',
     fontWeight: '600',
-    color: '#4A6741',
+    color: '#3B7D3B',
     display: 'block',
   },
   pdMetricLabel: {
@@ -5636,7 +5804,7 @@ const styles = {
   },
   weightBar: {
     width: '8px',
-    background: '#4A6741',
+    background: '#3B7D3B',
     borderRadius: '4px',
   },
   weightValue: {
@@ -5666,7 +5834,7 @@ const styles = {
     fontWeight: '500',
   },
   nutritionPercent: {
-    color: '#4A6741',
+    color: '#3B7D3B',
   },
   nutritionBar: {
     height: '8px',
@@ -5726,7 +5894,7 @@ const styles = {
     width: '44px',
     height: '44px',
     borderRadius: '22px',
-    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -5758,7 +5926,7 @@ const styles = {
     width: '10px',
     height: '10px',
     borderRadius: '5px',
-    background: '#4A6741',
+    background: '#3B7D3B',
   },
 
   // Analytics
@@ -5777,7 +5945,7 @@ const styles = {
   analyticsValue: {
     fontSize: '28px',
     fontWeight: '600',
-    color: '#4A6741',
+    color: '#3B7D3B',
     display: 'block',
   },
   analyticsLabel: {
@@ -5813,7 +5981,7 @@ const styles = {
   complianceValue: {
     fontSize: '14px',
     fontWeight: '500',
-    color: '#4A6741',
+    color: '#3B7D3B',
   },
   complianceBar: {
     height: '8px',
@@ -5914,7 +6082,7 @@ const styles = {
   },
   weightChartBar: {
     width: '20px',
-    background: 'linear-gradient(180deg, #4A6741 0%, #5B7B50 100%)',
+    background: 'linear-gradient(180deg, #3B7D3B 0%, #5B7B50 100%)',
     borderRadius: '4px',
   },
   weightChartValue: {
@@ -5952,7 +6120,7 @@ const styles = {
     top: '6px',
     right: '6px',
     fontSize: '10px',
-    color: '#4A6741',
+    color: '#3B7D3B',
   },
   providerCard: {
     display: 'flex',
@@ -5970,7 +6138,7 @@ const styles = {
   providerCardTitle: {
     fontSize: '14px',
     fontWeight: '500',
-    color: '#4A6741',
+    color: '#3B7D3B',
     marginBottom: '4px',
   },
   providerCardText: {
@@ -5980,7 +6148,7 @@ const styles = {
   },
   providerCardAppt: {
     fontSize: '12px',
-    color: '#4A6741',
+    color: '#3B7D3B',
   },
   
   // Assessment Prompt (updated)
@@ -5992,7 +6160,7 @@ const styles = {
     display: 'inline-flex',
     alignItems: 'center',
     gap: '6px',
-    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
     borderRadius: '20px',
     padding: '6px 14px',
     marginBottom: '20px',
@@ -6050,7 +6218,7 @@ const styles = {
     marginTop: '12px',
   },
   primaryButton: {
-    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
     color: '#FFFFFF',
     border: 'none',
     borderRadius: '14px',
@@ -6062,7 +6230,7 @@ const styles = {
   },
   primaryButtonWhite: {
     background: '#FFFFFF',
-    color: '#4A6741',
+    color: '#3B7D3B',
     border: 'none',
     borderRadius: '14px',
     padding: '16px 32px',
@@ -6084,6 +6252,48 @@ const styles = {
     marginTop: '12px',
   },
 
+  // Manual Assessment Styles
+  manualAssessmentList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px',
+    marginBottom: '24px',
+  },
+  fitnessLevelCard: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '16px',
+    background: '#FFFFFF',
+    border: 'none',
+    borderRadius: '16px',
+    padding: '20px',
+    cursor: 'pointer',
+    textAlign: 'left',
+    transition: 'all 0.2s',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+  },
+  fitnessLevelIcon: {
+    fontSize: '32px',
+  },
+  fitnessLevelContent: {
+    flex: 1,
+  },
+  fitnessLevelTitle: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+    marginBottom: '4px',
+  },
+  fitnessLevelDesc: {
+    fontSize: '13px',
+    color: '#6B6B6B',
+    lineHeight: '1.4',
+  },
+  fitnessLevelArrow: {
+    fontSize: '18px',
+    color: '#3B7D3B',
+  },
+
   // Assessment Header
   assessmentHeader: {
     display: 'flex',
@@ -6095,7 +6305,7 @@ const styles = {
     background: 'none',
     border: 'none',
     fontSize: '15px',
-    color: '#4A6741',
+    color: '#3B7D3B',
     cursor: 'pointer',
     padding: 0,
   },
@@ -6194,6 +6404,7 @@ const styles = {
     width: '100%',
     height: '100%',
     objectFit: 'cover',
+    transform: 'scaleX(-1)', // Mirror for selfie view
   },
   cameraOverlay: {
     position: 'absolute',
@@ -6255,7 +6466,7 @@ const styles = {
     width: '100px',
     height: '100px',
     borderRadius: '50px',
-    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
     border: 'none',
     cursor: 'pointer',
     display: 'flex',
@@ -6330,7 +6541,7 @@ const styles = {
     left: 0,
     right: 0,
     height: '4px',
-    background: 'linear-gradient(90deg, transparent, #4A6741, transparent)',
+    background: 'linear-gradient(90deg, transparent, #3B7D3B, transparent)',
   },
   analyzingSpinner: {
     width: '80px',
@@ -6467,7 +6678,7 @@ const styles = {
     padding: '14px 16px',
   },
   stepCheck: {
-    color: '#4A6741',
+    color: '#3B7D3B',
     fontSize: '16px',
     fontWeight: '600',
   },
@@ -6528,7 +6739,7 @@ const styles = {
     transition: 'all 0.2s ease',
   },
   equipmentCardSelected: {
-    borderColor: '#4A6741',
+    borderColor: '#3B7D3B',
     background: '#F5F8F4',
   },
   equipmentCardIcon: {
@@ -6567,8 +6778,8 @@ const styles = {
     transition: 'all 0.2s ease',
   },
   equipmentCheckboxSelected: {
-    background: '#4A6741',
-    borderColor: '#4A6741',
+    background: '#3B7D3B',
+    borderColor: '#3B7D3B',
   },
   equipmentFooter: {
     position: 'sticky',
@@ -6591,14 +6802,14 @@ const styles = {
   },
   resultsBadgeText: {
     fontSize: '12px',
-    color: '#4A6741',
+    color: '#3B7D3B',
     fontWeight: '500',
   },
   scoreCircle: {
     width: '100px',
     height: '100px',
     borderRadius: '50px',
-    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -6642,7 +6853,7 @@ const styles = {
   },
   strengthTag: {
     background: '#E8EDE6',
-    color: '#4A6741',
+    color: '#3B7D3B',
     fontSize: '13px',
     padding: '8px 14px',
     borderRadius: '20px',
@@ -6692,7 +6903,7 @@ const styles = {
   },
   workoutDuration: {
     fontSize: '12px',
-    color: '#4A6741',
+    color: '#3B7D3B',
     background: '#E8EDE6',
     padding: '4px 10px',
     borderRadius: '12px',
@@ -6749,7 +6960,7 @@ const styles = {
   levelValue: {
     fontSize: '16px',
     fontWeight: '600',
-    color: '#4A6741',
+    color: '#3B7D3B',
   },
   equipmentBadge: {
     background: '#FFFFFF',
@@ -6799,7 +7010,7 @@ const styles = {
     justifyContent: 'center',
     fontSize: '13px',
     fontWeight: '600',
-    color: '#4A6741',
+    color: '#3B7D3B',
     flexShrink: 0,
   },
   exerciseDetails: {
@@ -6829,7 +7040,7 @@ const styles = {
   
   // Today's Workout
   todayWorkout: {
-    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
     borderRadius: '20px',
     padding: '24px',
     marginBottom: '24px',
@@ -6904,7 +7115,7 @@ const styles = {
   },
   activityBar: {
     width: '100%',
-    background: 'linear-gradient(180deg, #5B7B50 0%, #4A6741 100%)',
+    background: 'linear-gradient(180deg, #5B7B50 0%, #3B7D3B 100%)',
     borderRadius: '4px',
     transition: 'height 0.5s ease',
   },
@@ -6943,7 +7154,7 @@ const styles = {
     transition: 'all 0.2s',
   },
   categoryTabActive: {
-    background: '#4A6741',
+    background: '#3B7D3B',
     color: '#FFFFFF',
   },
   categoryIcon: {
@@ -6984,7 +7195,7 @@ const styles = {
   },
   serviceCardFeatured: {
     background: 'linear-gradient(135deg, #F5F8F4 0%, #E8EDE6 100%)',
-    border: '2px solid #4A6741',
+    border: '2px solid #3B7D3B',
   },
   tierBadge: {
     position: 'absolute',
@@ -7006,7 +7217,7 @@ const styles = {
   },
   serviceTagline: {
     fontSize: '12px',
-    color: '#4A6741',
+    color: '#3B7D3B',
     marginBottom: '10px',
     fontWeight: '500',
   },
@@ -7024,7 +7235,7 @@ const styles = {
   },
   serviceBenefit: {
     fontSize: '11px',
-    color: '#4A6741',
+    color: '#3B7D3B',
     background: '#E8EDE6',
     padding: '4px 10px',
     borderRadius: '12px',
@@ -7052,7 +7263,7 @@ const styles = {
   },
   morePricing: {
     fontSize: '11px',
-    color: '#4A6741',
+    color: '#3B7D3B',
     display: 'block',
     textAlign: 'center',
     marginTop: '6px',
@@ -7060,7 +7271,7 @@ const styles = {
   serviceBtn: {
     background: 'none',
     border: 'none',
-    color: '#4A6741',
+    color: '#3B7D3B',
     fontSize: '14px',
     fontWeight: '500',
     cursor: 'pointer',
@@ -7068,7 +7279,7 @@ const styles = {
   },
   contactCTA: {
     textAlign: 'center',
-    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
     borderRadius: '16px',
     padding: '24px',
     marginBottom: '20px',
@@ -7124,7 +7335,7 @@ const styles = {
   },
   treatmentTagline: {
     fontSize: '13px',
-    color: '#4A6741',
+    color: '#3B7D3B',
     marginBottom: '12px',
   },
   treatmentDescription: {
@@ -7149,7 +7360,7 @@ const styles = {
   learnMoreBtn: {
     background: 'none',
     border: 'none',
-    color: '#4A6741',
+    color: '#3B7D3B',
     fontSize: '14px',
     fontWeight: '500',
     cursor: 'pointer',
@@ -7164,7 +7375,7 @@ const styles = {
   avatar: {
     width: '80px',
     height: '80px',
-    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
     borderRadius: '40px',
     display: 'flex',
     alignItems: 'center',
@@ -7206,7 +7417,7 @@ const styles = {
   statValue: {
     fontSize: '24px',
     fontWeight: '600',
-    color: '#4A6741',
+    color: '#3B7D3B',
     marginBottom: '4px',
   },
   statLabel: {
@@ -7298,7 +7509,7 @@ const styles = {
   },
   modalSubtitle: {
     fontSize: '12px',
-    color: '#4A6741',
+    color: '#3B7D3B',
     textTransform: 'uppercase',
     letterSpacing: '1px',
     marginBottom: '8px',
@@ -7340,7 +7551,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color: '#4A6741',
+    color: '#3B7D3B',
     fontSize: '12px',
     flexShrink: 0,
   },
@@ -7362,7 +7573,7 @@ const styles = {
   modalPhoneLink: {
     display: 'block',
     textAlign: 'center',
-    color: '#4A6741',
+    color: '#3B7D3B',
     fontSize: '14px',
     marginTop: '12px',
     textDecoration: 'none',
