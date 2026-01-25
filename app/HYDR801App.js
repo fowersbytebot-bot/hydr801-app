@@ -52,6 +52,18 @@ export default function HYDR801App() {
     nextAppointment: '2025-01-25',
     medicationDose: '0.5mg',
     medicationSchedule: 'Weekly - Sundays',
+    // Injection tracking
+    injectionLog: [
+      { id: 1, type: 'glp1', date: '2024-12-01', dose: '0.25mg', notes: 'First injection, no issues' },
+      { id: 2, type: 'lipoc', date: '2024-12-04', dose: 'standard', notes: '' },
+      { id: 3, type: 'glp1', date: '2024-12-08', dose: '0.25mg', notes: 'Mild nausea' },
+      { id: 4, type: 'lipoc', date: '2024-12-11', dose: 'standard', notes: '' },
+      { id: 5, type: 'glp1', date: '2024-12-15', dose: '0.5mg', dose: '0.5mg', notes: 'Dose increase, tolerated well' },
+      { id: 6, type: 'lipoc', date: '2024-12-18', dose: 'standard', notes: '' },
+      { id: 7, type: 'glp1', date: '2024-12-22', dose: '0.5mg', notes: '' },
+    ],
+    glp1Supply: { currentDose: '0.5mg', refillDate: '2025-01-15', weeksRemaining: 3 },
+    lipocSupply: { refillDate: '2025-01-20', injectionsRemaining: 8 },
   });
   const [activeModal, setActiveModal] = useState(null);
 
@@ -87,6 +99,17 @@ export default function HYDR801App() {
       alerts: ['Low protein intake this week', 'Missed 2 meal logs'],
       nextAppointment: '2025-01-20',
       medicationDose: '1.0mg',
+      injectionLog: [
+        { id: 1, type: 'glp1', date: '2024-11-17', dose: '0.5mg', notes: '' },
+        { id: 2, type: 'glp1', date: '2024-11-24', dose: '0.5mg', notes: '' },
+        { id: 3, type: 'glp1', date: '2024-12-01', dose: '1.0mg', notes: 'Dose increase' },
+        { id: 4, type: 'lipoc', date: '2024-12-03', dose: 'standard', notes: '' },
+        { id: 5, type: 'glp1', date: '2024-12-08', dose: '1.0mg', notes: '' },
+        { id: 6, type: 'lipoc', date: '2024-12-10', dose: 'standard', notes: '' },
+        { id: 7, type: 'glp1', date: '2024-12-15', dose: '1.0mg', notes: '' },
+      ],
+      glp1Supply: { currentDose: '1.0mg', refillDate: '2025-01-10', weeksRemaining: 2 },
+      lipocSupply: { refillDate: '2025-01-08', injectionsRemaining: 4 },
     },
     {
       id: 'patient_003',
@@ -112,6 +135,12 @@ export default function HYDR801App() {
       alerts: [],
       nextAppointment: '2025-01-28',
       medicationDose: '0.25mg',
+      injectionLog: [
+        { id: 1, type: 'glp1', date: '2024-12-15', dose: '0.25mg', notes: 'First injection' },
+        { id: 2, type: 'glp1', date: '2024-12-22', dose: '0.25mg', notes: '' },
+      ],
+      glp1Supply: { currentDose: '0.25mg', refillDate: '2025-02-01', weeksRemaining: 6 },
+      lipocSupply: null,
     },
   ]);
 
@@ -703,7 +732,7 @@ function PatientDetailScreen({ patient, onBack }) {
 
       {/* Tabs */}
       <div style={styles.pdTabs}>
-        {['overview', 'nutrition', 'fitness', 'weight'].map(tab => (
+        {['overview', 'injections', 'nutrition', 'fitness', 'weight'].map(tab => (
           <button
             key={tab}
             style={{...styles.pdTab, ...(activeTab === tab ? styles.pdTabActive : {})}}
@@ -761,6 +790,106 @@ function PatientDetailScreen({ patient, onBack }) {
             <button style={styles.pdActionBtn}>📨 Send Message</button>
             <button style={styles.pdActionBtn}>📝 Add Note</button>
             <button style={styles.pdActionBtn}>💊 Adjust Dose</button>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'injections' && (
+        <div className="fade-in">
+          {/* Injection Summary */}
+          <div style={styles.providerInjectionSummary}>
+            <div style={styles.providerInjectionCard}>
+              <div style={styles.providerInjectionHeader}>
+                <span style={styles.providerInjectionIcon}>💉</span>
+                <span style={styles.providerInjectionLabel}>GLP-1</span>
+              </div>
+              <p style={styles.providerInjectionDose}>{patient.glp1Supply?.currentDose || patient.medicationDose}</p>
+              <p style={styles.providerInjectionMeta}>
+                {patient.injectionLog?.filter(i => i.type === 'glp1').length || 0} injections logged
+              </p>
+              {patient.glp1Supply?.weeksRemaining && (
+                <p style={{
+                  ...styles.providerSupplyStatus,
+                  color: patient.glp1Supply.weeksRemaining <= 2 ? '#E57373' : '#4A6741'
+                }}>
+                  {patient.glp1Supply.weeksRemaining <= 2 ? '⚠️ ' : '✓ '}
+                  {patient.glp1Supply.weeksRemaining} weeks supply
+                </p>
+              )}
+            </div>
+            <div style={styles.providerInjectionCard}>
+              <div style={styles.providerInjectionHeader}>
+                <span style={styles.providerInjectionIcon}>🧪</span>
+                <span style={styles.providerInjectionLabel}>Lipo-C</span>
+              </div>
+              <p style={styles.providerInjectionDose}>Standard</p>
+              <p style={styles.providerInjectionMeta}>
+                {patient.injectionLog?.filter(i => i.type === 'lipoc').length || 0} injections logged
+              </p>
+              {patient.lipocSupply?.injectionsRemaining && (
+                <p style={{
+                  ...styles.providerSupplyStatus,
+                  color: patient.lipocSupply.injectionsRemaining <= 4 ? '#E57373' : '#4A6741'
+                }}>
+                  {patient.lipocSupply.injectionsRemaining <= 4 ? '⚠️ ' : '✓ '}
+                  {patient.lipocSupply.injectionsRemaining} left
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Injection History */}
+          <div style={styles.providerInjectionHistory}>
+            <h4 style={styles.providerInjectionHistoryTitle}>Recent Injection History</h4>
+            {patient.injectionLog && patient.injectionLog.length > 0 ? (
+              [...patient.injectionLog]
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .slice(0, 10)
+                .map((injection, idx) => (
+                  <div key={idx} style={styles.providerInjectionItem}>
+                    <div style={{
+                      ...styles.providerInjectionDot,
+                      background: injection.type === 'glp1' ? '#4A6741' : '#2AABB3'
+                    }} />
+                    <div style={styles.providerInjectionItemContent}>
+                      <div style={styles.providerInjectionItemHeader}>
+                        <span style={styles.providerInjectionItemType}>
+                          {injection.type === 'glp1' ? 'GLP-1' : 'Lipo-C'}
+                        </span>
+                        <span style={styles.providerInjectionItemDose}>{injection.dose}</span>
+                      </div>
+                      <span style={styles.providerInjectionItemDate}>
+                        {new Date(injection.date).toLocaleDateString('en-US', {
+                          weekday: 'short',
+                          month: 'short',
+                          day: 'numeric'
+                        })}
+                      </span>
+                      {injection.notes && (
+                        <p style={styles.providerInjectionItemNotes}>"{injection.notes}"</p>
+                      )}
+                    </div>
+                  </div>
+                ))
+            ) : (
+              <p style={styles.noInjectionData}>No injection data logged by patient</p>
+            )}
+          </div>
+
+          {/* Reorder Actions */}
+          <div style={styles.providerReorderSection}>
+            <h4 style={styles.providerReorderTitle}>Supply Management</h4>
+            <div style={styles.providerReorderActions}>
+              <button style={styles.providerReorderBtn}>
+                📦 Process GLP-1 Refill
+              </button>
+              <button style={styles.providerReorderBtn}>
+                🧪 Process Lipo-C Refill
+              </button>
+              <button style={styles.providerAdjustDoseBtn}>
+                📈 Adjust Dose
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -1000,6 +1129,7 @@ function ProviderBottomNav({ currentScreen, setCurrentScreen }) {
 function HomeScreen({ user, setUser, setActiveModal }) {
   const [showEducation, setShowEducation] = useState(false);
   const [showKickstart, setShowKickstart] = useState(false);
+  const [showInjectionTracker, setShowInjectionTracker] = useState(false);
   
   const greeting = () => {
     const hour = new Date().getHours();
@@ -1055,6 +1185,10 @@ function HomeScreen({ user, setUser, setActiveModal }) {
 
   if (showKickstart) {
     return <KickstartGuideScreen onBack={() => setShowKickstart(false)} />;
+  }
+
+  if (showInjectionTracker) {
+    return <InjectionTrackerScreen user={user} setUser={setUser} onBack={() => setShowInjectionTracker(false)} />;
   }
 
   return (
@@ -1133,13 +1267,51 @@ function HomeScreen({ user, setUser, setActiveModal }) {
         </div>
       </section>
 
+      {/* Injection Tracker Card */}
+      <section style={styles.section}>
+        <h3 style={styles.sectionTitle}>My Medications</h3>
+        <div style={styles.injectionTrackerCard} className="card-hover" onClick={() => setShowInjectionTracker(true)}>
+          <div style={styles.injectionTrackerHeader}>
+            <div style={styles.injectionTrackerIcon}>💉</div>
+            <div style={styles.injectionTrackerInfo}>
+              <h4 style={styles.injectionTrackerTitle}>Injection Tracker</h4>
+              <p style={styles.injectionTrackerSubtext}>Log & track your GLP-1 and Lipo-C</p>
+            </div>
+            <div style={styles.treatmentArrow}>→</div>
+          </div>
+          <div style={styles.injectionQuickStats}>
+            <div style={styles.injectionQuickStat}>
+              <span style={styles.iqsLabel}>Last GLP-1</span>
+              <span style={styles.iqsValue}>
+                {user.injectionLog?.filter(i => i.type === 'glp1').slice(-1)[0]?.date 
+                  ? new Date(user.injectionLog.filter(i => i.type === 'glp1').slice(-1)[0].date).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})
+                  : 'Not logged'}
+              </span>
+            </div>
+            <div style={styles.injectionQuickStatDivider} />
+            <div style={styles.injectionQuickStat}>
+              <span style={styles.iqsLabel}>Next Due</span>
+              <span style={styles.iqsValue}>
+                {user.injectionLog?.filter(i => i.type === 'glp1').slice(-1)[0]?.date
+                  ? new Date(new Date(user.injectionLog.filter(i => i.type === 'glp1').slice(-1)[0].date).getTime() + 7*24*60*60*1000).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})
+                  : 'Set up'}
+              </span>
+            </div>
+            <div style={styles.injectionQuickStatDivider} />
+            <div style={styles.injectionQuickStat}>
+              <span style={styles.iqsLabel}>Current Dose</span>
+              <span style={styles.iqsValue}>{user.glp1Supply?.currentDose || user.medicationDose}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* GLP-1 Education Card */}
       <section style={styles.section}>
         <h3 style={styles.sectionTitle}>Learn & Succeed</h3>
         <div style={styles.educationPreviewCard} className="card-hover" onClick={() => setShowEducation(true)}>
           <div style={styles.educationPreviewIcon}>📚</div>
           <div style={styles.educationPreviewContent}>
-            <span style={styles.educationPreviewBadge}>From a Registered Dietitian</span>
             <h4 style={styles.educationPreviewTitle}>21 GLP-1 Mistakes to Avoid</h4>
             <p style={styles.educationPreviewText}>Learn what actually works for sustainable results</p>
           </div>
@@ -3502,10 +3674,6 @@ function GLP1EducationScreen({ onBack }) {
       </div>
 
       <header style={styles.educationIntro}>
-        <div style={styles.educationBadge}>
-          <span style={styles.educationBadgeIcon}>📚</span>
-          <span style={styles.educationBadgeText}>From a Registered Dietitian</span>
-        </div>
         <h1 style={styles.educationTitle}>21 GLP-1 Mistakes</h1>
         <p style={styles.educationSubtitle}>
           Avoid the biggest mistakes before they cost you progress and plateaus
@@ -3614,7 +3782,6 @@ function KickstartGuideScreen({ onBack }) {
         <div style={styles.kickstartHero}>
           <span style={styles.kickstartBadge}>📚 Complete Guide</span>
           <h1 style={styles.kickstartTitle}>GLP-1 Kickstart Guide</h1>
-          <p style={styles.kickstartAuthor}>By {kickstartGuideData.author}</p>
           <p style={styles.kickstartDesc}>Everything you need to know to start your GLP-1 journey with confidence.</p>
         </div>
 
@@ -3896,6 +4063,385 @@ function KickstartGuideScreen({ onBack }) {
   }
 
   return null;
+}
+
+// Injection Tracker Screen
+function InjectionTrackerScreen({ user, setUser, onBack }) {
+  const [activeTab, setActiveTab] = useState('log'); // 'log', 'calendar', 'supply'
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [selectedType, setSelectedType] = useState('glp1');
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedDose, setSelectedDose] = useState(user.glp1Supply?.currentDose || '0.5mg');
+  const [injectionNotes, setInjectionNotes] = useState('');
+
+  const glp1Doses = ['0.25mg', '0.5mg', '1.0mg', '1.7mg', '2.4mg'];
+  const lipocDoses = ['standard'];
+
+  const addInjection = () => {
+    const newInjection = {
+      id: Date.now(),
+      type: selectedType,
+      date: selectedDate,
+      dose: selectedType === 'glp1' ? selectedDose : 'standard',
+      notes: injectionNotes
+    };
+    
+    const updatedLog = [...(user.injectionLog || []), newInjection].sort((a, b) => new Date(b.date) - new Date(a.date));
+    setUser({
+      ...user,
+      injectionLog: updatedLog
+    });
+    
+    setShowAddModal(false);
+    setInjectionNotes('');
+  };
+
+  const deleteInjection = (id) => {
+    setUser({
+      ...user,
+      injectionLog: user.injectionLog.filter(i => i.id !== id)
+    });
+  };
+
+  // Get injection history sorted by date (newest first)
+  const sortedLog = [...(user.injectionLog || [])].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const glp1Injections = sortedLog.filter(i => i.type === 'glp1');
+  const lipocInjections = sortedLog.filter(i => i.type === 'lipoc');
+
+  // Calculate next injection dates
+  const lastGlp1 = glp1Injections[0];
+  const lastLipoc = lipocInjections[0];
+  const nextGlp1Date = lastGlp1 ? new Date(new Date(lastGlp1.date).getTime() + 7*24*60*60*1000) : null;
+  const nextLipocDate = lastLipoc ? new Date(new Date(lastLipoc.date).getTime() + 7*24*60*60*1000) : null;
+
+  // Get calendar data for current month
+  const today = new Date();
+  const currentMonth = today.getMonth();
+  const currentYear = today.getFullYear();
+  const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+  const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
+  const daysInMonth = lastDayOfMonth.getDate();
+  const startingDay = firstDayOfMonth.getDay();
+
+  const calendarDays = [];
+  for (let i = 0; i < startingDay; i++) {
+    calendarDays.push(null);
+  }
+  for (let day = 1; day <= daysInMonth; day++) {
+    calendarDays.push(day);
+  }
+
+  const getInjectionsForDay = (day) => {
+    if (!day) return [];
+    const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    return sortedLog.filter(i => i.date === dateStr);
+  };
+
+  return (
+    <div style={styles.screenContent} className="fade-in">
+      <div style={styles.injectionHeader}>
+        <button style={styles.backButton} onClick={onBack}>← Back</button>
+        <h1 style={styles.injectionTitle}>Injection Tracker</h1>
+        <button style={styles.addInjectionBtn} onClick={() => setShowAddModal(true)}>+ Log</button>
+      </div>
+
+      {/* Summary Cards */}
+      <div style={styles.injectionSummaryCards}>
+        <div style={styles.injectionSummaryCard}>
+          <div style={styles.summaryCardHeader}>
+            <span style={styles.summaryCardIcon}>💉</span>
+            <span style={styles.summaryCardLabel}>GLP-1</span>
+          </div>
+          <div style={styles.summaryCardContent}>
+            <p style={styles.summaryCardDose}>{user.glp1Supply?.currentDose || user.medicationDose}</p>
+            <p style={styles.summaryCardMeta}>
+              {lastGlp1 ? `Last: ${new Date(lastGlp1.date).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})}` : 'No injections logged'}
+            </p>
+            {nextGlp1Date && (
+              <p style={{
+                ...styles.summaryCardNext,
+                color: nextGlp1Date <= today ? '#E57373' : '#4A6741'
+              }}>
+                {nextGlp1Date <= today ? '⚠️ Due now' : `Next: ${nextGlp1Date.toLocaleDateString('en-US', {month: 'short', day: 'numeric'})}`}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div style={styles.injectionSummaryCard}>
+          <div style={styles.summaryCardHeader}>
+            <span style={styles.summaryCardIcon}>🧪</span>
+            <span style={styles.summaryCardLabel}>Lipo-C</span>
+          </div>
+          <div style={styles.summaryCardContent}>
+            <p style={styles.summaryCardDose}>Standard</p>
+            <p style={styles.summaryCardMeta}>
+              {lastLipoc ? `Last: ${new Date(lastLipoc.date).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})}` : 'No injections logged'}
+            </p>
+            {nextLipocDate && (
+              <p style={{
+                ...styles.summaryCardNext,
+                color: nextLipocDate <= today ? '#E57373' : '#4A6741'
+              }}>
+                {nextLipocDate <= today ? '⚠️ Due now' : `Next: ${nextLipocDate.toLocaleDateString('en-US', {month: 'short', day: 'numeric'})}`}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div style={styles.injectionTabs}>
+        <button 
+          style={{...styles.injectionTab, ...(activeTab === 'log' ? styles.injectionTabActive : {})}}
+          onClick={() => setActiveTab('log')}
+        >
+          📋 History
+        </button>
+        <button 
+          style={{...styles.injectionTab, ...(activeTab === 'calendar' ? styles.injectionTabActive : {})}}
+          onClick={() => setActiveTab('calendar')}
+        >
+          📅 Calendar
+        </button>
+        <button 
+          style={{...styles.injectionTab, ...(activeTab === 'supply' ? styles.injectionTabActive : {})}}
+          onClick={() => setActiveTab('supply')}
+        >
+          📦 Supply
+        </button>
+      </div>
+
+      {/* History Tab */}
+      {activeTab === 'log' && (
+        <div style={styles.injectionLogList}>
+          {sortedLog.length === 0 ? (
+            <div style={styles.emptyState}>
+              <span style={styles.emptyStateIcon}>💉</span>
+              <p style={styles.emptyStateText}>No injections logged yet</p>
+              <button style={styles.primaryButton} onClick={() => setShowAddModal(true)}>Log Your First Injection</button>
+            </div>
+          ) : (
+            sortedLog.map((injection) => (
+              <div key={injection.id} style={styles.injectionLogItem}>
+                <div style={{
+                  ...styles.injectionLogIcon,
+                  background: injection.type === 'glp1' ? '#E8EDE6' : '#E8F4F8'
+                }}>
+                  {injection.type === 'glp1' ? '💉' : '🧪'}
+                </div>
+                <div style={styles.injectionLogContent}>
+                  <div style={styles.injectionLogHeader}>
+                    <span style={styles.injectionLogType}>{injection.type === 'glp1' ? 'GLP-1' : 'Lipo-C'}</span>
+                    <span style={styles.injectionLogDate}>
+                      {new Date(injection.date).toLocaleDateString('en-US', {weekday: 'short', month: 'short', day: 'numeric'})}
+                    </span>
+                  </div>
+                  <p style={styles.injectionLogDose}>{injection.dose}</p>
+                  {injection.notes && <p style={styles.injectionLogNotes}>{injection.notes}</p>}
+                </div>
+                <button style={styles.deleteInjectionBtn} onClick={() => deleteInjection(injection.id)}>×</button>
+              </div>
+            ))
+          )}
+        </div>
+      )}
+
+      {/* Calendar Tab */}
+      {activeTab === 'calendar' && (
+        <div style={styles.injectionCalendar}>
+          <div style={styles.calendarHeader}>
+            <span style={styles.calendarMonth}>
+              {new Date(currentYear, currentMonth).toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}
+            </span>
+          </div>
+          <div style={styles.calendarDaysHeader}>
+            {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+              <span key={day} style={styles.calendarDayLabel}>{day}</span>
+            ))}
+          </div>
+          <div style={styles.calendarGrid}>
+            {calendarDays.map((day, idx) => {
+              const injections = getInjectionsForDay(day);
+              const hasGlp1 = injections.some(i => i.type === 'glp1');
+              const hasLipoc = injections.some(i => i.type === 'lipoc');
+              const isToday = day === today.getDate() && currentMonth === today.getMonth();
+              
+              return (
+                <div 
+                  key={idx} 
+                  style={{
+                    ...styles.calendarDay,
+                    ...(isToday ? styles.calendarDayToday : {}),
+                    ...(day === null ? styles.calendarDayEmpty : {})
+                  }}
+                >
+                  {day && (
+                    <>
+                      <span style={styles.calendarDayNumber}>{day}</span>
+                      <div style={styles.calendarDots}>
+                        {hasGlp1 && <span style={{...styles.calendarDot, background: '#4A6741'}} />}
+                        {hasLipoc && <span style={{...styles.calendarDot, background: '#2AABB3'}} />}
+                      </div>
+                    </>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          <div style={styles.calendarLegend}>
+            <div style={styles.legendItem}>
+              <span style={{...styles.legendDot, background: '#4A6741'}} />
+              <span style={styles.legendLabel}>GLP-1</span>
+            </div>
+            <div style={styles.legendItem}>
+              <span style={{...styles.legendDot, background: '#2AABB3'}} />
+              <span style={styles.legendLabel}>Lipo-C</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Supply Tab */}
+      {activeTab === 'supply' && (
+        <div style={styles.supplySection}>
+          <div style={styles.supplyCard}>
+            <div style={styles.supplyCardHeader}>
+              <span style={styles.supplyCardIcon}>💉</span>
+              <h3 style={styles.supplyCardTitle}>GLP-1 Supply</h3>
+            </div>
+            <div style={styles.supplyCardContent}>
+              <div style={styles.supplyRow}>
+                <span style={styles.supplyLabel}>Current Dose</span>
+                <span style={styles.supplyValue}>{user.glp1Supply?.currentDose || user.medicationDose}</span>
+              </div>
+              <div style={styles.supplyRow}>
+                <span style={styles.supplyLabel}>Weeks Remaining</span>
+                <span style={{
+                  ...styles.supplyValue,
+                  color: (user.glp1Supply?.weeksRemaining || 0) <= 2 ? '#E57373' : '#4A6741'
+                }}>
+                  {user.glp1Supply?.weeksRemaining || '?'} weeks
+                </span>
+              </div>
+              <div style={styles.supplyRow}>
+                <span style={styles.supplyLabel}>Refill Date</span>
+                <span style={styles.supplyValue}>{user.glp1Supply?.refillDate || 'Not set'}</span>
+              </div>
+            </div>
+            {(user.glp1Supply?.weeksRemaining || 0) <= 2 && (
+              <div style={styles.refillAlert}>
+                <span>⚠️ Running low! Contact provider for refill.</span>
+              </div>
+            )}
+          </div>
+
+          {user.lipocSupply && (
+            <div style={styles.supplyCard}>
+              <div style={styles.supplyCardHeader}>
+                <span style={styles.supplyCardIcon}>🧪</span>
+                <h3 style={styles.supplyCardTitle}>Lipo-C Supply</h3>
+              </div>
+              <div style={styles.supplyCardContent}>
+                <div style={styles.supplyRow}>
+                  <span style={styles.supplyLabel}>Injections Remaining</span>
+                  <span style={{
+                    ...styles.supplyValue,
+                    color: (user.lipocSupply?.injectionsRemaining || 0) <= 4 ? '#E57373' : '#4A6741'
+                  }}>
+                    {user.lipocSupply?.injectionsRemaining || '?'}
+                  </span>
+                </div>
+                <div style={styles.supplyRow}>
+                  <span style={styles.supplyLabel}>Refill Date</span>
+                  <span style={styles.supplyValue}>{user.lipocSupply?.refillDate || 'Not set'}</span>
+                </div>
+              </div>
+              {(user.lipocSupply?.injectionsRemaining || 0) <= 4 && (
+                <div style={styles.refillAlert}>
+                  <span>⚠️ Running low! Contact provider for refill.</span>
+                </div>
+              )}
+            </div>
+          )}
+
+          <div style={styles.contactProviderBox}>
+            <p style={styles.contactProviderText}>Need a refill or dose adjustment?</p>
+            <a href="tel:801-917-4386" style={styles.contactProviderBtn}>📞 Call HYDR801: 801-917-4386</a>
+          </div>
+        </div>
+      )}
+
+      {/* Add Injection Modal */}
+      {showAddModal && (
+        <div style={styles.modalOverlay} onClick={() => setShowAddModal(false)}>
+          <div style={styles.addInjectionModal} onClick={e => e.stopPropagation()}>
+            <button style={styles.modalClose} onClick={() => setShowAddModal(false)}>×</button>
+            <h2 style={styles.addModalTitle}>Log Injection</h2>
+
+            <div style={styles.addModalSection}>
+              <label style={styles.addModalLabel}>Medication Type</label>
+              <div style={styles.typeSelector}>
+                <button 
+                  style={{...styles.typeSelectorBtn, ...(selectedType === 'glp1' ? styles.typeSelectorBtnActive : {})}}
+                  onClick={() => setSelectedType('glp1')}
+                >
+                  💉 GLP-1
+                </button>
+                <button 
+                  style={{...styles.typeSelectorBtn, ...(selectedType === 'lipoc' ? styles.typeSelectorBtnActive : {})}}
+                  onClick={() => setSelectedType('lipoc')}
+                >
+                  🧪 Lipo-C
+                </button>
+              </div>
+            </div>
+
+            <div style={styles.addModalSection}>
+              <label style={styles.addModalLabel}>Date</label>
+              <input 
+                type="date" 
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                style={styles.dateInput}
+              />
+            </div>
+
+            {selectedType === 'glp1' && (
+              <div style={styles.addModalSection}>
+                <label style={styles.addModalLabel}>Dose</label>
+                <div style={styles.doseSelector}>
+                  {glp1Doses.map(dose => (
+                    <button
+                      key={dose}
+                      style={{...styles.doseSelectorBtn, ...(selectedDose === dose ? styles.doseSelectorBtnActive : {})}}
+                      onClick={() => setSelectedDose(dose)}
+                    >
+                      {dose}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div style={styles.addModalSection}>
+              <label style={styles.addModalLabel}>Notes (optional)</label>
+              <textarea 
+                placeholder="Any side effects or notes..."
+                value={injectionNotes}
+                onChange={(e) => setInjectionNotes(e.target.value)}
+                style={styles.notesInput}
+              />
+            </div>
+
+            <button style={styles.primaryButton} onClick={addInjection}>
+              Save Injection
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 // Fitness Screen
@@ -10412,5 +10958,616 @@ const styles = {
   kickstartPreviewText: {
     fontSize: '13px',
     color: 'rgba(255,255,255,0.9)',
+  },
+
+  // ==================== INJECTION TRACKER STYLES ====================
+  injectionTrackerCard: {
+    background: '#FFFFFF',
+    borderRadius: '16px',
+    padding: '16px',
+    marginBottom: '10px',
+  },
+  injectionTrackerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    marginBottom: '14px',
+  },
+  injectionTrackerIcon: {
+    fontSize: '28px',
+    width: '50px',
+    height: '50px',
+    background: '#F5F8F4',
+    borderRadius: '14px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  injectionTrackerInfo: {
+    flex: 1,
+  },
+  injectionTrackerTitle: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+    marginBottom: '2px',
+  },
+  injectionTrackerSubtext: {
+    fontSize: '13px',
+    color: '#9B9B9B',
+  },
+  injectionQuickStats: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    background: '#F5F8F4',
+    borderRadius: '12px',
+    padding: '12px 16px',
+  },
+  injectionQuickStat: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    flex: 1,
+  },
+  injectionQuickStatDivider: {
+    width: '1px',
+    height: '30px',
+    background: '#D8E0D5',
+  },
+  iqsLabel: {
+    fontSize: '10px',
+    color: '#6B6B6B',
+    textTransform: 'uppercase',
+    marginBottom: '2px',
+  },
+  iqsValue: {
+    fontSize: '14px',
+    fontWeight: '600',
+    color: '#4A6741',
+  },
+
+  // Injection Tracker Screen
+  injectionHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: '20px',
+  },
+  injectionTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '20px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  addInjectionBtn: {
+    background: '#4A6741',
+    color: '#FFFFFF',
+    border: 'none',
+    borderRadius: '20px',
+    padding: '8px 16px',
+    fontSize: '14px',
+    fontWeight: '500',
+    cursor: 'pointer',
+  },
+  injectionSummaryCards: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '12px',
+    marginBottom: '20px',
+  },
+  injectionSummaryCard: {
+    background: '#FFFFFF',
+    borderRadius: '16px',
+    padding: '16px',
+  },
+  summaryCardHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    marginBottom: '10px',
+  },
+  summaryCardIcon: {
+    fontSize: '20px',
+  },
+  summaryCardLabel: {
+    fontSize: '13px',
+    fontWeight: '500',
+    color: '#6B6B6B',
+  },
+  summaryCardContent: {},
+  summaryCardDose: {
+    fontSize: '22px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+    marginBottom: '4px',
+  },
+  summaryCardMeta: {
+    fontSize: '12px',
+    color: '#9B9B9B',
+    marginBottom: '4px',
+  },
+  summaryCardNext: {
+    fontSize: '12px',
+    fontWeight: '500',
+  },
+  injectionTabs: {
+    display: 'flex',
+    gap: '8px',
+    marginBottom: '20px',
+  },
+  injectionTab: {
+    flex: 1,
+    background: '#F5F4F2',
+    border: 'none',
+    borderRadius: '12px',
+    padding: '12px 8px',
+    fontSize: '13px',
+    color: '#6B6B6B',
+    cursor: 'pointer',
+    textAlign: 'center',
+  },
+  injectionTabActive: {
+    background: '#4A6741',
+    color: '#FFFFFF',
+  },
+  injectionLogList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+  },
+  emptyState: {
+    textAlign: 'center',
+    padding: '40px 20px',
+  },
+  emptyStateIcon: {
+    fontSize: '48px',
+    display: 'block',
+    marginBottom: '12px',
+  },
+  emptyStateText: {
+    fontSize: '16px',
+    color: '#6B6B6B',
+    marginBottom: '20px',
+  },
+  injectionLogItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    background: '#FFFFFF',
+    borderRadius: '14px',
+    padding: '14px',
+  },
+  injectionLogIcon: {
+    width: '44px',
+    height: '44px',
+    borderRadius: '12px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '20px',
+  },
+  injectionLogContent: {
+    flex: 1,
+  },
+  injectionLogHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '2px',
+  },
+  injectionLogType: {
+    fontSize: '14px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+  },
+  injectionLogDate: {
+    fontSize: '12px',
+    color: '#9B9B9B',
+  },
+  injectionLogDose: {
+    fontSize: '13px',
+    color: '#4A6741',
+    fontWeight: '500',
+  },
+  injectionLogNotes: {
+    fontSize: '12px',
+    color: '#6B6B6B',
+    fontStyle: 'italic',
+    marginTop: '4px',
+  },
+  deleteInjectionBtn: {
+    background: 'none',
+    border: 'none',
+    fontSize: '20px',
+    color: '#CCCCCC',
+    cursor: 'pointer',
+    padding: '4px 8px',
+  },
+
+  // Calendar styles
+  injectionCalendar: {
+    background: '#FFFFFF',
+    borderRadius: '16px',
+    padding: '16px',
+  },
+  calendarHeader: {
+    textAlign: 'center',
+    marginBottom: '16px',
+  },
+  calendarMonth: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+  },
+  calendarDaysHeader: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(7, 1fr)',
+    gap: '4px',
+    marginBottom: '8px',
+  },
+  calendarDayLabel: {
+    textAlign: 'center',
+    fontSize: '11px',
+    color: '#9B9B9B',
+    fontWeight: '500',
+  },
+  calendarGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(7, 1fr)',
+    gap: '4px',
+  },
+  calendarDay: {
+    aspectRatio: '1',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '8px',
+    background: '#F5F4F2',
+    padding: '4px',
+  },
+  calendarDayToday: {
+    background: '#E8EDE6',
+    border: '2px solid #4A6741',
+  },
+  calendarDayEmpty: {
+    background: 'transparent',
+  },
+  calendarDayNumber: {
+    fontSize: '13px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  calendarDots: {
+    display: 'flex',
+    gap: '3px',
+    marginTop: '2px',
+  },
+  calendarDot: {
+    width: '6px',
+    height: '6px',
+    borderRadius: '3px',
+  },
+  calendarLegend: {
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '20px',
+    marginTop: '16px',
+    paddingTop: '12px',
+    borderTop: '1px solid #F0EFED',
+  },
+  legendItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+  },
+  legendDot: {
+    width: '10px',
+    height: '10px',
+    borderRadius: '5px',
+  },
+  legendLabel: {
+    fontSize: '12px',
+    color: '#6B6B6B',
+  },
+
+  // Supply section
+  supplySection: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '14px',
+  },
+  supplyCard: {
+    background: '#FFFFFF',
+    borderRadius: '16px',
+    padding: '16px',
+  },
+  supplyCardHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    marginBottom: '14px',
+  },
+  supplyCardIcon: {
+    fontSize: '24px',
+  },
+  supplyCardTitle: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+  },
+  supplyCardContent: {},
+  supplyRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: '8px',
+    borderBottom: '1px solid #F0EFED',
+    marginBottom: '8px',
+  },
+  supplyLabel: {
+    fontSize: '14px',
+    color: '#6B6B6B',
+  },
+  supplyValue: {
+    fontSize: '14px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+  },
+  refillAlert: {
+    background: '#FFF5F0',
+    borderRadius: '10px',
+    padding: '12px',
+    marginTop: '10px',
+    fontSize: '13px',
+    color: '#C4956A',
+    textAlign: 'center',
+  },
+  contactProviderBox: {
+    background: '#F5F8F4',
+    borderRadius: '14px',
+    padding: '20px',
+    textAlign: 'center',
+  },
+  contactProviderText: {
+    fontSize: '14px',
+    color: '#6B6B6B',
+    marginBottom: '12px',
+  },
+  contactProviderBtn: {
+    display: 'inline-block',
+    background: '#4A6741',
+    color: '#FFFFFF',
+    padding: '12px 24px',
+    borderRadius: '25px',
+    fontSize: '14px',
+    fontWeight: '500',
+    textDecoration: 'none',
+  },
+
+  // Add Injection Modal
+  addInjectionModal: {
+    background: '#FFFFFF',
+    borderRadius: '24px 24px 0 0',
+    padding: '24px',
+    maxWidth: '400px',
+    width: '100%',
+    maxHeight: '80vh',
+    overflowY: 'auto',
+    position: 'relative',
+  },
+  addModalTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '22px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '20px',
+    textAlign: 'center',
+  },
+  addModalSection: {
+    marginBottom: '20px',
+  },
+  addModalLabel: {
+    fontSize: '14px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '10px',
+    display: 'block',
+  },
+  typeSelector: {
+    display: 'flex',
+    gap: '10px',
+  },
+  typeSelectorBtn: {
+    flex: 1,
+    padding: '14px',
+    borderRadius: '12px',
+    border: '2px solid #E0E0E0',
+    background: '#FFFFFF',
+    fontSize: '14px',
+    fontWeight: '500',
+    cursor: 'pointer',
+    textAlign: 'center',
+  },
+  typeSelectorBtnActive: {
+    borderColor: '#4A6741',
+    background: '#F5F8F4',
+    color: '#4A6741',
+  },
+  dateInput: {
+    width: '100%',
+    padding: '14px',
+    borderRadius: '12px',
+    border: '1px solid #E0E0E0',
+    fontSize: '16px',
+    fontFamily: 'inherit',
+  },
+  doseSelector: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '8px',
+  },
+  doseSelectorBtn: {
+    padding: '10px 16px',
+    borderRadius: '20px',
+    border: '1px solid #E0E0E0',
+    background: '#FFFFFF',
+    fontSize: '14px',
+    cursor: 'pointer',
+  },
+  doseSelectorBtnActive: {
+    borderColor: '#4A6741',
+    background: '#4A6741',
+    color: '#FFFFFF',
+  },
+  notesInput: {
+    width: '100%',
+    padding: '14px',
+    borderRadius: '12px',
+    border: '1px solid #E0E0E0',
+    fontSize: '14px',
+    fontFamily: 'inherit',
+    minHeight: '80px',
+    resize: 'vertical',
+  },
+
+  // Provider Injection Styles
+  providerInjectionSummary: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '12px',
+    marginBottom: '20px',
+  },
+  providerInjectionCard: {
+    background: '#FFFFFF',
+    borderRadius: '14px',
+    padding: '14px',
+  },
+  providerInjectionHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    marginBottom: '8px',
+  },
+  providerInjectionIcon: {
+    fontSize: '18px',
+  },
+  providerInjectionLabel: {
+    fontSize: '13px',
+    fontWeight: '500',
+    color: '#6B6B6B',
+  },
+  providerInjectionDose: {
+    fontSize: '20px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+    marginBottom: '4px',
+  },
+  providerInjectionMeta: {
+    fontSize: '12px',
+    color: '#9B9B9B',
+    marginBottom: '4px',
+  },
+  providerSupplyStatus: {
+    fontSize: '12px',
+    fontWeight: '500',
+  },
+  providerInjectionHistory: {
+    background: '#FFFFFF',
+    borderRadius: '14px',
+    padding: '16px',
+    marginBottom: '16px',
+  },
+  providerInjectionHistoryTitle: {
+    fontSize: '14px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+    marginBottom: '14px',
+  },
+  providerInjectionItem: {
+    display: 'flex',
+    gap: '12px',
+    paddingBottom: '12px',
+    marginBottom: '12px',
+    borderBottom: '1px solid #F0EFED',
+  },
+  providerInjectionDot: {
+    width: '12px',
+    height: '12px',
+    borderRadius: '6px',
+    marginTop: '4px',
+  },
+  providerInjectionItemContent: {
+    flex: 1,
+  },
+  providerInjectionItemHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: '2px',
+  },
+  providerInjectionItemType: {
+    fontSize: '14px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  providerInjectionItemDose: {
+    fontSize: '13px',
+    color: '#4A6741',
+    fontWeight: '500',
+  },
+  providerInjectionItemDate: {
+    fontSize: '12px',
+    color: '#9B9B9B',
+  },
+  providerInjectionItemNotes: {
+    fontSize: '12px',
+    color: '#6B6B6B',
+    fontStyle: 'italic',
+    marginTop: '4px',
+  },
+  noInjectionData: {
+    fontSize: '14px',
+    color: '#9B9B9B',
+    textAlign: 'center',
+    padding: '20px',
+  },
+  providerReorderSection: {
+    background: '#F5F8F4',
+    borderRadius: '14px',
+    padding: '16px',
+  },
+  providerReorderTitle: {
+    fontSize: '14px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+    marginBottom: '12px',
+  },
+  providerReorderActions: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+  },
+  providerReorderBtn: {
+    background: '#FFFFFF',
+    border: '1px solid #E0E0E0',
+    borderRadius: '10px',
+    padding: '12px 16px',
+    fontSize: '14px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    cursor: 'pointer',
+    textAlign: 'left',
+  },
+  providerAdjustDoseBtn: {
+    background: '#4A6741',
+    border: 'none',
+    borderRadius: '10px',
+    padding: '12px 16px',
+    fontSize: '14px',
+    fontWeight: '500',
+    color: '#FFFFFF',
+    cursor: 'pointer',
+    textAlign: 'left',
   },
 };
