@@ -52,6 +52,7 @@ export default function HYDR801App() {
     nextAppointment: '2025-01-25',
     medicationDose: '0.5mg',
     medicationSchedule: 'Weekly - Sundays',
+    injectionDay: 0, // 0 = Sunday, 1 = Monday, etc.
     // Injection tracking
     injectionLog: [
       { id: 1, type: 'glp1', date: '2024-12-01', dose: '0.25mg', notes: 'First injection, no issues', completed: true },
@@ -1167,10 +1168,7 @@ function ProviderBottomNav({ currentScreen, setCurrentScreen }) {
 
 // Home Screen
 function HomeScreen({ user, setUser, setActiveModal }) {
-  const [showEducation, setShowEducation] = useState(false);
-  const [showKickstart, setShowKickstart] = useState(false);
   const [showInjectionTracker, setShowInjectionTracker] = useState(false);
-  const [showJourneyWeek, setShowJourneyWeek] = useState(null); // null, 1, 2, or 3 (for weeks 3-4)
   
   const greeting = () => {
     const hour = new Date().getHours();
@@ -1179,75 +1177,44 @@ function HomeScreen({ user, setUser, setActiveModal }) {
     return 'Good evening';
   };
 
-  // Rotating daily tips based on GLP-1 education content
-  const dailyTips = [
-    {
-      title: 'Prioritize Protein First',
-      text: 'Aim for 25-35g protein at each meal to preserve muscle mass and support your metabolism.',
-      icon: '🥩'
+  // Week-specific tips and guidance
+  const weeklyGuidance = {
+    1: {
+      title: 'Getting Started',
+      tip: 'Take your injection at night to sleep through initial side effects. Keep meals small and stay hydrated.',
+      icon: '🌱'
     },
-    {
-      title: "Don't Chase Zero Appetite",
-      text: 'Having some appetite is healthy! The goal is control, not complete suppression.',
-      icon: '🎯'
+    2: {
+      title: 'Adjusting',
+      tip: 'Your appetite may be decreasing. Focus on protein first at every meal and listen to your fullness cues.',
+      icon: '🔄'
     },
-    {
-      title: 'Stay Proactively Hydrated',
-      text: 'GLP-1 can reduce thirst signals. Set reminders to drink water throughout the day.',
-      icon: '💧'
+    3: {
+      title: 'Finding Your Rhythm',
+      tip: 'Side effects should be improving. Establish consistent eating times and stay ahead of constipation.',
+      icon: '⚡'
     },
-    {
-      title: 'Include Fiber Daily',
-      text: 'Fiber supports digestion, gut health, and helps you feel satisfied longer.',
-      icon: '🥬'
+    4: {
+      title: 'Building Momentum',
+      tip: 'You may notice early weight loss. Focus on protein (25-35g per meal) to preserve muscle mass.',
+      icon: '📈'
     },
-    {
-      title: 'Eat Intentionally',
-      text: "Low hunger doesn't mean your body doesn't need fuel. Eat enough to support your goals.",
-      icon: '🍽️'
-    },
-    {
-      title: 'Protect Your Muscle',
-      text: 'Even 20-30 min of strength training 2x/week helps preserve muscle during weight loss.',
+    default: {
+      title: 'Keep Going Strong',
+      tip: 'Stay consistent with your protein goals, hydration, and movement. Celebrate your progress!',
       icon: '💪'
-    },
-    {
-      title: "Carbs Aren't the Enemy",
-      text: 'The right carbs provide energy and satisfaction. Include them strategically.',
-      icon: '🍞'
     }
-  ];
-  
-  const todayTip = dailyTips[new Date().getDay() % dailyTips.length];
+  };
 
-  if (showEducation) {
-    return <GLP1EducationScreen onBack={() => setShowEducation(false)} />;
-  }
-
-  if (showKickstart) {
-    return <KickstartGuideScreen onBack={() => setShowKickstart(false)} />;
-  }
+  const currentGuidance = weeklyGuidance[user.week] || weeklyGuidance.default;
 
   if (showInjectionTracker) {
     return <InjectionTrackerScreen user={user} setUser={setUser} onBack={() => setShowInjectionTracker(false)} />;
   }
 
-  if (showJourneyWeek !== null) {
-    return <JourneyWeekDetail week={showJourneyWeek} onBack={() => setShowJourneyWeek(null)} />;
-  }
-
   return (
     <div style={styles.screenContent} className="fade-in">
-      {/* HYDR801 Logo Header */}
-      <div style={styles.brandHeader}>
-        <img 
-          src="/logo.png" 
-          alt="HYDR801" 
-          style={{ width: '50px', height: '50px', objectFit: 'contain' }}
-        />
-        <span style={styles.brandName}>HYDR801</span>
-      </div>
-
+      {/* Header */}
       <header style={styles.header}>
         <div>
           <p style={styles.greeting}>{greeting()},</p>
@@ -1259,28 +1226,22 @@ function HomeScreen({ user, setUser, setActiveModal }) {
         </div>
       </header>
 
-      {/* First 30 Days Journey - Show only for weeks 1-4 */}
-      {user.week <= 4 && (
-        <First30DaysJourney 
-          currentWeek={user.week} 
-          onWeekSelect={setShowJourneyWeek}
-        />
-      )}
-
-      <div style={styles.heroCard} className="slide-up">
-        <div style={styles.heroContent}>
-          <p style={styles.heroSubtitle}>Today's Focus</p>
-          <h2 style={styles.heroTitle}>{todayTip.title}</h2>
-          <p style={styles.heroText}>{todayTip.text}</p>
-        </div>
-        <div style={styles.heroImagePlaceholder}>
-          <span style={{fontSize: '48px'}}>{todayTip.icon}</span>
-        </div>
-      </div>
-
-      {/* Integrated Calendar Tracker */}
+      {/* Calendar with Injection Tracking - TOP */}
       <HomeCalendar user={user} setUser={setUser} />
 
+      {/* This Week's Guidance */}
+      <div style={styles.weekGuidanceCard}>
+        <div style={styles.weekGuidanceHeader}>
+          <span style={styles.weekGuidanceIcon}>{currentGuidance.icon}</span>
+          <div>
+            <span style={styles.weekGuidanceLabel}>Week {user.week}</span>
+            <h3 style={styles.weekGuidanceTitle}>{currentGuidance.title}</h3>
+          </div>
+        </div>
+        <p style={styles.weekGuidanceTip}>{currentGuidance.tip}</p>
+      </div>
+
+      {/* Daily Goals */}
       <section style={styles.section}>
         <h3 style={styles.sectionTitle}>Daily Goals</h3>
         <div style={styles.goalsGrid}>
@@ -1323,73 +1284,19 @@ function HomeScreen({ user, setUser, setActiveModal }) {
         </div>
       </section>
 
-      {/* Injection Tracker Card */}
+      {/* Quick Injection Status */}
       <section style={styles.section}>
-        <h3 style={styles.sectionTitle}>My Medications</h3>
-        <div style={styles.injectionTrackerCard} className="card-hover" onClick={() => setShowInjectionTracker(true)}>
-          <div style={styles.injectionTrackerHeader}>
-            <div style={styles.injectionTrackerIcon}>💉</div>
-            <div style={styles.injectionTrackerInfo}>
-              <h4 style={styles.injectionTrackerTitle}>Injection Tracker</h4>
-              <p style={styles.injectionTrackerSubtext}>Log & track your GLP-1 and Lipo-C</p>
-            </div>
-            <div style={styles.treatmentArrow}>→</div>
-          </div>
-          <div style={styles.injectionQuickStats}>
-            <div style={styles.injectionQuickStat}>
-              <span style={styles.iqsLabel}>Last GLP-1</span>
-              <span style={styles.iqsValue}>
-                {user.injectionLog?.filter(i => i.type === 'glp1').slice(-1)[0]?.date 
-                  ? new Date(user.injectionLog.filter(i => i.type === 'glp1').slice(-1)[0].date).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})
-                  : 'Not logged'}
-              </span>
-            </div>
-            <div style={styles.injectionQuickStatDivider} />
-            <div style={styles.injectionQuickStat}>
-              <span style={styles.iqsLabel}>Next Due</span>
-              <span style={styles.iqsValue}>
-                {user.injectionLog?.filter(i => i.type === 'glp1').slice(-1)[0]?.date
-                  ? new Date(new Date(user.injectionLog.filter(i => i.type === 'glp1').slice(-1)[0].date).getTime() + 7*24*60*60*1000).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})
-                  : 'Set up'}
-              </span>
-            </div>
-            <div style={styles.injectionQuickStatDivider} />
-            <div style={styles.injectionQuickStat}>
-              <span style={styles.iqsLabel}>Current Dose</span>
-              <span style={styles.iqsValue}>{user.glp1Supply?.currentDose || user.medicationDose}</span>
+        <div style={styles.injectionStatusCard} onClick={() => setShowInjectionTracker(true)}>
+          <div style={styles.injectionStatusLeft}>
+            <span style={styles.injectionStatusIcon}>💉</span>
+            <div>
+              <span style={styles.injectionStatusLabel}>Current Dose</span>
+              <span style={styles.injectionStatusDose}>{user.medicationDose}</span>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section style={styles.section}>
-        <h3 style={styles.sectionTitle}>Optimize Your Journey</h3>
-        <div style={styles.treatmentPreview} className="card-hover" onClick={() => setActiveModal('physique-boost')}>
-          <div style={styles.treatmentPreviewContent}>
-            <span style={styles.treatmentTag}>Complement Your GLP-1</span>
-            <h4 style={styles.treatmentPreviewTitle}>Physique Boost IV</h4>
-            <p style={styles.treatmentPreviewText}>Rev up your fat-burning with our $199 IV</p>
+          <div style={styles.injectionStatusRight}>
+            <span style={styles.injectionStatusArrow}>→</span>
           </div>
-          <div style={styles.treatmentArrow}>→</div>
-        </div>
-        <div style={{...styles.treatmentPreview, marginTop: '10px'}} className="card-hover" onClick={() => setActiveModal('lipo-c')}>
-          <div style={styles.treatmentPreviewContent}>
-            <span style={styles.treatmentTag}>Popular Add-On</span>
-            <h4 style={styles.treatmentPreviewTitle}>Lipo-C Injections</h4>
-            <p style={styles.treatmentPreviewText}>Support fat metabolism • $20/month</p>
-          </div>
-          <div style={styles.treatmentArrow}>→</div>
-        </div>
-      </section>
-
-      {/* Quick Education Tips */}
-      <section style={styles.section}>
-        <h3 style={styles.sectionTitle}>Did You Know?</h3>
-        <div style={styles.didYouKnowCard}>
-          <span style={styles.didYouKnowIcon}>💡</span>
-          <p style={styles.didYouKnowText}>
-            <strong>Side effects aren't always unavoidable.</strong> Many symptoms like nausea, fatigue, and dizziness are often tied to not eating enough or hydration issues—not just the medication.
-          </p>
         </div>
       </section>
     </div>
@@ -1621,12 +1528,13 @@ function JourneyWeekDetail({ week, onBack }) {
 // Home Calendar Component - Integrated tracking calendar
 function HomeCalendar({ user, setUser }) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [showDayDetail, setShowDayDetail] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [showInjectionModal, setShowInjectionModal] = useState(false);
   
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
                       'July', 'August', 'September', 'October', 'November', 'December'];
   const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const dayNamesFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   // Get calendar days for current month
   const getDaysInMonth = (date) => {
@@ -1659,8 +1567,9 @@ function HomeCalendar({ user, setUser }) {
       });
     }
     
-    // Next month's leading days
-    const remainingDays = 42 - days.length;
+    // Next month's leading days (limit to 35 or 42 total)
+    const totalNeeded = days.length > 35 ? 42 : 35;
+    const remainingDays = totalNeeded - days.length;
     for (let i = 1; i <= remainingDays; i++) {
       days.push({ 
         day: i, 
@@ -1672,10 +1581,15 @@ function HomeCalendar({ user, setUser }) {
     return days;
   };
 
-  // Check if a date has injection data
-  const hasInjectionData = (date) => {
+  // Check if a date is a scheduled injection day (based on user's preferred day)
+  const isScheduledInjectionDay = (date) => {
+    return date.getDay() === (user.injectionDay || 0);
+  };
+
+  // Check if injection is completed for this date
+  const isInjectionCompleted = (date) => {
     const dateStr = date.toISOString().split('T')[0];
-    return user.injectionLog?.some(inj => inj.date === dateStr);
+    return user.injectionLog?.some(inj => inj.date === dateStr && inj.type === 'glp1' && inj.completed);
   };
 
   // Check if a date has weight data
@@ -1684,21 +1598,15 @@ function HomeCalendar({ user, setUser }) {
     return user.weightLog?.some(w => w.date === dateStr);
   };
 
-  // Get data for selected date
-  const getDateData = (date) => {
-    const dateStr = date.toISOString().split('T')[0];
-    const injections = user.injectionLog?.filter(inj => inj.date === dateStr) || [];
-    const weight = user.weightLog?.find(w => w.date === dateStr);
-    return { injections, weight };
-  };
-
   const isToday = (date) => {
     const today = new Date();
     return date.toDateString() === today.toDateString();
   };
 
-  const isSelected = (date) => {
-    return date.toDateString() === selectedDate.toDateString();
+  const isPast = (date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date < today;
   };
 
   const goToPrevMonth = () => {
@@ -1709,20 +1617,53 @@ function HomeCalendar({ user, setUser }) {
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
   };
 
-  const goToToday = () => {
-    const today = new Date();
-    setCurrentMonth(today);
-    setSelectedDate(today);
-    setShowDayDetail(true);
+  // Handle clicking on an injection day
+  const handleDayClick = (dayInfo) => {
+    if (isScheduledInjectionDay(dayInfo.date) && dayInfo.isCurrentMonth) {
+      setSelectedDate(dayInfo.date);
+      setShowInjectionModal(true);
+    }
   };
 
-  const handleDateClick = (dayInfo) => {
-    setSelectedDate(dayInfo.date);
-    setShowDayDetail(true);
+  // Toggle injection completion
+  const toggleInjectionComplete = () => {
+    if (!selectedDate) return;
+    
+    const dateStr = selectedDate.toISOString().split('T')[0];
+    const existingLog = user.injectionLog?.find(inj => inj.date === dateStr && inj.type === 'glp1');
+    
+    if (existingLog) {
+      // Toggle the completion status
+      const updatedLog = user.injectionLog.map(inj => 
+        inj.date === dateStr && inj.type === 'glp1' 
+          ? { ...inj, completed: !inj.completed }
+          : inj
+      );
+      setUser({ ...user, injectionLog: updatedLog });
+    } else {
+      // Add new completed injection
+      const newInjection = {
+        id: Date.now(),
+        type: 'glp1',
+        date: dateStr,
+        dose: user.medicationDose,
+        notes: '',
+        completed: true
+      };
+      setUser({ 
+        ...user, 
+        injectionLog: [...(user.injectionLog || []), newInjection]
+      });
+    }
+    setShowInjectionModal(false);
+  };
+
+  // Change injection day preference
+  const changeInjectionDay = (dayIndex) => {
+    setUser({ ...user, injectionDay: dayIndex });
   };
 
   const days = getDaysInMonth(currentMonth);
-  const selectedData = getDateData(selectedDate);
 
   return (
     <section style={styles.section}>
@@ -1731,9 +1672,20 @@ function HomeCalendar({ user, setUser }) {
         <div style={styles.homeCalHeader}>
           <div style={styles.homeCalTitleRow}>
             <span style={styles.homeCalIcon}>📅</span>
-            <h3 style={styles.homeCalTitle}>Calendar</h3>
+            <h3 style={styles.homeCalTitle}>Injection Tracker</h3>
           </div>
-          <button style={styles.homeCalTodayBtn} onClick={goToToday}>Today</button>
+          <div style={styles.homeCalInjDayPicker}>
+            <span style={styles.homeCalInjDayLabel}>Every</span>
+            <select 
+              style={styles.homeCalInjDaySelect}
+              value={user.injectionDay || 0}
+              onChange={(e) => changeInjectionDay(parseInt(e.target.value))}
+            >
+              {dayNamesFull.map((day, idx) => (
+                <option key={idx} value={idx}>{day}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         {/* Month Navigation */}
@@ -1747,112 +1699,113 @@ function HomeCalendar({ user, setUser }) {
 
         {/* Day Headers */}
         <div style={styles.homeCalDayHeaders}>
-          {dayNames.map(day => (
-            <div key={day} style={styles.homeCalDayHeader}>{day}</div>
+          {dayNames.map((day, idx) => (
+            <div 
+              key={day} 
+              style={{
+                ...styles.homeCalDayHeader,
+                color: idx === (user.injectionDay || 0) ? '#4A6741' : '#9B9B9B',
+                fontWeight: idx === (user.injectionDay || 0) ? '600' : '500'
+              }}
+            >
+              {day}
+            </div>
           ))}
         </div>
 
         {/* Calendar Grid */}
         <div style={styles.homeCalGrid}>
-          {days.map((dayInfo, idx) => (
-            <div
-              key={idx}
-              style={{
-                ...styles.homeCalDay,
-                ...(dayInfo.isCurrentMonth ? {} : styles.homeCalDayOther),
-                ...(isToday(dayInfo.date) ? styles.homeCalDayToday : {}),
-                ...(isSelected(dayInfo.date) ? styles.homeCalDaySelected : {})
-              }}
-              onClick={() => handleDateClick(dayInfo)}
-            >
-              <span style={{
-                ...styles.homeCalDayNum,
-                ...(isSelected(dayInfo.date) ? styles.homeCalDayNumSelected : {})
-              }}>{dayInfo.day}</span>
-              {/* Indicator dots */}
-              <div style={styles.homeCalDots}>
-                {hasInjectionData(dayInfo.date) && (
-                  <span style={{...styles.homeCalDot, background: '#4A6741'}} />
+          {days.map((dayInfo, idx) => {
+            const isInjDay = isScheduledInjectionDay(dayInfo.date);
+            const isCompleted = isInjectionCompleted(dayInfo.date);
+            const isTodayDate = isToday(dayInfo.date);
+            const isPastDate = isPast(dayInfo.date);
+            
+            return (
+              <div
+                key={idx}
+                style={{
+                  ...styles.homeCalDay,
+                  ...(dayInfo.isCurrentMonth ? {} : styles.homeCalDayOther),
+                  ...(isTodayDate ? styles.homeCalDayToday : {}),
+                  ...(isInjDay && dayInfo.isCurrentMonth ? styles.homeCalDayInjection : {}),
+                  cursor: isInjDay && dayInfo.isCurrentMonth ? 'pointer' : 'default'
+                }}
+                onClick={() => handleDayClick(dayInfo)}
+              >
+                <span style={{
+                  ...styles.homeCalDayNum,
+                  ...(isInjDay && dayInfo.isCurrentMonth ? styles.homeCalDayNumInj : {})
+                }}>{dayInfo.day}</span>
+                
+                {/* Green dot for completed injection */}
+                {isCompleted && dayInfo.isCurrentMonth && (
+                  <div style={styles.homeCalCompletedDot}>✓</div>
                 )}
-                {hasWeightData(dayInfo.date) && (
-                  <span style={{...styles.homeCalDot, background: '#2AABB3'}} />
+                
+                {/* Injection indicator (needle icon) for scheduled but not completed */}
+                {isInjDay && dayInfo.isCurrentMonth && !isCompleted && (
+                  <div style={{
+                    ...styles.homeCalInjIndicator,
+                    opacity: isPastDate && !isTodayDate ? 0.4 : 1
+                  }}>💉</div>
                 )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        {/* Selected Day Detail Panel */}
-        {showDayDetail && (
-          <div style={styles.homeCalDetail}>
-            <div style={styles.homeCalDetailHeader}>
-              <h4 style={styles.homeCalDetailTitle}>
+        {/* Legend */}
+        <div style={styles.homeCalLegend}>
+          <div style={styles.homeCalLegendItem}>
+            <span style={styles.homeCalLegendDot}>💉</span>
+            <span style={styles.homeCalLegendText}>Injection Day</span>
+          </div>
+          <div style={styles.homeCalLegendItem}>
+            <span style={{...styles.homeCalLegendDotGreen}}>✓</span>
+            <span style={styles.homeCalLegendText}>Completed</span>
+          </div>
+        </div>
+
+        {/* Injection Modal */}
+        {showInjectionModal && selectedDate && (
+          <div style={styles.homeCalModal}>
+            <div style={styles.homeCalModalContent}>
+              <h4 style={styles.homeCalModalTitle}>
                 {selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
               </h4>
-              <button style={styles.homeCalDetailClose} onClick={() => setShowDayDetail(false)}>×</button>
-            </div>
-
-            {/* Injection Info */}
-            {selectedData.injections.length > 0 ? (
-              selectedData.injections.map((inj, idx) => (
-                <div key={idx} style={styles.homeCalInjectionCard}>
-                  <div style={styles.homeCalInjHeader}>
-                    <span style={styles.homeCalInjIcon}>💉</span>
-                    <span style={styles.homeCalInjType}>
-                      {inj.type === 'glp1' ? 'GLP-1' : 'Lipo-C'}
-                    </span>
+              <p style={styles.homeCalModalDose}>
+                💉 GLP-1 Injection • {user.medicationDose}
+              </p>
+              
+              {isInjectionCompleted(selectedDate) ? (
+                <>
+                  <div style={styles.homeCalModalCompleted}>
+                    <span style={styles.homeCalModalCompletedIcon}>✓</span>
+                    <span>Injection Completed</span>
                   </div>
-                  <div style={styles.homeCalInjDetails}>
-                    <span style={styles.homeCalInjDose}>{inj.dose}</span>
-                    {inj.site && (
-                      <span style={styles.homeCalInjSite}>{inj.site}</span>
-                    )}
-                  </div>
-                  {inj.notes && (
-                    <p style={styles.homeCalInjNotes}>{inj.notes}</p>
-                  )}
-                </div>
-              ))
-            ) : (
-              <div style={styles.homeCalNoData}>
-                <span style={styles.homeCalNoDataIcon}>💉</span>
-                <span style={styles.homeCalNoDataText}>No injection logged</span>
-              </div>
-            )}
-
-            {/* Quick Stats Row */}
-            <div style={styles.homeCalStatsRow}>
-              <div style={styles.homeCalStatBox}>
-                <span style={styles.homeCalStatIcon}>⚖️</span>
-                <span style={styles.homeCalStatLabel}>Weight</span>
-                <span style={styles.homeCalStatValue}>
-                  {selectedData.weight ? `${selectedData.weight.weight} lbs` : '—'}
-                </span>
-              </div>
-              <div style={styles.homeCalStatBox}>
-                <span style={styles.homeCalStatIcon}>🔥</span>
-                <span style={styles.homeCalStatLabel}>Calories</span>
-                <span style={styles.homeCalStatValue}>
-                  {isToday(selectedDate) ? '1,850 kcal' : '—'}
-                </span>
-              </div>
-            </div>
-
-            <div style={styles.homeCalStatsRow}>
-              <div style={styles.homeCalStatBox}>
-                <span style={styles.homeCalStatIcon}>🥩</span>
-                <span style={styles.homeCalStatLabel}>Protein</span>
-                <span style={styles.homeCalStatValue}>
-                  {isToday(selectedDate) ? `${user.proteinCurrent} g` : '—'}
-                </span>
-              </div>
-              <div style={styles.homeCalStatBox}>
-                <span style={styles.homeCalStatIcon}>💧</span>
-                <span style={styles.homeCalStatLabel}>Water</span>
-                <span style={styles.homeCalStatValue}>
-                  {isToday(selectedDate) ? `${user.waterCurrent} oz` : '—'}
-                </span>
-              </div>
+                  <button 
+                    style={styles.homeCalModalBtnUndo}
+                    onClick={toggleInjectionComplete}
+                  >
+                    Mark as Not Done
+                  </button>
+                </>
+              ) : (
+                <button 
+                  style={styles.homeCalModalBtn}
+                  onClick={toggleInjectionComplete}
+                >
+                  ✓ Mark as Complete
+                </button>
+              )}
+              
+              <button 
+                style={styles.homeCalModalClose}
+                onClick={() => setShowInjectionModal(false)}
+              >
+                Cancel
+              </button>
             </div>
           </div>
         )}
@@ -14829,10 +14782,10 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    cursor: 'pointer',
     borderRadius: '8px',
     transition: 'background 0.2s',
     padding: '4px',
+    position: 'relative',
   },
   homeCalDayOther: {
     opacity: 0.3,
@@ -14978,6 +14931,244 @@ const styles = {
     fontSize: '18px',
     fontWeight: '600',
     color: '#2D2D2D',
+  },
+  
+  // New Injection Calendar Styles
+  homeCalInjDayPicker: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+  },
+  homeCalInjDayLabel: {
+    fontSize: '12px',
+    color: '#6B6B6B',
+  },
+  homeCalInjDaySelect: {
+    background: '#E8EDE6',
+    border: 'none',
+    borderRadius: '8px',
+    padding: '6px 10px',
+    fontSize: '12px',
+    fontWeight: '600',
+    color: '#4A6741',
+    cursor: 'pointer',
+    outline: 'none',
+  },
+  homeCalDayInjection: {
+    background: '#F5F8F4',
+    border: '2px solid #E8EDE6',
+  },
+  homeCalDayNumInj: {
+    color: '#4A6741',
+    fontWeight: '600',
+  },
+  homeCalCompletedDot: {
+    position: 'absolute',
+    bottom: '2px',
+    width: '16px',
+    height: '16px',
+    background: '#4A6741',
+    borderRadius: '8px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#FFFFFF',
+    fontSize: '10px',
+    fontWeight: '700',
+  },
+  homeCalInjIndicator: {
+    position: 'absolute',
+    bottom: '2px',
+    fontSize: '10px',
+  },
+  homeCalLegend: {
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '20px',
+    marginTop: '12px',
+    paddingTop: '12px',
+    borderTop: '1px solid #F0EFED',
+  },
+  homeCalLegendItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+  },
+  homeCalLegendDot: {
+    fontSize: '12px',
+  },
+  homeCalLegendDotGreen: {
+    width: '16px',
+    height: '16px',
+    background: '#4A6741',
+    borderRadius: '8px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#FFFFFF',
+    fontSize: '10px',
+    fontWeight: '700',
+  },
+  homeCalLegendText: {
+    fontSize: '12px',
+    color: '#6B6B6B',
+  },
+  homeCalModal: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'rgba(0,0,0,0.5)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1000,
+    padding: '20px',
+  },
+  homeCalModalContent: {
+    background: '#FFFFFF',
+    borderRadius: '20px',
+    padding: '24px',
+    maxWidth: '320px',
+    width: '100%',
+    textAlign: 'center',
+  },
+  homeCalModalTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '18px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '8px',
+  },
+  homeCalModalDose: {
+    fontSize: '14px',
+    color: '#6B6B6B',
+    marginBottom: '20px',
+  },
+  homeCalModalCompleted: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '8px',
+    background: '#E8EDE6',
+    color: '#4A6741',
+    padding: '14px',
+    borderRadius: '12px',
+    marginBottom: '12px',
+    fontWeight: '600',
+    fontSize: '15px',
+  },
+  homeCalModalCompletedIcon: {
+    fontSize: '18px',
+  },
+  homeCalModalBtn: {
+    width: '100%',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    color: '#FFFFFF',
+    border: 'none',
+    borderRadius: '12px',
+    padding: '14px',
+    fontSize: '15px',
+    fontWeight: '600',
+    cursor: 'pointer',
+    marginBottom: '10px',
+  },
+  homeCalModalBtnUndo: {
+    width: '100%',
+    background: '#F5F4F2',
+    color: '#6B6B6B',
+    border: 'none',
+    borderRadius: '12px',
+    padding: '14px',
+    fontSize: '15px',
+    fontWeight: '500',
+    cursor: 'pointer',
+    marginBottom: '10px',
+  },
+  homeCalModalClose: {
+    width: '100%',
+    background: 'none',
+    color: '#9B9B9B',
+    border: 'none',
+    padding: '10px',
+    fontSize: '14px',
+    cursor: 'pointer',
+  },
+  
+  // Week Guidance Card Styles
+  weekGuidanceCard: {
+    background: '#FFFFFF',
+    borderRadius: '16px',
+    padding: '18px',
+    marginBottom: '20px',
+    border: '1px solid #E8E8E8',
+  },
+  weekGuidanceHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    marginBottom: '12px',
+  },
+  weekGuidanceIcon: {
+    fontSize: '28px',
+  },
+  weekGuidanceLabel: {
+    fontSize: '12px',
+    color: '#4A6741',
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+    display: 'block',
+  },
+  weekGuidanceTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '18px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    margin: 0,
+  },
+  weekGuidanceTip: {
+    fontSize: '14px',
+    color: '#6B6B6B',
+    lineHeight: '1.5',
+    margin: 0,
+  },
+  
+  // Injection Status Card Styles
+  injectionStatusCard: {
+    background: '#FFFFFF',
+    borderRadius: '14px',
+    padding: '16px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    cursor: 'pointer',
+    border: '1px solid #E8E8E8',
+  },
+  injectionStatusLeft: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+  },
+  injectionStatusIcon: {
+    fontSize: '24px',
+  },
+  injectionStatusLabel: {
+    fontSize: '12px',
+    color: '#9B9B9B',
+    display: 'block',
+  },
+  injectionStatusDose: {
+    fontSize: '18px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+    display: 'block',
+  },
+  injectionStatusRight: {},
+  injectionStatusArrow: {
+    fontSize: '20px',
+    color: '#4A6741',
   },
 
   // Education Screen Styles
