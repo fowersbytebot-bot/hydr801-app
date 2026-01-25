@@ -91,12 +91,12 @@ export default function HYDR801App() {
     totalSpent: 1850,
     lifetimeSpent: 2450,
     referralCount: 3,
-    referralCredits: 150,
+    referralCredits: 60,
     loyaltyPoints: 2450,
     referralHistory: [
-      { id: 1, name: 'Jessica M.', date: '2024-12-10', status: 'completed', credit: 50 },
-      { id: 2, name: 'Amanda K.', date: '2024-12-18', status: 'completed', credit: 50 },
-      { id: 3, name: 'Taylor R.', date: '2025-01-05', status: 'pending', credit: 50 },
+      { id: 1, name: 'Jessica M.', date: '2024-12-10', status: 'completed', credit: 20 },
+      { id: 2, name: 'Amanda K.', date: '2024-12-18', status: 'completed', credit: 20 },
+      { id: 3, name: 'Taylor R.', date: '2025-01-05', status: 'pending', credit: 20 },
     ],
     spendingHistory: [
       { id: 1, date: '2024-12-01', description: 'GLP-1 Initial Consult + Month 1', amount: 300 },
@@ -1218,7 +1218,12 @@ function HomeScreen({ user, setUser, setActiveModal }) {
       <header style={styles.header}>
         <div>
           <p style={styles.greeting}>{greeting()},</p>
-          <h1 style={styles.userName}>{user.name}</h1>
+          <div style={styles.nameRow}>
+            <h1 style={styles.userName}>{user.name}</h1>
+            <span style={styles.loyaltyBadgeSmall}>
+              {user.loyaltyTier === 'Platinum' ? '💎' : user.loyaltyTier === 'Gold' ? '🥇' : user.loyaltyTier === 'Silver' ? '🥈' : '🥉'} {user.loyaltyTier || 'Bronze'}
+            </span>
+          </div>
         </div>
         <div style={styles.weekBadge}>
           <span style={styles.weekLabel}>Week</span>
@@ -1617,9 +1622,9 @@ function HomeCalendar({ user, setUser }) {
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
   };
 
-  // Handle clicking on an injection day
+  // Handle clicking on any day to log injection
   const handleDayClick = (dayInfo) => {
-    if (isScheduledInjectionDay(dayInfo.date) && dayInfo.isCurrentMonth) {
+    if (dayInfo.isCurrentMonth) {
       setSelectedDate(dayInfo.date);
       setShowInjectionModal(true);
     }
@@ -1729,7 +1734,7 @@ function HomeCalendar({ user, setUser }) {
                   ...(dayInfo.isCurrentMonth ? {} : styles.homeCalDayOther),
                   ...(isTodayDate ? styles.homeCalDayToday : {}),
                   ...(isInjDay && dayInfo.isCurrentMonth ? styles.homeCalDayInjection : {}),
-                  cursor: isInjDay && dayInfo.isCurrentMonth ? 'pointer' : 'default'
+                  cursor: dayInfo.isCurrentMonth ? 'pointer' : 'default'
                 }}
                 onClick={() => handleDayClick(dayInfo)}
               >
@@ -1782,13 +1787,13 @@ function HomeCalendar({ user, setUser }) {
                 <>
                   <div style={styles.homeCalModalCompleted}>
                     <span style={styles.homeCalModalCompletedIcon}>✓</span>
-                    <span>Injection Completed</span>
+                    <span>Injection Logged</span>
                   </div>
                   <button 
                     style={styles.homeCalModalBtnUndo}
                     onClick={toggleInjectionComplete}
                   >
-                    Mark as Not Done
+                    Remove Log
                   </button>
                 </>
               ) : (
@@ -1796,7 +1801,7 @@ function HomeCalendar({ user, setUser }) {
                   style={styles.homeCalModalBtn}
                   onClick={toggleInjectionComplete}
                 >
-                  ✓ Mark as Complete
+                  ✓ Log Injection
                 </button>
               )}
               
@@ -7485,7 +7490,7 @@ function LoyaltyProgramScreen({ user, setUser, onBack }) {
       maxSpend: 499,
       color: '#CD7F32',
       bgColor: '#FDF5E6',
-      benefits: ['5% off IV Therapy', '$25 referral credit', 'Birthday bonus'],
+      benefits: ['5% off IV Therapy', '$20 referral credit', 'Birthday bonus'],
       discount: 5
     },
     { 
@@ -7495,7 +7500,7 @@ function LoyaltyProgramScreen({ user, setUser, onBack }) {
       maxSpend: 1499,
       color: '#A8A8A8',
       bgColor: '#F5F5F5',
-      benefits: ['10% off IV Therapy', '$50 referral credit', 'Priority scheduling', 'Free B12 monthly'],
+      benefits: ['10% off IV Therapy', '$20 referral credit', 'Priority scheduling', 'Free B12 monthly'],
       discount: 10
     },
     { 
@@ -7505,7 +7510,7 @@ function LoyaltyProgramScreen({ user, setUser, onBack }) {
       maxSpend: 2999,
       color: '#FFD700',
       bgColor: '#FFFEF0',
-      benefits: ['15% off all services', '$75 referral credit', 'VIP scheduling', 'Free monthly booster', 'Exclusive events'],
+      benefits: ['15% off all services', '$20 referral credit', 'VIP scheduling', 'Free monthly booster', 'Exclusive events'],
       discount: 15
     },
     { 
@@ -7515,7 +7520,7 @@ function LoyaltyProgramScreen({ user, setUser, onBack }) {
       maxSpend: Infinity,
       color: '#E5E4E2',
       bgColor: '#F8F8FF',
-      benefits: ['20% off everything', '$100 referral credit', 'Concierge service', 'Free monthly IV', 'VIP events', 'First access to new treatments'],
+      benefits: ['20% off everything', '$20 referral credit', 'Concierge service', 'Free monthly IV', 'VIP events', 'First access to new treatments'],
       discount: 20
     },
   ];
@@ -7605,7 +7610,7 @@ function LoyaltyProgramScreen({ user, setUser, onBack }) {
           <span style={styles.referralIcon}>🎁</span>
           <div>
             <h3 style={styles.referralTitle}>Share & Earn</h3>
-            <p style={styles.referralSubtitle}>Get ${currentTier.id === 'Platinum' ? '100' : currentTier.id === 'Gold' ? '75' : currentTier.id === 'Silver' ? '50' : '25'} credit for each friend</p>
+            <p style={styles.referralSubtitle}>Get $20 credit for each friend</p>
           </div>
         </div>
         
@@ -8640,6 +8645,20 @@ const styles = {
     fontSize: '28px',
     fontWeight: '500',
     color: '#2D2D2D',
+  },
+  nameRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+  },
+  loyaltyBadgeSmall: {
+    background: 'linear-gradient(135deg, #F5E6D3 0%, #E8D5C4 100%)',
+    borderRadius: '14px',
+    padding: '4px 10px',
+    fontSize: '12px',
+    fontWeight: '500',
+    color: '#8B6914',
+    whiteSpace: 'nowrap',
   },
   weekBadge: {
     background: '#E8EDE6',
