@@ -2325,6 +2325,17 @@ function AIFitnessAssessment({ onComplete, onCancel }) {
     return () => stopCamera();
   }, [stopCamera]);
 
+  // Re-attach stream when entering exercise stage (fixes mobile video display)
+  useEffect(() => {
+    if (stage === 'exercise' && streamRef.current && videoRef.current) {
+      // Re-attach the stream to the video element
+      videoRef.current.srcObject = streamRef.current;
+      videoRef.current.play().catch(err => {
+        console.warn('Video play error on stage change:', err);
+      });
+    }
+  }, [stage]);
+
   // Capture frame from video
   const captureFrame = useCallback(() => {
     if (videoRef.current && canvasRef.current) {
@@ -2788,10 +2799,7 @@ Important considerations:
           webkit-playsinline="true"
           x5-playsinline="true"
           x5-video-player-type="h5"
-          style={{
-            ...styles.cameraVideo,
-            transform: 'scaleX(-1)', // Mirror for selfie view
-          }}
+          style={styles.cameraVideo}
         />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
         
@@ -6386,15 +6394,19 @@ const styles = {
 
   // Camera Full Screen
   cameraFullScreen: {
-    position: 'absolute',
+    position: 'fixed',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
     background: '#000',
     zIndex: 100,
+    overflow: 'hidden',
   },
   cameraVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
     width: '100%',
     height: '100%',
     objectFit: 'cover',
