@@ -275,7 +275,7 @@ const globalStyles = `
   }
   
   .btn-primary {
-    background: linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%);
+    background: linear-gradient(135deg, #4A6741 0%, #5B7B50 100%);
     transition: all 0.3s ease;
   }
   
@@ -304,21 +304,16 @@ function OnboardingFlow({ onComplete }) {
 
   const steps = [
     {
-      icon: '🌟',
+      icon: '',
       title: 'Welcome to HYDR801',
       subtitle: 'Your personalized GLP-1 wellness companion',
       description: 'We\'ll help you maximize your weight loss journey with AI-powered nutrition, fitness plans, and progress tracking.',
       image: (
-        <svg width="200" height="160" viewBox="0 0 200 160" fill="none">
-          <circle cx="100" cy="80" r="60" fill="#E8EDE6"/>
-          <circle cx="100" cy="80" r="45" fill="#F5F7F4"/>
-          <path d="M85 70C85 70 90 90 100 90C110 90 115 70 115 70" stroke="#3B7D3B" strokeWidth="3" strokeLinecap="round"/>
-          <circle cx="85" cy="65" r="5" fill="#3B7D3B"/>
-          <circle cx="115" cy="65" r="5" fill="#3B7D3B"/>
-          <circle cx="70" cy="50" r="8" fill="#C4956A" opacity="0.6"/>
-          <circle cx="130" cy="50" r="8" fill="#26A69A" opacity="0.6"/>
-          <circle cx="100" cy="130" r="10" fill="#9B7E9B" opacity="0.6"/>
-        </svg>
+        <img 
+          src="/logo.png" 
+          alt="HYDR801 Infusion & Wellness" 
+          style={{ width: '180px', height: '180px', objectFit: 'contain' }}
+        />
       )
     },
     {
@@ -329,9 +324,9 @@ function OnboardingFlow({ onComplete }) {
       image: (
         <svg width="200" height="160" viewBox="0 0 200 160" fill="none">
           <circle cx="100" cy="80" r="50" fill="#E8EDE6"/>
-          <circle cx="70" cy="70" r="15" fill="#3B7D3B"/>
+          <circle cx="70" cy="70" r="15" fill="#4A6741"/>
           <circle cx="130" cy="70" r="15" fill="#C4956A"/>
-          <circle cx="100" cy="100" r="18" fill="#26A69A"/>
+          <circle cx="100" cy="100" r="18" fill="#2AABB3"/>
           <text x="70" y="75" textAnchor="middle" fill="white" fontSize="14">🥩</text>
           <text x="130" y="75" textAnchor="middle" fill="white" fontSize="14">🥬</text>
           <text x="100" y="105" textAnchor="middle" fill="white" fontSize="16">💧</text>
@@ -347,10 +342,10 @@ function OnboardingFlow({ onComplete }) {
         <svg width="200" height="160" viewBox="0 0 200 160" fill="none">
           <rect x="60" y="30" width="80" height="100" rx="10" fill="#2D2D2D"/>
           <rect x="65" y="35" width="70" height="85" rx="5" fill="#3D3D4D"/>
-          <circle cx="100" cy="75" r="25" stroke="#3B7D3B" strokeWidth="2" strokeDasharray="5 3"/>
-          <circle cx="100" cy="65" r="8" fill="#3B7D3B"/>
-          <path d="M90 85L100 75L110 85" stroke="#3B7D3B" strokeWidth="2"/>
-          <path d="M85 95L100 105L115 95" stroke="#3B7D3B" strokeWidth="2"/>
+          <circle cx="100" cy="75" r="25" stroke="#4A6741" strokeWidth="2" strokeDasharray="5 3"/>
+          <circle cx="100" cy="65" r="8" fill="#4A6741"/>
+          <path d="M90 85L100 75L110 85" stroke="#4A6741" strokeWidth="2"/>
+          <path d="M85 95L100 105L115 95" stroke="#4A6741" strokeWidth="2"/>
         </svg>
       )
     },
@@ -363,10 +358,10 @@ function OnboardingFlow({ onComplete }) {
         <svg width="200" height="160" viewBox="0 0 200 160" fill="none">
           <rect x="50" y="100" width="20" height="40" fill="#E8EDE6" rx="4"/>
           <rect x="80" y="80" width="20" height="60" fill="#C4956A" rx="4"/>
-          <rect x="110" y="60" width="20" height="80" fill="#26A69A" rx="4"/>
-          <rect x="140" y="40" width="20" height="100" fill="#3B7D3B" rx="4"/>
-          <path d="M50 90L80 70L110 50L150 30" stroke="#3B7D3B" strokeWidth="2" strokeDasharray="4 2"/>
-          <circle cx="150" cy="30" r="6" fill="#3B7D3B"/>
+          <rect x="110" y="60" width="20" height="80" fill="#2AABB3" rx="4"/>
+          <rect x="140" y="40" width="20" height="100" fill="#4A6741" rx="4"/>
+          <path d="M50 90L80 70L110 50L150 30" stroke="#4A6741" strokeWidth="2" strokeDasharray="4 2"/>
+          <circle cx="150" cy="30" r="6" fill="#4A6741"/>
         </svg>
       )
     },
@@ -379,12 +374,12 @@ function OnboardingFlow({ onComplete }) {
         <svg width="200" height="160" viewBox="0 0 200 160" fill="none">
           <circle cx="70" cy="70" r="30" fill="#E8EDE6"/>
           <circle cx="130" cy="70" r="30" fill="#E8EDE6"/>
-          <circle cx="70" cy="60" r="12" fill="#3B7D3B"/>
-          <path d="M58 85C58 78 63 75 70 75C77 75 82 78 82 85" stroke="#3B7D3B" strokeWidth="2"/>
-          <circle cx="130" cy="60" r="12" fill="#26A69A"/>
-          <path d="M118 85C118 78 123 75 130 75C137 75 142 78 142 85" stroke="#26A69A" strokeWidth="2"/>
-          <path d="M95 70H105" stroke="#3B7D3B" strokeWidth="2" strokeLinecap="round"/>
-          <path d="M100 65V75" stroke="#3B7D3B" strokeWidth="2" strokeLinecap="round"/>
+          <circle cx="70" cy="60" r="12" fill="#4A6741"/>
+          <path d="M58 85C58 78 63 75 70 75C77 75 82 78 82 85" stroke="#4A6741" strokeWidth="2"/>
+          <circle cx="130" cy="60" r="12" fill="#2AABB3"/>
+          <path d="M118 85C118 78 123 75 130 75C137 75 142 78 142 85" stroke="#2AABB3" strokeWidth="2"/>
+          <path d="M95 70H105" stroke="#4A6741" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M100 65V75" stroke="#4A6741" strokeWidth="2" strokeLinecap="round"/>
           <text x="70" y="120" textAnchor="middle" fill="#6B6B6B" fontSize="10">You</text>
           <text x="130" y="120" textAnchor="middle" fill="#6B6B6B" fontSize="10">Provider</text>
         </svg>
@@ -591,7 +586,7 @@ function PatientMiniCard({ patient }) {
           <span style={styles.pmcStatLabel}>Lost</span>
         </div>
         <div style={styles.pmcStatItem}>
-          <span style={{...styles.pmcStatValue, color: compliance >= 80 ? '#3B7D3B' : '#C4956A'}}>{compliance}%</span>
+          <span style={{...styles.pmcStatValue, color: compliance >= 80 ? '#4A6741' : '#C4956A'}}>{compliance}%</span>
           <span style={styles.pmcStatLabel}>Compliance</span>
         </div>
         <div style={styles.pmcStatItem}>
@@ -662,7 +657,7 @@ function PatientListScreen({ patients, setCurrentScreen }) {
                 <div style={{
                   ...styles.plcCompliance,
                   background: compliance >= 80 ? '#E8EDE6' : '#FFF5F0',
-                  color: compliance >= 80 ? '#3B7D3B' : '#C4956A'
+                  color: compliance >= 80 ? '#4A6741' : '#C4956A'
                 }}>
                   {compliance}%
                 </div>
@@ -752,7 +747,7 @@ function PatientDetailScreen({ patient, onBack }) {
                     <div style={{
                       ...styles.pdChartBarFill,
                       height: `${avg}%`,
-                      background: avg >= 80 ? '#3B7D3B' : avg >= 60 ? '#C4956A' : '#E57373'
+                      background: avg >= 80 ? '#4A6741' : avg >= 60 ? '#C4956A' : '#E57373'
                     }} />
                     <span style={styles.pdChartLabel}>W{week.week}</span>
                   </div>
@@ -803,7 +798,7 @@ function PatientDetailScreen({ patient, onBack }) {
                 <span style={styles.nutritionPercent}>{Math.round((patient.proteinCurrent / patient.proteinGoal) * 100)}%</span>
               </div>
               <div style={styles.nutritionBar}>
-                <div style={{...styles.nutritionBarFill, width: `${(patient.proteinCurrent / patient.proteinGoal) * 100}%`, background: '#3B7D3B'}} />
+                <div style={{...styles.nutritionBarFill, width: `${(patient.proteinCurrent / patient.proteinGoal) * 100}%`, background: '#4A6741'}} />
               </div>
               <p style={styles.nutritionMeta}>{patient.proteinCurrent}g / {patient.proteinGoal}g today</p>
             </div>
@@ -814,7 +809,7 @@ function PatientDetailScreen({ patient, onBack }) {
                 <span style={styles.nutritionPercent}>{Math.round((patient.waterCurrent / patient.waterGoal) * 100)}%</span>
               </div>
               <div style={styles.nutritionBar}>
-                <div style={{...styles.nutritionBarFill, width: `${(patient.waterCurrent / patient.waterGoal) * 100}%`, background: '#26A69A'}} />
+                <div style={{...styles.nutritionBarFill, width: `${(patient.waterCurrent / patient.waterGoal) * 100}%`, background: '#2AABB3'}} />
               </div>
               <p style={styles.nutritionMeta}>{patient.waterCurrent}oz / {patient.waterGoal}oz today</p>
             </div>
@@ -920,8 +915,8 @@ function AnalyticsScreen({ patients }) {
         <h3 style={styles.sectionTitle}>Compliance by Category</h3>
         <div style={styles.complianceBreakdown}>
           {[
-            { label: 'Protein Goals', value: 85, color: '#3B7D3B' },
-            { label: 'Hydration', value: 78, color: '#26A69A' },
+            { label: 'Protein Goals', value: 85, color: '#4A6741' },
+            { label: 'Hydration', value: 78, color: '#2AABB3' },
             { label: 'Exercise', value: 72, color: '#9B7E9B' },
             { label: 'Meal Logging', value: 91, color: '#C4956A' },
           ].map((item, idx) => (
@@ -988,7 +983,7 @@ function ProviderBottomNav({ currentScreen, setCurrentScreen }) {
           key={item.id}
           style={{
             ...styles.navButton,
-            color: currentScreen === item.id ? '#3B7D3B' : '#9B9B9B'
+            color: currentScreen === item.id ? '#4A6741' : '#9B9B9B'
           }}
           onClick={() => setCurrentScreen(item.id)}
           className="nav-item"
@@ -1014,14 +1009,11 @@ function HomeScreen({ user, setUser, setActiveModal }) {
     <div style={styles.screenContent} className="fade-in">
       {/* HYDR801 Logo Header */}
       <div style={styles.brandHeader}>
-        <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
-          {/* Leaves */}
-          <path d="M50 20 C35 25, 25 40, 30 55 C35 45, 45 38, 50 35 C55 38, 65 45, 70 55 C75 40, 65 25, 50 20Z" fill="#3B7D3B"/>
-          <path d="M30 55 C20 60, 15 75, 25 85 C30 75, 40 68, 50 65 C40 62, 32 58, 30 55Z" fill="#4CAF50"/>
-          <path d="M70 55 C80 60, 85 75, 75 85 C70 75, 60 68, 50 65 C60 62, 68 58, 70 55Z" fill="#4CAF50"/>
-          {/* Center H */}
-          <text x="50" y="58" textAnchor="middle" fontSize="24" fontWeight="bold" fill="#26A69A">H</text>
-        </svg>
+        <img 
+          src="/logo.png" 
+          alt="HYDR801" 
+          style={{ width: '50px', height: '50px', objectFit: 'contain' }}
+        />
         <span style={styles.brandName}>HYDR801</span>
       </div>
 
@@ -1045,12 +1037,11 @@ function HomeScreen({ user, setUser, setActiveModal }) {
           </p>
         </div>
         <div style={styles.heroImagePlaceholder}>
-          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-            <circle cx="40" cy="40" r="35" fill="#E8F5E9"/>
-            <path d="M40 20 C28 24, 20 36, 24 48 C28 40, 36 34, 40 32 C44 34, 52 40, 56 48 C60 36, 52 24, 40 20Z" fill="#3B7D3B"/>
-            <path d="M24 48 C16 52, 12 64, 20 72 C24 64, 32 58, 40 56 C32 54, 26 50, 24 48Z" fill="#4CAF50"/>
-            <path d="M56 48 C64 52, 68 64, 60 72 C56 64, 48 58, 40 56 C48 54, 54 50, 56 48Z" fill="#4CAF50"/>
-          </svg>
+          <img 
+            src="/logo.png" 
+            alt="" 
+            style={{ width: '70px', height: '70px', objectFit: 'contain', opacity: 0.9 }}
+          />
         </div>
       </div>
 
@@ -1063,7 +1054,7 @@ function HomeScreen({ user, setUser, setActiveModal }) {
             current={user.waterCurrent}
             goal={user.waterGoal}
             unit="oz"
-            color="#26A69A"
+            color="#2AABB3"
             onIncrement={() => setUser({...user, waterCurrent: Math.min(user.waterCurrent + 8, user.waterGoal)})}
           />
           <GoalCard
@@ -1072,7 +1063,7 @@ function HomeScreen({ user, setUser, setActiveModal }) {
             current={user.proteinCurrent}
             goal={user.proteinGoal}
             unit="g"
-            color="#3B7D3B"
+            color="#4A6741"
             onIncrement={() => setUser({...user, proteinCurrent: Math.min(user.proteinCurrent + 10, user.proteinGoal)})}
           />
           <GoalCard
@@ -1191,9 +1182,9 @@ function NutritionScreen({ user, setUser }) {
         </header>
 
         <div style={styles.macroOverview}>
-          <MacroCircle label="Protein" current={user.proteinCurrent} goal={user.proteinGoal} color="#3B7D3B" />
+          <MacroCircle label="Protein" current={user.proteinCurrent} goal={user.proteinGoal} color="#4A6741" />
           <MacroCircle label="Fiber" current={user.fiberCurrent} goal={user.fiberGoal} color="#C4956A" />
-          <MacroCircle label="Water" current={user.waterCurrent} goal={user.waterGoal} color="#26A69A" unit="oz" />
+          <MacroCircle label="Water" current={user.waterCurrent} goal={user.waterGoal} color="#2AABB3" unit="oz" />
         </div>
 
         <div style={styles.mealPlanPrompt}>
@@ -1206,10 +1197,10 @@ function NutritionScreen({ user, setUser }) {
             <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
               <circle cx="60" cy="60" r="55" fill="#E8EDE6"/>
               <circle cx="60" cy="60" r="40" fill="#F5F7F4"/>
-              <circle cx="45" cy="50" r="8" fill="#3B7D3B"/>
+              <circle cx="45" cy="50" r="8" fill="#4A6741"/>
               <circle cx="75" cy="50" r="8" fill="#C4956A"/>
-              <circle cx="60" cy="75" r="10" fill="#26A69A"/>
-              <path d="M35 40L45 50L35 60" stroke="#3B7D3B" strokeWidth="2" strokeLinecap="round"/>
+              <circle cx="60" cy="75" r="10" fill="#2AABB3"/>
+              <path d="M35 40L45 50L35 60" stroke="#4A6741" strokeWidth="2" strokeLinecap="round"/>
               <path d="M85 40L75 50L85 60" stroke="#C4956A" strokeWidth="2" strokeLinecap="round"/>
             </svg>
           </div>
@@ -1281,7 +1272,7 @@ function NutritionScreen({ user, setUser }) {
               <circle cx="70" cy="70" r="60" fill="none" stroke="#E8EDE6" strokeWidth="12"/>
               <circle 
                 cx="70" cy="70" r="60" fill="none" 
-                stroke="#3B7D3B" strokeWidth="12" strokeLinecap="round"
+                stroke="#4A6741" strokeWidth="12" strokeLinecap="round"
                 strokeDasharray={`${(user.proteinCurrent / user.proteinGoal) * 377} 377`}
                 transform="rotate(-90 70 70)"
                 className="progress-ring"
@@ -1321,7 +1312,7 @@ function NutritionScreen({ user, setUser }) {
                 <circle cx="35" cy="35" r="28" fill="none" stroke="#E8F4F8" strokeWidth="6"/>
                 <circle 
                   cx="35" cy="35" r="28" fill="none" 
-                  stroke="#26A69A" strokeWidth="6" strokeLinecap="round"
+                  stroke="#2AABB3" strokeWidth="6" strokeLinecap="round"
                   strokeDasharray={`${(totalFat / 65) * 176} 176`}
                   transform="rotate(-90 35 35)"
                 />
@@ -2088,13 +2079,13 @@ function FitnessScreen({ user, setUser }) {
           <div style={styles.assessmentIllustration}>
             <svg width="140" height="140" viewBox="0 0 140 140" fill="none">
               <circle cx="70" cy="70" r="65" fill="#E8EDE6"/>
-              <circle cx="70" cy="70" r="50" stroke="#3B7D3B" strokeWidth="2" strokeDasharray="8 4"/>
-              <path d="M70 40V70L90 90" stroke="#3B7D3B" strokeWidth="3" strokeLinecap="round"/>
-              <circle cx="70" cy="70" r="6" fill="#3B7D3B"/>
-              <circle cx="70" cy="30" r="4" fill="#26A69A"/>
+              <circle cx="70" cy="70" r="50" stroke="#4A6741" strokeWidth="2" strokeDasharray="8 4"/>
+              <path d="M70 40V70L90 90" stroke="#4A6741" strokeWidth="3" strokeLinecap="round"/>
+              <circle cx="70" cy="70" r="6" fill="#4A6741"/>
+              <circle cx="70" cy="30" r="4" fill="#2AABB3"/>
               <circle cx="110" cy="70" r="4" fill="#C4956A"/>
               <circle cx="70" cy="110" r="4" fill="#9B7E9B"/>
-              <circle cx="30" cy="70" r="4" fill="#3B7D3B"/>
+              <circle cx="30" cy="70" r="4" fill="#4A6741"/>
             </svg>
           </div>
           <h2 style={styles.assessmentTitle}>Smart Fitness Assessment</h2>
@@ -2813,7 +2804,7 @@ Important considerations:
                 key={idx} 
                 style={{
                   ...styles.exerciseProgressDot,
-                  backgroundColor: idx < currentExercise ? '#3B7D3B' : idx === currentExercise ? '#FFFFFF' : 'rgba(255,255,255,0.3)'
+                  backgroundColor: idx < currentExercise ? '#4A6741' : idx === currentExercise ? '#FFFFFF' : 'rgba(255,255,255,0.3)'
                 }}
               />
             ))}
@@ -3487,7 +3478,10 @@ function TreatmentsScreen({ setActiveModal }) {
   return (
     <div style={styles.screenContent} className="fade-in">
       <header style={styles.pageHeader}>
-        <h1 style={styles.pageTitle}>Services</h1>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
+          <img src="/logo.png" alt="" style={{ width: '36px', height: '36px', objectFit: 'contain' }} />
+          <h1 style={styles.pageTitle}>Services</h1>
+        </div>
         <p style={styles.pageSubtitle}>HYDR801 Infusion & Wellness</p>
       </header>
 
@@ -3531,8 +3525,8 @@ function TreatmentsScreen({ setActiveModal }) {
               <span style={{
                 ...styles.tierBadge,
                 background: service.tier === 'premium' ? '#9B7E9B' : 
-                           service.tier === 'advanced' ? '#3B7D3B' :
-                           service.tier === 'upgrade' ? '#26A69A' :
+                           service.tier === 'advanced' ? '#4A6741' :
+                           service.tier === 'upgrade' ? '#2AABB3' :
                            service.tier === 'high-dose' ? '#C4956A' : '#E8EDE6'
               }}>
                 {service.tier === 'premium' ? '⭐ Premium' : 
@@ -4139,13 +4133,13 @@ function BottomNav({ currentScreen, setCurrentScreen }) {
           key={item.id}
           style={{
             ...styles.navButton,
-            color: currentScreen === item.id ? '#3B7D3B' : '#9B9B9B'
+            color: currentScreen === item.id ? '#4A6741' : '#9B9B9B'
           }}
           onClick={() => setCurrentScreen(item.id)}
           className="nav-item"
         >
           {React.cloneElement(item.icon, { 
-            color: currentScreen === item.id ? '#3B7D3B' : '#9B9B9B' 
+            color: currentScreen === item.id ? '#4A6741' : '#9B9B9B' 
           })}
           <span style={styles.navLabel}>{item.label}</span>
         </button>
@@ -4198,7 +4192,7 @@ function ProfileIcon({ color = '#9B9B9B' }) {
   );
 }
 
-function WaterIcon({ color = '#26A69A' }) {
+function WaterIcon({ color = '#2AABB3' }) {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <path d="M10 2L5 10C5 14 7 17 10 17C13 17 15 14 15 10L10 2Z" stroke={color} strokeWidth="1.5"/>
@@ -4206,7 +4200,7 @@ function WaterIcon({ color = '#26A69A' }) {
   );
 }
 
-function ProteinIcon({ color = '#3B7D3B' }) {
+function ProteinIcon({ color = '#4A6741' }) {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <circle cx="10" cy="10" r="6" stroke={color} strokeWidth="1.5"/>
@@ -4260,8 +4254,8 @@ const styles = {
     transition: 'all 0.2s',
   },
   modeBtnActive: {
-    borderColor: '#3B7D3B',
-    background: '#3B7D3B',
+    borderColor: '#4A6741',
+    background: '#4A6741',
     color: '#FFFFFF',
   },
   phoneFrame: {
@@ -4302,7 +4296,7 @@ const styles = {
   brandName: {
     fontSize: '14px',
     fontWeight: '600',
-    color: '#3B7D3B',
+    color: '#4A6741',
     letterSpacing: '1px',
   },
   greeting: {
@@ -4335,12 +4329,12 @@ const styles = {
     fontFamily: "'Fraunces', serif",
     fontSize: '20px',
     fontWeight: '600',
-    color: '#3B7D3B',
+    color: '#4A6741',
   },
   
   // Hero Card
   heroCard: {
-    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
     borderRadius: '20px',
     padding: '24px',
     display: 'flex',
@@ -4399,7 +4393,7 @@ const styles = {
     borderRadius: '20px',
     padding: '6px 14px',
     fontSize: '13px',
-    color: '#3B7D3B',
+    color: '#4A6741',
     cursor: 'pointer',
     marginBottom: '16px',
   },
@@ -4497,7 +4491,7 @@ const styles = {
   },
   treatmentArrow: {
     fontSize: '20px',
-    color: '#3B7D3B',
+    color: '#4A6741',
   },
   
   // Page Header
@@ -4586,11 +4580,11 @@ const styles = {
   proteinValue: {
     fontSize: '36px',
     fontWeight: '600',
-    color: '#3B7D3B',
+    color: '#4A6741',
   },
   proteinUnit: {
     fontSize: '16px',
-    color: '#3B7D3B',
+    color: '#4A6741',
     marginLeft: '2px',
   },
   proteinLabel: {
@@ -4658,12 +4652,12 @@ const styles = {
     fontFamily: "'Fraunces', serif",
     fontSize: '22px',
     fontWeight: '600',
-    color: '#3B7D3B',
+    color: '#4A6741',
   },
   summaryLabelProtein: {
     fontSize: '10px',
     fontWeight: '600',
-    color: '#3B7D3B',
+    color: '#4A6741',
     letterSpacing: '0.5px',
   },
   
@@ -4712,7 +4706,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: '14px',
-    color: '#3B7D3B',
+    color: '#4A6741',
   },
   
   // Tips
@@ -4754,7 +4748,7 @@ const styles = {
     display: 'inline-flex',
     alignItems: 'center',
     gap: '6px',
-    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
     borderRadius: '20px',
     padding: '6px 14px',
     marginBottom: '20px',
@@ -4825,7 +4819,7 @@ const styles = {
     transition: 'all 0.2s',
   },
   daySelectorBtnActive: {
-    background: '#3B7D3B',
+    background: '#4A6741',
     color: '#FFFFFF',
   },
 
@@ -4846,7 +4840,7 @@ const styles = {
   summaryValue: {
     fontSize: '20px',
     fontWeight: '600',
-    color: '#3B7D3B',
+    color: '#4A6741',
     display: 'block',
   },
   summaryLabel: {
@@ -4968,12 +4962,12 @@ const styles = {
   },
   glp1TipText: {
     fontSize: '13px',
-    color: '#3B7D3B',
+    color: '#4A6741',
     lineHeight: '1.4',
   },
   logMealButton: {
     width: '100%',
-    background: '#3B7D3B',
+    background: '#4A6741',
     color: '#FFFFFF',
     border: 'none',
     borderRadius: '10px',
@@ -4985,7 +4979,7 @@ const styles = {
   },
   logMealButtonLogged: {
     background: '#E8EDE6',
-    color: '#3B7D3B',
+    color: '#4A6741',
   },
 
   // Snacks
@@ -5077,7 +5071,7 @@ const styles = {
     background: '#E0E0E0',
   },
   mpProgressDotActive: {
-    background: '#3B7D3B',
+    background: '#4A6741',
   },
   mpStepTitle: {
     fontFamily: "'Fraunces', serif",
@@ -5107,7 +5101,7 @@ const styles = {
     transition: 'all 0.2s',
   },
   mpOptionCardSelected: {
-    borderColor: '#3B7D3B',
+    borderColor: '#4A6741',
     background: '#F5F8F4',
   },
   mpOptionIcon: {
@@ -5145,7 +5139,7 @@ const styles = {
     color: '#2D2D2D',
   },
   mpChipSelected: {
-    borderColor: '#3B7D3B',
+    borderColor: '#4A6741',
     background: '#F5F8F4',
   },
   mpDislikesSection: {
@@ -5183,7 +5177,7 @@ const styles = {
     transition: 'all 0.2s',
   },
   mpCookingOptionSelected: {
-    borderColor: '#3B7D3B',
+    borderColor: '#4A6741',
     background: '#F5F8F4',
   },
   mpCookingIcon: {
@@ -5231,7 +5225,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color: '#3B7D3B',
+    color: '#4A6741',
   },
   mpCounterValue: {
     fontSize: '20px',
@@ -5249,7 +5243,7 @@ const styles = {
   mpSummaryTitle: {
     fontSize: '14px',
     fontWeight: '500',
-    color: '#3B7D3B',
+    color: '#4A6741',
     marginBottom: '12px',
   },
   mpSummaryItem: {
@@ -5299,7 +5293,7 @@ const styles = {
     transition: 'all 0.3s',
   },
   onboardingDotActive: {
-    background: '#3B7D3B',
+    background: '#4A6741',
     width: '24px',
   },
   skipButton: {
@@ -5338,7 +5332,7 @@ const styles = {
   },
   onboardingSubtitle: {
     fontSize: '16px',
-    color: '#3B7D3B',
+    color: '#4A6741',
     marginBottom: '16px',
   },
   onboardingDesc: {
@@ -5370,7 +5364,7 @@ const styles = {
   providerStatsRow: {
     display: 'flex',
     justifyContent: 'space-between',
-    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
     borderRadius: '16px',
     padding: '20px',
     marginBottom: '24px',
@@ -5449,7 +5443,7 @@ const styles = {
   appointmentTime: {
     fontSize: '13px',
     fontWeight: '500',
-    color: '#3B7D3B',
+    color: '#4A6741',
     minWidth: '70px',
   },
   appointmentInfo: {
@@ -5470,7 +5464,7 @@ const styles = {
     borderRadius: '8px',
     padding: '6px 12px',
     fontSize: '12px',
-    color: '#3B7D3B',
+    color: '#4A6741',
     cursor: 'pointer',
   },
   noAppointments: {
@@ -5482,7 +5476,7 @@ const styles = {
   viewAllBtn: {
     background: 'none',
     border: 'none',
-    color: '#3B7D3B',
+    color: '#4A6741',
     fontSize: '13px',
     cursor: 'pointer',
   },
@@ -5506,7 +5500,7 @@ const styles = {
     width: '40px',
     height: '40px',
     borderRadius: '20px',
-    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -5616,7 +5610,7 @@ const styles = {
     width: '44px',
     height: '44px',
     borderRadius: '22px',
-    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -5663,7 +5657,7 @@ const styles = {
     width: '80px',
     height: '80px',
     borderRadius: '40px',
-    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -5711,7 +5705,7 @@ const styles = {
     whiteSpace: 'nowrap',
   },
   pdTabActive: {
-    background: '#3B7D3B',
+    background: '#4A6741',
     color: '#FFFFFF',
   },
   pdMetricsGrid: {
@@ -5729,7 +5723,7 @@ const styles = {
   pdMetricValue: {
     fontSize: '24px',
     fontWeight: '600',
-    color: '#3B7D3B',
+    color: '#4A6741',
     display: 'block',
   },
   pdMetricLabel: {
@@ -5804,7 +5798,7 @@ const styles = {
   },
   weightBar: {
     width: '8px',
-    background: '#3B7D3B',
+    background: '#4A6741',
     borderRadius: '4px',
   },
   weightValue: {
@@ -5834,7 +5828,7 @@ const styles = {
     fontWeight: '500',
   },
   nutritionPercent: {
-    color: '#3B7D3B',
+    color: '#4A6741',
   },
   nutritionBar: {
     height: '8px',
@@ -5894,7 +5888,7 @@ const styles = {
     width: '44px',
     height: '44px',
     borderRadius: '22px',
-    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -5926,7 +5920,7 @@ const styles = {
     width: '10px',
     height: '10px',
     borderRadius: '5px',
-    background: '#3B7D3B',
+    background: '#4A6741',
   },
 
   // Analytics
@@ -5945,7 +5939,7 @@ const styles = {
   analyticsValue: {
     fontSize: '28px',
     fontWeight: '600',
-    color: '#3B7D3B',
+    color: '#4A6741',
     display: 'block',
   },
   analyticsLabel: {
@@ -5981,7 +5975,7 @@ const styles = {
   complianceValue: {
     fontSize: '14px',
     fontWeight: '500',
-    color: '#3B7D3B',
+    color: '#4A6741',
   },
   complianceBar: {
     height: '8px',
@@ -6082,7 +6076,7 @@ const styles = {
   },
   weightChartBar: {
     width: '20px',
-    background: 'linear-gradient(180deg, #3B7D3B 0%, #5B7B50 100%)',
+    background: 'linear-gradient(180deg, #4A6741 0%, #5B7B50 100%)',
     borderRadius: '4px',
   },
   weightChartValue: {
@@ -6120,7 +6114,7 @@ const styles = {
     top: '6px',
     right: '6px',
     fontSize: '10px',
-    color: '#3B7D3B',
+    color: '#4A6741',
   },
   providerCard: {
     display: 'flex',
@@ -6138,7 +6132,7 @@ const styles = {
   providerCardTitle: {
     fontSize: '14px',
     fontWeight: '500',
-    color: '#3B7D3B',
+    color: '#4A6741',
     marginBottom: '4px',
   },
   providerCardText: {
@@ -6148,7 +6142,7 @@ const styles = {
   },
   providerCardAppt: {
     fontSize: '12px',
-    color: '#3B7D3B',
+    color: '#4A6741',
   },
   
   // Assessment Prompt (updated)
@@ -6160,7 +6154,7 @@ const styles = {
     display: 'inline-flex',
     alignItems: 'center',
     gap: '6px',
-    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
     borderRadius: '20px',
     padding: '6px 14px',
     marginBottom: '20px',
@@ -6218,7 +6212,7 @@ const styles = {
     marginTop: '12px',
   },
   primaryButton: {
-    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
     color: '#FFFFFF',
     border: 'none',
     borderRadius: '14px',
@@ -6230,7 +6224,7 @@ const styles = {
   },
   primaryButtonWhite: {
     background: '#FFFFFF',
-    color: '#3B7D3B',
+    color: '#4A6741',
     border: 'none',
     borderRadius: '14px',
     padding: '16px 32px',
@@ -6291,7 +6285,7 @@ const styles = {
   },
   fitnessLevelArrow: {
     fontSize: '18px',
-    color: '#3B7D3B',
+    color: '#4A6741',
   },
 
   // Assessment Header
@@ -6305,7 +6299,7 @@ const styles = {
     background: 'none',
     border: 'none',
     fontSize: '15px',
-    color: '#3B7D3B',
+    color: '#4A6741',
     cursor: 'pointer',
     padding: 0,
   },
@@ -6466,7 +6460,7 @@ const styles = {
     width: '100px',
     height: '100px',
     borderRadius: '50px',
-    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
     border: 'none',
     cursor: 'pointer',
     display: 'flex',
@@ -6541,7 +6535,7 @@ const styles = {
     left: 0,
     right: 0,
     height: '4px',
-    background: 'linear-gradient(90deg, transparent, #3B7D3B, transparent)',
+    background: 'linear-gradient(90deg, transparent, #4A6741, transparent)',
   },
   analyzingSpinner: {
     width: '80px',
@@ -6678,7 +6672,7 @@ const styles = {
     padding: '14px 16px',
   },
   stepCheck: {
-    color: '#3B7D3B',
+    color: '#4A6741',
     fontSize: '16px',
     fontWeight: '600',
   },
@@ -6739,7 +6733,7 @@ const styles = {
     transition: 'all 0.2s ease',
   },
   equipmentCardSelected: {
-    borderColor: '#3B7D3B',
+    borderColor: '#4A6741',
     background: '#F5F8F4',
   },
   equipmentCardIcon: {
@@ -6778,8 +6772,8 @@ const styles = {
     transition: 'all 0.2s ease',
   },
   equipmentCheckboxSelected: {
-    background: '#3B7D3B',
-    borderColor: '#3B7D3B',
+    background: '#4A6741',
+    borderColor: '#4A6741',
   },
   equipmentFooter: {
     position: 'sticky',
@@ -6802,14 +6796,14 @@ const styles = {
   },
   resultsBadgeText: {
     fontSize: '12px',
-    color: '#3B7D3B',
+    color: '#4A6741',
     fontWeight: '500',
   },
   scoreCircle: {
     width: '100px',
     height: '100px',
     borderRadius: '50px',
-    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -6853,7 +6847,7 @@ const styles = {
   },
   strengthTag: {
     background: '#E8EDE6',
-    color: '#3B7D3B',
+    color: '#4A6741',
     fontSize: '13px',
     padding: '8px 14px',
     borderRadius: '20px',
@@ -6903,7 +6897,7 @@ const styles = {
   },
   workoutDuration: {
     fontSize: '12px',
-    color: '#3B7D3B',
+    color: '#4A6741',
     background: '#E8EDE6',
     padding: '4px 10px',
     borderRadius: '12px',
@@ -6960,7 +6954,7 @@ const styles = {
   levelValue: {
     fontSize: '16px',
     fontWeight: '600',
-    color: '#3B7D3B',
+    color: '#4A6741',
   },
   equipmentBadge: {
     background: '#FFFFFF',
@@ -7010,7 +7004,7 @@ const styles = {
     justifyContent: 'center',
     fontSize: '13px',
     fontWeight: '600',
-    color: '#3B7D3B',
+    color: '#4A6741',
     flexShrink: 0,
   },
   exerciseDetails: {
@@ -7040,7 +7034,7 @@ const styles = {
   
   // Today's Workout
   todayWorkout: {
-    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
     borderRadius: '20px',
     padding: '24px',
     marginBottom: '24px',
@@ -7115,7 +7109,7 @@ const styles = {
   },
   activityBar: {
     width: '100%',
-    background: 'linear-gradient(180deg, #5B7B50 0%, #3B7D3B 100%)',
+    background: 'linear-gradient(180deg, #5B7B50 0%, #4A6741 100%)',
     borderRadius: '4px',
     transition: 'height 0.5s ease',
   },
@@ -7154,7 +7148,7 @@ const styles = {
     transition: 'all 0.2s',
   },
   categoryTabActive: {
-    background: '#3B7D3B',
+    background: '#4A6741',
     color: '#FFFFFF',
   },
   categoryIcon: {
@@ -7195,7 +7189,7 @@ const styles = {
   },
   serviceCardFeatured: {
     background: 'linear-gradient(135deg, #F5F8F4 0%, #E8EDE6 100%)',
-    border: '2px solid #3B7D3B',
+    border: '2px solid #4A6741',
   },
   tierBadge: {
     position: 'absolute',
@@ -7217,7 +7211,7 @@ const styles = {
   },
   serviceTagline: {
     fontSize: '12px',
-    color: '#3B7D3B',
+    color: '#4A6741',
     marginBottom: '10px',
     fontWeight: '500',
   },
@@ -7235,7 +7229,7 @@ const styles = {
   },
   serviceBenefit: {
     fontSize: '11px',
-    color: '#3B7D3B',
+    color: '#4A6741',
     background: '#E8EDE6',
     padding: '4px 10px',
     borderRadius: '12px',
@@ -7263,7 +7257,7 @@ const styles = {
   },
   morePricing: {
     fontSize: '11px',
-    color: '#3B7D3B',
+    color: '#4A6741',
     display: 'block',
     textAlign: 'center',
     marginTop: '6px',
@@ -7271,7 +7265,7 @@ const styles = {
   serviceBtn: {
     background: 'none',
     border: 'none',
-    color: '#3B7D3B',
+    color: '#4A6741',
     fontSize: '14px',
     fontWeight: '500',
     cursor: 'pointer',
@@ -7279,7 +7273,7 @@ const styles = {
   },
   contactCTA: {
     textAlign: 'center',
-    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
     borderRadius: '16px',
     padding: '24px',
     marginBottom: '20px',
@@ -7335,7 +7329,7 @@ const styles = {
   },
   treatmentTagline: {
     fontSize: '13px',
-    color: '#3B7D3B',
+    color: '#4A6741',
     marginBottom: '12px',
   },
   treatmentDescription: {
@@ -7360,7 +7354,7 @@ const styles = {
   learnMoreBtn: {
     background: 'none',
     border: 'none',
-    color: '#3B7D3B',
+    color: '#4A6741',
     fontSize: '14px',
     fontWeight: '500',
     cursor: 'pointer',
@@ -7375,7 +7369,7 @@ const styles = {
   avatar: {
     width: '80px',
     height: '80px',
-    background: 'linear-gradient(135deg, #3B7D3B 0%, #5B7B50 100%)',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
     borderRadius: '40px',
     display: 'flex',
     alignItems: 'center',
@@ -7417,7 +7411,7 @@ const styles = {
   statValue: {
     fontSize: '24px',
     fontWeight: '600',
-    color: '#3B7D3B',
+    color: '#4A6741',
     marginBottom: '4px',
   },
   statLabel: {
@@ -7509,7 +7503,7 @@ const styles = {
   },
   modalSubtitle: {
     fontSize: '12px',
-    color: '#3B7D3B',
+    color: '#4A6741',
     textTransform: 'uppercase',
     letterSpacing: '1px',
     marginBottom: '8px',
@@ -7551,7 +7545,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color: '#3B7D3B',
+    color: '#4A6741',
     fontSize: '12px',
     flexShrink: 0,
   },
@@ -7573,7 +7567,7 @@ const styles = {
   modalPhoneLink: {
     display: 'block',
     textAlign: 'center',
-    color: '#3B7D3B',
+    color: '#4A6741',
     fontSize: '14px',
     marginTop: '12px',
     textDecoration: 'none',
