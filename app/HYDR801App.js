@@ -153,13 +153,13 @@ export default function HYDR801App() {
           style={{...styles.modeBtn, ...(appMode === 'patient' ? styles.modeBtnActive : {})}}
           onClick={() => { setAppMode('patient'); setCurrentScreen('home'); }}
         >
-          ðŸ‘¤ Patient View
+          👤 Patient View
         </button>
         <button 
           style={{...styles.modeBtn, ...(appMode === 'provider' ? styles.modeBtnActive : {})}}
           onClick={() => { setAppMode('provider'); setCurrentScreen('dashboard'); }}
         >
-          ðŸ©º Provider View
+          🩺 Provider View
         </button>
       </div>
       
@@ -317,7 +317,7 @@ function OnboardingFlow({ onComplete }) {
       )
     },
     {
-      icon: 'ðŸ½ï¸',
+      icon: '🍽️',
       title: 'Personalized Nutrition',
       subtitle: 'AI-powered meal plans for GLP-1 success',
       description: 'Get high-protein meal plans optimized for your medication, dietary preferences, and lifestyle.',
@@ -327,14 +327,14 @@ function OnboardingFlow({ onComplete }) {
           <circle cx="70" cy="70" r="15" fill="#4A6741"/>
           <circle cx="130" cy="70" r="15" fill="#C4956A"/>
           <circle cx="100" cy="100" r="18" fill="#2AABB3"/>
-          <text x="70" y="75" textAnchor="middle" fill="white" fontSize="14">ðŸ¥©</text>
-          <text x="130" y="75" textAnchor="middle" fill="white" fontSize="14">ðŸ¥¬</text>
-          <text x="100" y="105" textAnchor="middle" fill="white" fontSize="16">ðŸ’§</text>
+          <text x="70" y="75" textAnchor="middle" fill="white" fontSize="14">🥩</text>
+          <text x="130" y="75" textAnchor="middle" fill="white" fontSize="14">🥬</text>
+          <text x="100" y="105" textAnchor="middle" fill="white" fontSize="16">💧</text>
         </svg>
       )
     },
     {
-      icon: 'ðŸ’ª',
+      icon: '💪',
       title: 'Smart Fitness Assessment',
       subtitle: 'Camera-powered exercise analysis',
       description: 'Our AI analyzes your movements to create workouts perfect for your fitness level and available equipment.',
@@ -350,7 +350,7 @@ function OnboardingFlow({ onComplete }) {
       )
     },
     {
-      icon: 'ðŸ“Š',
+      icon: '📊',
       title: 'Track Your Progress',
       subtitle: 'See how far you\'ve come',
       description: 'Log meals, workouts, and weight. Earn badges, maintain streaks, and watch your transformation unfold.',
@@ -366,7 +366,7 @@ function OnboardingFlow({ onComplete }) {
       )
     },
     {
-      icon: 'ðŸ¤',
+      icon: '🤝',
       title: 'Connected Care',
       subtitle: 'Your provider sees your progress',
       description: 'Your healthcare team can monitor your journey and provide personalized guidance along the way.',
@@ -459,7 +459,7 @@ function ProviderDashboard({ patients, setCurrentScreen }) {
           <p style={styles.greeting}>Good morning,</p>
           <h1 style={styles.providerName}>Dr. Williams</h1>
         </div>
-        <div style={styles.providerAvatar}>ðŸ‘©â€âš•ï¸</div>
+        <div style={styles.providerAvatar}>👩‍⚕️</div>
       </header>
 
       {/* Quick Stats */}
@@ -481,7 +481,7 @@ function ProviderDashboard({ patients, setCurrentScreen }) {
       {/* Alerts Section */}
       {alerts.length > 0 && (
         <section style={styles.section}>
-          <h3 style={styles.sectionTitle}>âš ï¸ Patient Alerts</h3>
+          <h3 style={styles.sectionTitle}>âš ️ Patient Alerts</h3>
           <div style={styles.alertsList}>
             {alerts.map((alert, idx) => (
               <div key={idx} style={styles.alertCard}>
@@ -499,7 +499,7 @@ function ProviderDashboard({ patients, setCurrentScreen }) {
 
       {/* Today's Schedule */}
       <section style={styles.section}>
-        <h3 style={styles.sectionTitle}>ðŸ“… Today's Appointments</h3>
+        <h3 style={styles.sectionTitle}>📅 Today's Appointments</h3>
         {todayAppointments.length > 0 ? (
           <div style={styles.appointmentsList}>
             {todayAppointments.map((patient, idx) => (
@@ -521,7 +521,7 @@ function ProviderDashboard({ patients, setCurrentScreen }) {
       {/* Patient Overview */}
       <section style={styles.section}>
         <div style={styles.sectionHeader}>
-          <h3 style={styles.sectionTitle}>ðŸ‘¥ Recent Patient Activity</h3>
+          <h3 style={styles.sectionTitle}>👥 Recent Patient Activity</h3>
           <button style={styles.viewAllBtn} onClick={() => setCurrentScreen('patients')}>View All</button>
         </div>
         <div style={styles.patientMiniList}>
@@ -536,19 +536,19 @@ function ProviderDashboard({ patients, setCurrentScreen }) {
         <h3 style={styles.sectionTitle}>Quick Actions</h3>
         <div style={styles.quickActionsGrid}>
           <div style={styles.quickActionCard}>
-            <span style={styles.qaIcon}>ðŸ“¨</span>
+            <span style={styles.qaIcon}>📨</span>
             <span style={styles.qaLabel}>Send Reminder</span>
           </div>
           <div style={styles.quickActionCard}>
-            <span style={styles.qaIcon}>ðŸ“Š</span>
+            <span style={styles.qaIcon}>📊</span>
             <span style={styles.qaLabel}>View Reports</span>
           </div>
           <div style={styles.quickActionCard}>
-            <span style={styles.qaIcon}>ðŸ’Š</span>
+            <span style={styles.qaIcon}>💊</span>
             <span style={styles.qaLabel}>Adjust Dose</span>
           </div>
           <div style={styles.quickActionCard}>
-            <span style={styles.qaIcon}>ðŸ“</span>
+            <span style={styles.qaIcon}>📝</span>
             <span style={styles.qaLabel}>Add Note</span>
           </div>
         </div>
@@ -624,7 +624,7 @@ function PatientListScreen({ patients, setCurrentScreen }) {
       </header>
 
       <div style={styles.searchBar}>
-        <span style={styles.searchIcon}>ðŸ”</span>
+        <span style={styles.searchIcon}>🔍</span>
         <input 
           type="text"
           placeholder="Search patients..."
@@ -651,7 +651,7 @@ function PatientListScreen({ patients, setCurrentScreen }) {
               <div style={styles.plcAvatar}>{patient.name[0]}</div>
               <div style={styles.plcInfo}>
                 <p style={styles.plcName}>{patient.name}</p>
-                <p style={styles.plcMeta}>Week {patient.week} Â· {patient.medicationDose}</p>
+                <p style={styles.plcMeta}>Week {patient.week} · {patient.medicationDose}</p>
               </div>
               <div style={styles.plcRight}>
                 <div style={{
@@ -662,7 +662,7 @@ function PatientListScreen({ patients, setCurrentScreen }) {
                   {compliance}%
                 </div>
                 {patient.alerts?.length > 0 && (
-                  <span style={styles.plcAlert}>âš ï¸</span>
+                  <span style={styles.plcAlert}>âš ️</span>
                 )}
               </div>
             </div>
@@ -684,18 +684,18 @@ function PatientDetailScreen({ patient, onBack }) {
   return (
     <div style={styles.screenContent} className="fade-in">
       <div style={styles.patientDetailHeader}>
-        <button style={styles.backButton} onClick={onBack}>â† Back</button>
+        <button style={styles.backButton} onClick={onBack}>← Back</button>
       </div>
 
       <div style={styles.patientProfile}>
         <div style={styles.pdAvatar}>{patient.name[0]}</div>
         <h2 style={styles.pdName}>{patient.name}</h2>
-        <p style={styles.pdMeta}>Week {patient.week} Â· {patient.medicationDose} weekly</p>
+        <p style={styles.pdMeta}>Week {patient.week} · {patient.medicationDose} weekly</p>
         
         {patient.alerts?.length > 0 && (
           <div style={styles.pdAlerts}>
             {patient.alerts.map((alert, idx) => (
-              <div key={idx} style={styles.pdAlertItem}>âš ï¸ {alert}</div>
+              <div key={idx} style={styles.pdAlertItem}>âš ️ {alert}</div>
             ))}
           </div>
         )}
@@ -758,9 +758,9 @@ function PatientDetailScreen({ patient, onBack }) {
 
           {/* Quick Actions */}
           <div style={styles.pdActions}>
-            <button style={styles.pdActionBtn}>ðŸ“¨ Send Message</button>
-            <button style={styles.pdActionBtn}>ðŸ“ Add Note</button>
-            <button style={styles.pdActionBtn}>ðŸ’Š Adjust Dose</button>
+            <button style={styles.pdActionBtn}>📨 Send Message</button>
+            <button style={styles.pdActionBtn}>📝 Add Note</button>
+            <button style={styles.pdActionBtn}>💊 Adjust Dose</button>
           </div>
         </div>
       )}
@@ -947,18 +947,18 @@ function ProviderSettingsScreen() {
 
       <div style={styles.settingsList}>
         {[
-          { icon: 'ðŸ‘¤', label: 'Account Settings' },
-          { icon: 'ðŸ””', label: 'Notification Preferences' },
-          { icon: 'ðŸ“Š', label: 'Default Patient Goals' },
-          { icon: 'ðŸ“', label: 'Note Templates' },
-          { icon: 'ðŸ”—', label: 'EHR Integration' },
-          { icon: 'ðŸ‘¥', label: 'Team Members' },
-          { icon: 'â“', label: 'Help & Support' },
+          { icon: '👤', label: 'Account Settings' },
+          { icon: '🔔', label: 'Notification Preferences' },
+          { icon: '📊', label: 'Default Patient Goals' },
+          { icon: '📝', label: 'Note Templates' },
+          { icon: '🔗', label: 'EHR Integration' },
+          { icon: '👥', label: 'Team Members' },
+          { icon: '❓', label: 'Help & Support' },
         ].map((item, idx) => (
           <div key={idx} style={styles.settingItem} className="card-hover">
             <span style={styles.settingIcon}>{item.icon}</span>
             <span style={styles.settingLabel}>{item.label}</span>
-            <span style={styles.settingArrow}>â€º</span>
+            <span style={styles.settingArrow}>›</span>
           </div>
         ))}
       </div>
@@ -969,11 +969,11 @@ function ProviderSettingsScreen() {
 // Provider Bottom Nav
 function ProviderBottomNav({ currentScreen, setCurrentScreen }) {
   const items = [
-    { id: 'dashboard', icon: 'ðŸ ', label: 'Dashboard' },
-    { id: 'patients', icon: 'ðŸ‘¥', label: 'Patients' },
-    { id: 'messages', icon: 'ðŸ’¬', label: 'Messages' },
-    { id: 'analytics', icon: 'ðŸ“Š', label: 'Analytics' },
-    { id: 'settings', icon: 'âš™ï¸', label: 'Settings' },
+    { id: 'dashboard', icon: '🏠', label: 'Dashboard' },
+    { id: 'patients', icon: '👥', label: 'Patients' },
+    { id: 'messages', icon: '💬', label: 'Messages' },
+    { id: 'analytics', icon: '📊', label: 'Analytics' },
+    { id: 'settings', icon: 'âš™️', label: 'Settings' },
   ];
 
   return (
@@ -1229,11 +1229,11 @@ function NutritionScreen({ user, setUser }) {
   const [selectedDay, setSelectedDay] = useState(0);
 
   const tips = [
-    { icon: 'ðŸ¥©', title: 'Protein First', desc: 'Aim for 25-35g protein per meal to preserve muscle' },
-    { icon: 'ðŸ'§', title: 'Hydrate Proactively', desc: 'GLP-1 can reduce thirst awarenessâ€"set reminders' },
-    { icon: 'ðŸ¥¬', title: "Don't Skip Fiber", desc: 'Supports digestion, gut health, and satisfaction' },
-    { icon: 'ðŸž', title: "Carbs Aren't Evil", desc: 'Include carbs strategically for energy and satisfaction' },
-    { icon: 'ðŸ½ï¸', title: 'Eat Intentionally', desc: "Low hunger doesn't mean you don't need fuel" },
+    { icon: '🥩', title: 'Protein First', desc: 'Aim for 25-35g protein per meal to preserve muscle' },
+    { icon: '💧', title: 'Hydrate Proactively', desc: 'GLP-1 can reduce thirst awareness—set reminders' },
+    { icon: '🥬', title: "Don't Skip Fiber", desc: 'Supports digestion, gut health, and satisfaction' },
+    { icon: '🍞', title: "Carbs Aren't Evil", desc: 'Include carbs strategically for energy and satisfaction' },
+    { icon: '🍽️', title: 'Eat Intentionally', desc: "Low hunger doesn't mean you don't need fuel" },
   ];
 
   // Four Essential Nutrition Shifts for GLP-1 patients
@@ -1282,7 +1282,7 @@ function NutritionScreen({ user, setUser }) {
 
         <div style={styles.mealPlanPrompt}>
           <div style={styles.mealPlanBadge}>
-            <span style={styles.mealPlanBadgeIcon}>âœ¨</span>
+            <span style={styles.mealPlanBadgeIcon}>✨</span>
             <span style={styles.mealPlanBadgeText}>AI-Powered</span>
           </div>
           
@@ -1300,21 +1300,21 @@ function NutritionScreen({ user, setUser }) {
           
           <h2 style={styles.mealPlanTitle}>Personalized Meal Plans</h2>
           <p style={styles.mealPlanDesc}>
-            Get AI-generated meal plans optimized for GLP-1 successâ€”high protein, 
+            Get AI-generated meal plans optimized for GLP-1 success—high protein, 
             proper portions, and foods that work with your medication.
           </p>
           
           <div style={styles.mealPlanFeatures}>
             <div style={styles.mealPlanFeature}>
-              <span style={styles.mpFeatureIcon}>ðŸŽ¯</span>
+              <span style={styles.mpFeatureIcon}>🎯</span>
               <span style={styles.mpFeatureText}>Tailored to your preferences</span>
             </div>
             <div style={styles.mealPlanFeature}>
-              <span style={styles.mpFeatureIcon}>ðŸ¥—</span>
+              <span style={styles.mpFeatureIcon}>🥗</span>
               <span style={styles.mpFeatureText}>GLP-1 optimized nutrition</span>
             </div>
             <div style={styles.mealPlanFeature}>
-              <span style={styles.mpFeatureIcon}>ðŸ“Š</span>
+              <span style={styles.mpFeatureIcon}>📊</span>
               <span style={styles.mpFeatureText}>Macros calculated for you</span>
             </div>
           </div>
@@ -1476,10 +1476,10 @@ function NutritionScreen({ user, setUser }) {
           <div style={styles.snackList}>
             {todayPlan.snacks.map((snack, idx) => (
               <div key={idx} style={styles.snackCard}>
-                <span style={styles.snackEmoji}>{snack.emoji || 'ðŸŽ'}</span>
+                <span style={styles.snackEmoji}>{snack.emoji || '🍎'}</span>
                 <div style={styles.snackInfo}>
                   <p style={styles.snackName}>{snack.name}</p>
-                  <p style={styles.snackMacros}>{snack.calories} cal Â· {snack.protein}g protein</p>
+                  <p style={styles.snackMacros}>{snack.calories} cal · {snack.protein}g protein</p>
                 </div>
               </div>
             ))}
@@ -1489,7 +1489,7 @@ function NutritionScreen({ user, setUser }) {
 
       {/* Hydration reminder */}
       <div style={styles.hydrationReminder}>
-        <span style={styles.hydrationIcon}>ðŸ’§</span>
+        <span style={styles.hydrationIcon}>💧</span>
         <div style={styles.hydrationContent}>
           <p style={styles.hydrationTitle}>Hydration Reminder</p>
           <p style={styles.hydrationText}>{user.mealPlan?.hydrationTip || 'Drink water 30 minutes before meals to aid digestion'}</p>
@@ -1504,7 +1504,7 @@ function NutritionScreen({ user, setUser }) {
           setShowMealPlanner(true);
         }}
       >
-        âœï¸ Update Dietary Preferences
+        ✏️ Update Dietary Preferences
       </button>
     </div>
   );
@@ -1528,19 +1528,19 @@ function MealCard({ meal, user, setUser }) {
     <div style={styles.mealPlanCard} className="card-hover">
       <div style={styles.mealPlanCardHeader} onClick={() => setExpanded(!expanded)}>
         <div style={styles.mealTimeIcon}>
-          {meal.type === 'breakfast' && 'ðŸŒ…'}
-          {meal.type === 'lunch' && 'â˜€ï¸'}
-          {meal.type === 'dinner' && 'ðŸŒ™'}
-          {meal.type === 'snack' && 'ðŸŽ'}
+          {meal.type === 'breakfast' && '🌅'}
+          {meal.type === 'lunch' && '☀️'}
+          {meal.type === 'dinner' && '🌙'}
+          {meal.type === 'snack' && '🍎'}
         </div>
         <div style={styles.mealPlanCardInfo}>
           <p style={styles.mealPlanType}>{meal.type?.charAt(0).toUpperCase() + meal.type?.slice(1)}</p>
           <h4 style={styles.mealPlanName}>{meal.name}</h4>
           <p style={styles.mealPlanMacros}>
-            {meal.calories} cal Â· {meal.protein}g protein Â· {meal.fiber}g fiber
+            {meal.calories} cal · {meal.protein}g protein · {meal.fiber}g fiber
           </p>
         </div>
-        <div style={styles.mealExpandIcon}>{expanded ? 'âˆ’' : '+'}</div>
+        <div style={styles.mealExpandIcon}>{expanded ? '−' : '+'}</div>
       </div>
       
       {expanded && (
@@ -1553,7 +1553,7 @@ function MealCard({ meal, user, setUser }) {
             <div style={styles.ingredientsList}>
               <p style={styles.ingredientsTitle}>Ingredients:</p>
               {meal.ingredients.map((ing, idx) => (
-                <p key={idx} style={styles.ingredientItem}>â€¢ {ing}</p>
+                <p key={idx} style={styles.ingredientItem}>• {ing}</p>
               ))}
             </div>
           )}
@@ -1567,7 +1567,7 @@ function MealCard({ meal, user, setUser }) {
 
           {meal.glp1Tip && (
             <div style={styles.glp1TipBox}>
-              <span style={styles.glp1TipIcon}>ðŸ’¡</span>
+              <span style={styles.glp1TipIcon}>💡</span>
               <p style={styles.glp1TipText}>{meal.glp1Tip}</p>
             </div>
           )}
@@ -1580,7 +1580,7 @@ function MealCard({ meal, user, setUser }) {
             onClick={handleLog}
             disabled={logged}
           >
-            {logged ? 'âœ“ Logged' : 'Log This Meal'}
+            {logged ? '✓ Logged' : 'Log This Meal'}
           </button>
         </div>
       )}
@@ -1604,41 +1604,41 @@ function MealPlanSetup({ user, onComplete, onCancel }) {
   const [isGenerating, setIsGenerating] = useState(false);
 
   const dietTypes = [
-    { id: 'omnivore', name: 'Omnivore', icon: 'ðŸ–', desc: 'Eat everything' },
-    { id: 'pescatarian', name: 'Pescatarian', icon: 'ðŸŸ', desc: 'Fish & seafood, no meat' },
-    { id: 'vegetarian', name: 'Vegetarian', icon: 'ðŸ¥¬', desc: 'No meat or fish' },
-    { id: 'vegan', name: 'Vegan', icon: 'ðŸŒ±', desc: 'No animal products' },
-    { id: 'keto', name: 'Keto', icon: 'ðŸ¥‘', desc: 'Very low carb' },
-    { id: 'mediterranean', name: 'Mediterranean', icon: 'ðŸ«’', desc: 'Heart-healthy focus' },
+    { id: 'omnivore', name: 'Omnivore', icon: '🍖', desc: 'Eat everything' },
+    { id: 'pescatarian', name: 'Pescatarian', icon: '🐟', desc: 'Fish & seafood, no meat' },
+    { id: 'vegetarian', name: 'Vegetarian', icon: '🥬', desc: 'No meat or fish' },
+    { id: 'vegan', name: 'Vegan', icon: '🌱', desc: 'No animal products' },
+    { id: 'keto', name: 'Keto', icon: '🥑', desc: 'Very low carb' },
+    { id: 'mediterranean', name: 'Mediterranean', icon: '🫒', desc: 'Heart-healthy focus' },
   ];
 
   const allergyOptions = [
-    { id: 'dairy', name: 'Dairy', icon: 'ðŸ¥›' },
-    { id: 'gluten', name: 'Gluten', icon: 'ðŸŒ¾' },
-    { id: 'nuts', name: 'Tree Nuts', icon: 'ðŸ¥œ' },
-    { id: 'peanuts', name: 'Peanuts', icon: 'ðŸ¥œ' },
-    { id: 'eggs', name: 'Eggs', icon: 'ðŸ¥š' },
-    { id: 'soy', name: 'Soy', icon: 'ðŸ«˜' },
-    { id: 'shellfish', name: 'Shellfish', icon: 'ðŸ¦' },
-    { id: 'fish', name: 'Fish', icon: 'ðŸŸ' },
+    { id: 'dairy', name: 'Dairy', icon: '🥛' },
+    { id: 'gluten', name: 'Gluten', icon: '🌾' },
+    { id: 'nuts', name: 'Tree Nuts', icon: '🥜' },
+    { id: 'peanuts', name: 'Peanuts', icon: '🥜' },
+    { id: 'eggs', name: 'Eggs', icon: '🥚' },
+    { id: 'soy', name: 'Soy', icon: '🫘' },
+    { id: 'shellfish', name: 'Shellfish', icon: '🦐' },
+    { id: 'fish', name: 'Fish', icon: '🐟' },
   ];
 
   const cuisineOptions = [
-    { id: 'american', name: 'American', icon: 'ðŸ”' },
-    { id: 'mexican', name: 'Mexican', icon: 'ðŸŒ®' },
-    { id: 'italian', name: 'Italian', icon: 'ðŸ' },
-    { id: 'asian', name: 'Asian', icon: 'ðŸœ' },
-    { id: 'mediterranean', name: 'Mediterranean', icon: 'ðŸ¥™' },
-    { id: 'indian', name: 'Indian', icon: 'ðŸ›' },
-    { id: 'japanese', name: 'Japanese', icon: 'ðŸ±' },
-    { id: 'thai', name: 'Thai', icon: 'ðŸ²' },
+    { id: 'american', name: 'American', icon: '🍔' },
+    { id: 'mexican', name: 'Mexican', icon: '🌮' },
+    { id: 'italian', name: 'Italian', icon: '🍝' },
+    { id: 'asian', name: 'Asian', icon: '🍜' },
+    { id: 'mediterranean', name: 'Mediterranean', icon: '🥙' },
+    { id: 'indian', name: 'Indian', icon: '🍛' },
+    { id: 'japanese', name: 'Japanese', icon: '🍱' },
+    { id: 'thai', name: 'Thai', icon: '🍲' },
   ];
 
   const cookingTimeOptions = [
     { id: 'minimal', name: 'Minimal (< 15 min)', icon: 'âš¡' },
-    { id: 'quick', name: 'Quick (15-30 min)', icon: 'ðŸ•' },
-    { id: 'moderate', name: 'Moderate (30-45 min)', icon: 'ðŸ•‘' },
-    { id: 'any', name: 'Any time is fine', icon: 'ðŸ‘¨â€ðŸ³' },
+    { id: 'quick', name: 'Quick (15-30 min)', icon: '🕐' },
+    { id: 'moderate', name: 'Moderate (30-45 min)', icon: '🕑' },
+    { id: 'any', name: 'Any time is fine', icon: '👨‍🍳' },
   ];
 
   const toggleSelection = (array, item) => {
@@ -1707,7 +1707,7 @@ Create a JSON response with this structure (respond ONLY with JSON, no markdown)
       "snacks": [
         {
           "name": "Snack name",
-          "emoji": "ðŸŽ",
+          "emoji": "🍎",
           "calories": 150,
           "protein": 10,
           "description": "Brief description"
@@ -1770,7 +1770,7 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
             fiber: 5,
             ingredients: ['1 cup plain Greek yogurt (2%)', '1/2 cup mixed berries', '1 tbsp almond butter', '1 tbsp chia seeds'],
             instructions: 'Add yogurt to a bowl. Top with berries, drizzle almond butter, and sprinkle chia seeds.',
-            glp1Tip: 'Eat the yogurt slowlyâ€”protein-rich foods help you feel satisfied longer on GLP-1.',
+            glp1Tip: 'Eat the yogurt slowly—protein-rich foods help you feel satisfied longer on GLP-1.',
             prepTime: '5 min'
           },
           {
@@ -1797,14 +1797,14 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
             fat: 22,
             fiber: 6,
             ingredients: ['6 oz salmon fillet', '1 cup asparagus', '1/2 cup cooked quinoa', '1 tbsp olive oil', 'Lemon, garlic, herbs'],
-            instructions: 'Season salmon and bake at 400Â°F for 12-15 min. Roast asparagus alongside. Serve over quinoa.',
-            glp1Tip: 'If you feel full quickly, save the quinoa for laterâ€”prioritize the protein and veggies.',
+            instructions: 'Season salmon and bake at 400°F for 12-15 min. Roast asparagus alongside. Serve over quinoa.',
+            glp1Tip: 'If you feel full quickly, save the quinoa for later—prioritize the protein and veggies.',
             prepTime: '25 min'
           }
         ],
         snacks: [
-          { name: 'Cottage cheese with cucumber', emoji: 'ðŸ¥’', calories: 120, protein: 14, description: '1/2 cup cottage cheese with sliced cucumber' },
-          { name: 'Turkey roll-ups', emoji: 'ðŸ¦ƒ', calories: 100, protein: 12, description: '3 slices turkey wrapped around cheese stick' }
+          { name: 'Cottage cheese with cucumber', emoji: '🥒', calories: 120, protein: 14, description: '1/2 cup cottage cheese with sliced cucumber' },
+          { name: 'Turkey roll-ups', emoji: '🦃', calories: 100, protein: 12, description: '3 slices turkey wrapped around cheese stick' }
         ],
         dailyTotals: { calories: 1250, protein: 110, fiber: 19 }
       },
@@ -1821,8 +1821,8 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
             fat: 14,
             fiber: 4,
             ingredients: ['5 egg whites', '1 whole egg', '1 cup spinach', '1/4 cup tomatoes', '2 tbsp feta cheese'],
-            instructions: 'SautÃ© spinach and tomatoes. Add whisked eggs and scramble. Top with feta.',
-            glp1Tip: 'Eggs are easy to digest on GLP-1â€”a great breakfast protein source.',
+            instructions: 'Sauté spinach and tomatoes. Add whisked eggs and scramble. Top with feta.',
+            glp1Tip: 'Eggs are easy to digest on GLP-1—a great breakfast protein source.',
             prepTime: '10 min'
           },
           {
@@ -1836,7 +1836,7 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
             fiber: 5,
             ingredients: ['5 oz ground turkey', 'Butter lettuce leaves', '1/4 cup diced bell peppers', 'Asian sauce', 'Green onions'],
             instructions: 'Cook seasoned turkey. Spoon into lettuce cups with peppers and sauce.',
-            glp1Tip: 'Lettuce wraps are perfect for GLP-1â€”light but protein-packed.',
+            glp1Tip: 'Lettuce wraps are perfect for GLP-1—light but protein-packed.',
             prepTime: '15 min'
           },
           {
@@ -1850,13 +1850,13 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
             fiber: 7,
             ingredients: ['6 oz shrimp', '2 cups mixed stir-fry vegetables', '1 cup cauliflower rice', '1 tbsp sesame oil', 'Garlic, ginger, soy sauce'],
             instructions: 'Stir-fry shrimp with garlic and ginger. Add vegetables. Serve over cauliflower rice.',
-            glp1Tip: 'Shrimp is lean and easy to digestâ€”eat protein first, then veggies.',
+            glp1Tip: 'Shrimp is lean and easy to digest—eat protein first, then veggies.',
             prepTime: '20 min'
           }
         ],
         snacks: [
-          { name: 'Hard-boiled eggs', emoji: 'ðŸ¥š', calories: 140, protein: 12, description: '2 hard-boiled eggs with everything seasoning' },
-          { name: 'Edamame', emoji: 'ðŸ«›', calories: 120, protein: 11, description: '1/2 cup shelled edamame with sea salt' }
+          { name: 'Hard-boiled eggs', emoji: '🥚', calories: 140, protein: 12, description: '2 hard-boiled eggs with everything seasoning' },
+          { name: 'Edamame', emoji: '🫛', calories: 120, protein: 11, description: '1/2 cup shelled edamame with sea salt' }
         ],
         dailyTotals: { calories: 1080, protein: 101, fiber: 16 }
       }
@@ -1864,8 +1864,8 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
     hydrationTip: 'Set a timer to drink 8oz of water every 2 hours. GLP-1 can reduce thirst signals, so stay proactive!',
     weeklyTips: [
       'Eat protein first at every meal to maximize satisfaction',
-      'Take small bites and chew thoroughlyâ€”this helps with GLP-1 digestion',
-      'If you feel full, stop eatingâ€”save the rest for later'
+      'Take small bites and chew thoroughly—this helps with GLP-1 digestion',
+      'If you feel full, stop eating—save the rest for later'
     ],
     groceryCategories: {
       proteins: ['Chicken breast', 'Salmon', 'Shrimp', 'Ground turkey', 'Greek yogurt', 'Eggs', 'Cottage cheese'],
@@ -1880,7 +1880,7 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
     return (
       <div style={styles.screenContent} className="fade-in">
         <div style={styles.mpSetupHeader}>
-          <button style={styles.backButton} onClick={onCancel}>â† Back</button>
+          <button style={styles.backButton} onClick={onCancel}>← Back</button>
           <div style={styles.mpProgressDots}>
             {[1,2,3,4].map(s => (
               <div key={s} style={{...styles.mpProgressDot, ...(s <= step ? styles.mpProgressDotActive : {})}} />
@@ -1925,7 +1925,7 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
     return (
       <div style={styles.screenContent} className="fade-in">
         <div style={styles.mpSetupHeader}>
-          <button style={styles.backButton} onClick={() => setStep(1)}>â† Back</button>
+          <button style={styles.backButton} onClick={() => setStep(1)}>← Back</button>
           <div style={styles.mpProgressDots}>
             {[1,2,3,4].map(s => (
               <div key={s} style={{...styles.mpProgressDot, ...(s <= step ? styles.mpProgressDotActive : {})}} />
@@ -1980,7 +1980,7 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
     return (
       <div style={styles.screenContent} className="fade-in">
         <div style={styles.mpSetupHeader}>
-          <button style={styles.backButton} onClick={() => setStep(2)}>â† Back</button>
+          <button style={styles.backButton} onClick={() => setStep(2)}>← Back</button>
           <div style={styles.mpProgressDots}>
             {[1,2,3,4].map(s => (
               <div key={s} style={{...styles.mpProgressDot, ...(s <= step ? styles.mpProgressDotActive : {})}} />
@@ -2045,7 +2045,7 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
     return (
       <div style={styles.screenContent} className="fade-in">
         <div style={styles.mpSetupHeader}>
-          <button style={styles.backButton} onClick={() => setStep(3)}>â† Back</button>
+          <button style={styles.backButton} onClick={() => setStep(3)}>← Back</button>
           <div style={styles.mpProgressDots}>
             {[1,2,3,4].map(s => (
               <div key={s} style={{...styles.mpProgressDot, ...(s <= step ? styles.mpProgressDotActive : {})}} />
@@ -2066,7 +2066,7 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
               <button 
                 style={styles.mpCounterBtn}
                 onClick={() => setPreferences({...preferences, mealsPerDay: Math.max(2, preferences.mealsPerDay - 1)})}
-              >âˆ’</button>
+              >−</button>
               <span style={styles.mpCounterValue}>{preferences.mealsPerDay}</span>
               <button 
                 style={styles.mpCounterBtn}
@@ -2084,7 +2084,7 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
               <button 
                 style={styles.mpCounterBtn}
                 onClick={() => setPreferences({...preferences, snacksPerDay: Math.max(0, preferences.snacksPerDay - 1)})}
-              >âˆ’</button>
+              >−</button>
               <span style={styles.mpCounterValue}>{preferences.snacksPerDay}</span>
               <button 
                 style={styles.mpCounterBtn}
@@ -2096,15 +2096,15 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
 
         <div style={styles.mpSummaryBox}>
           <h4 style={styles.mpSummaryTitle}>Your Preferences Summary</h4>
-          <p style={styles.mpSummaryItem}>ðŸ½ï¸ Diet: {dietTypes.find(d => d.id === preferences.dietType)?.name || 'Omnivore'}</p>
-          <p style={styles.mpSummaryItem}>âš ï¸ Allergies: {preferences.allergies.length > 0 ? preferences.allergies.join(', ') : 'None'}</p>
-          <p style={styles.mpSummaryItem}>ðŸŒ Cuisines: {preferences.cuisines.length > 0 ? preferences.cuisines.slice(0, 3).join(', ') : 'Any'}</p>
-          <p style={styles.mpSummaryItem}>â±ï¸ Cooking: {cookingTimeOptions.find(c => c.id === preferences.cookingTime)?.name || 'Any'}</p>
+          <p style={styles.mpSummaryItem}>🍽️ Diet: {dietTypes.find(d => d.id === preferences.dietType)?.name || 'Omnivore'}</p>
+          <p style={styles.mpSummaryItem}>âš ️ Allergies: {preferences.allergies.length > 0 ? preferences.allergies.join(', ') : 'None'}</p>
+          <p style={styles.mpSummaryItem}>🌍 Cuisines: {preferences.cuisines.length > 0 ? preferences.cuisines.slice(0, 3).join(', ') : 'Any'}</p>
+          <p style={styles.mpSummaryItem}>⏱️ Cooking: {cookingTimeOptions.find(c => c.id === preferences.cookingTime)?.name || 'Any'}</p>
         </div>
 
         {isGenerating ? (
           <div style={styles.mpGenerating}>
-            <div style={styles.mpGeneratingSpinner} className="breathe">ðŸ¤–</div>
+            <div style={styles.mpGeneratingSpinner} className="breathe">🤖</div>
             <p style={styles.mpGeneratingText}>Creating your personalized meal plan...</p>
             <p style={styles.mpGeneratingSubtext}>Optimizing for GLP-1 nutrition guidelines</p>
           </div>
@@ -2328,7 +2328,7 @@ function WorkoutPlayer({ workout, user, onComplete, onExit }) {
     return (
       <div style={workoutPlayerStyles.container}>
         <div style={workoutPlayerStyles.completeScreen}>
-          <div style={workoutPlayerStyles.completeIcon}>ðŸŽ‰</div>
+          <div style={workoutPlayerStyles.completeIcon}>🎉</div>
           <h1 style={workoutPlayerStyles.completeTitle}>Workout Complete!</h1>
           <p style={workoutPlayerStyles.completeSubtitle}>Great job! You finished all {exercises.length} exercises.</p>
           
@@ -2360,7 +2360,7 @@ function WorkoutPlayer({ workout, user, onComplete, onExit }) {
       {/* Header */}
       <div style={workoutPlayerStyles.header}>
         <button style={workoutPlayerStyles.backButton} onClick={onExit}>
-          â† Exit
+          ← Exit
         </button>
         <div style={workoutPlayerStyles.progress}>
           <span style={workoutPlayerStyles.progressText}>
@@ -2379,7 +2379,7 @@ function WorkoutPlayer({ workout, user, onComplete, onExit }) {
           style={workoutPlayerStyles.toggleVideoBtn}
           onClick={() => setShowVideo(!showVideo)}
         >
-          {showVideo ? 'ðŸ“º' : 'ðŸ“º'}
+          {showVideo ? '📺' : '📺'}
         </button>
       </div>
 
@@ -2395,7 +2395,7 @@ function WorkoutPlayer({ workout, user, onComplete, onExit }) {
             allowFullScreen
           />
           <div style={workoutPlayerStyles.videoOverlay}>
-            <span style={workoutPlayerStyles.videoLabel}>ðŸ“¹ Demo Video</span>
+            <span style={workoutPlayerStyles.videoLabel}>📹 Demo Video</span>
           </div>
         </div>
       )}
@@ -2412,7 +2412,7 @@ function WorkoutPlayer({ workout, user, onComplete, onExit }) {
             {currentSet <= totalSets ? `Get ready for set ${currentSet}` : `Next: ${exercises[currentExerciseIndex + 1]?.name || 'Finish'}`}
           </p>
           <button style={workoutPlayerStyles.skipButton} onClick={skipRest}>
-            Skip Rest â†’
+            Skip Rest →
           </button>
         </div>
       )}
@@ -2434,7 +2434,7 @@ function WorkoutPlayer({ workout, user, onComplete, onExit }) {
 
         {currentExercise?.notes && (
           <div style={workoutPlayerStyles.tips}>
-            <span style={workoutPlayerStyles.tipsIcon}>ðŸ’¡</span>
+            <span style={workoutPlayerStyles.tipsIcon}>💡</span>
             <span style={workoutPlayerStyles.tipsText}>{currentExercise.notes}</span>
           </div>
         )}
@@ -2460,12 +2460,12 @@ function WorkoutPlayer({ workout, user, onComplete, onExit }) {
           onClick={previousExercise}
           disabled={currentExerciseIndex === 0}
         >
-          â† Prev
+          ← Prev
         </button>
         
         {!isResting && (
           <button style={workoutPlayerStyles.completeSetBtn} onClick={completeSet}>
-            âœ“ Complete Set
+            ✓ Complete Set
           </button>
         )}
 
@@ -2474,7 +2474,7 @@ function WorkoutPlayer({ workout, user, onComplete, onExit }) {
           onClick={nextExercise}
           disabled={currentExerciseIndex === exercises.length - 1}
         >
-          Next â†’
+          Next →
         </button>
       </div>
 
@@ -2501,10 +2501,10 @@ function WorkoutPlayer({ workout, user, onComplete, onExit }) {
                 backgroundColor: idx < currentExerciseIndex ? '#4A6741' : idx === currentExerciseIndex ? '#2AABB3' : '#E0E0E0',
                 color: idx <= currentExerciseIndex ? '#FFFFFF' : '#666666'
               }}>
-                {idx < currentExerciseIndex ? 'âœ“' : idx + 1}
+                {idx < currentExerciseIndex ? '✓' : idx + 1}
               </span>
               <span style={workoutPlayerStyles.listName}>{ex.name}</span>
-              <span style={workoutPlayerStyles.listSets}>{ex.sets}Ã—{ex.reps}</span>
+              <span style={workoutPlayerStyles.listSets}>{ex.sets}×{ex.reps}</span>
             </div>
           ))}
         </div>
@@ -3933,7 +3933,7 @@ function FitnessScreen({ user, setUser }) {
         
         <div style={styles.assessmentPrompt}>
           <div style={styles.aiAssessmentBadge}>
-            <span style={styles.aiBadgeIcon}>âœ¨</span>
+            <span style={styles.aiBadgeIcon}>✨</span>
             <span style={styles.aiBadgeText}>AI-Powered</span>
           </div>
           <div style={styles.assessmentIllustration}>
@@ -3951,20 +3951,20 @@ function FitnessScreen({ user, setUser }) {
           <h2 style={styles.assessmentTitle}>Smart Fitness Assessment</h2>
           <p style={styles.assessmentDesc}>
             Our AI will guide you through simple movements using your camera to analyze your 
-            mobility, strength, and balanceâ€”then create a personalized workout plan for your GLP-1 journey.
+            mobility, strength, and balance—then create a personalized workout plan for your GLP-1 journey.
           </p>
           
           <div style={styles.assessmentFeatures}>
             <div style={styles.assessmentFeature}>
-              <span style={styles.featureIcon}>ðŸ“·</span>
+              <span style={styles.featureIcon}>📷</span>
               <span style={styles.featureText}>Camera-guided movements</span>
             </div>
             <div style={styles.assessmentFeature}>
-              <span style={styles.featureIcon}>ðŸ¤–</span>
+              <span style={styles.featureIcon}>🤖</span>
               <span style={styles.featureText}>Real-time AI analysis</span>
             </div>
             <div style={styles.assessmentFeature}>
-              <span style={styles.featureIcon}>ðŸ“‹</span>
+              <span style={styles.featureIcon}>📋</span>
               <span style={styles.featureText}>Personalized workout plan</span>
             </div>
           </div>
@@ -3972,7 +3972,7 @@ function FitnessScreen({ user, setUser }) {
           <button style={styles.primaryButton} className="btn-primary" onClick={() => setShowAssessment(true)}>
             Start AI Assessment
           </button>
-          <p style={styles.assessmentNote}>Takes about 3-5 minutes Â· Camera required</p>
+          <p style={styles.assessmentNote}>Takes about 3-5 minutes · Camera required</p>
         </div>
       </div>
     );
@@ -4022,7 +4022,7 @@ function AIFitnessAssessment({ onComplete, onCancel }) {
       name: 'Bodyweight Squat',
       instruction: 'Stand with feet shoulder-width apart, then lower into a squat position',
       duration: 5,
-      icon: 'ðŸ‹ï¸',
+      icon: '🏋️',
       analyzeFor: ['depth', 'knee_alignment', 'back_position']
     },
     {
@@ -4030,7 +4030,7 @@ function AIFitnessAssessment({ onComplete, onCancel }) {
       name: 'Single Leg Balance',
       instruction: 'Stand on one leg with arms out to the sides for balance',
       duration: 5,
-      icon: 'ðŸ§˜',
+      icon: '🧘',
       analyzeFor: ['stability', 'posture', 'duration']
     },
     {
@@ -4038,7 +4038,7 @@ function AIFitnessAssessment({ onComplete, onCancel }) {
       name: 'Overhead Reach',
       instruction: 'Raise both arms straight overhead and stretch upward',
       duration: 4,
-      icon: 'ðŸ™†',
+      icon: '🙆',
       analyzeFor: ['shoulder_mobility', 'spine_alignment', 'range_of_motion']
     },
     {
@@ -4046,24 +4046,24 @@ function AIFitnessAssessment({ onComplete, onCancel }) {
       name: 'Standing March',
       instruction: 'March in place, bringing knees up to hip level',
       duration: 5,
-      icon: 'ðŸš¶',
+      icon: '🚶',
       analyzeFor: ['hip_mobility', 'coordination', 'posture']
     }
   ];
 
   const equipmentOptions = [
-    { id: 'none', name: 'No Equipment', icon: 'ðŸ ', description: 'Bodyweight exercises only' },
-    { id: 'dumbbells', name: 'Dumbbells', icon: 'ðŸ‹ï¸', description: 'Any weight set' },
-    { id: 'resistance_bands', name: 'Resistance Bands', icon: 'ðŸ”´', description: 'Loop or tube bands' },
-    { id: 'kettlebell', name: 'Kettlebell', icon: 'ðŸ””', description: 'Any size kettlebell' },
-    { id: 'yoga_mat', name: 'Yoga Mat', icon: 'ðŸ§˜', description: 'For floor exercises' },
-    { id: 'stability_ball', name: 'Stability Ball', icon: 'âšª', description: 'Exercise/Swiss ball' },
-    { id: 'pull_up_bar', name: 'Pull-Up Bar', icon: 'ðŸšª', description: 'Doorway or mounted' },
-    { id: 'bench', name: 'Workout Bench', icon: 'ðŸª‘', description: 'Flat or adjustable' },
-    { id: 'foam_roller', name: 'Foam Roller', icon: 'ðŸ§´', description: 'For recovery & mobility' },
-    { id: 'jump_rope', name: 'Jump Rope', icon: 'ã€°ï¸', description: 'For cardio workouts' },
-    { id: 'trx', name: 'TRX/Suspension', icon: 'â›“ï¸', description: 'Suspension trainer' },
-    { id: 'gym_access', name: 'Full Gym Access', icon: 'ðŸ¢', description: 'Machines & full equipment' },
+    { id: 'none', name: 'No Equipment', icon: '🏠', description: 'Bodyweight exercises only' },
+    { id: 'dumbbells', name: 'Dumbbells', icon: '🏋️', description: 'Any weight set' },
+    { id: 'resistance_bands', name: 'Resistance Bands', icon: '🔴', description: 'Loop or tube bands' },
+    { id: 'kettlebell', name: 'Kettlebell', icon: '🔔', description: 'Any size kettlebell' },
+    { id: 'yoga_mat', name: 'Yoga Mat', icon: '🧘', description: 'For floor exercises' },
+    { id: 'stability_ball', name: 'Stability Ball', icon: '⚪', description: 'Exercise/Swiss ball' },
+    { id: 'pull_up_bar', name: 'Pull-Up Bar', icon: '🚪', description: 'Doorway or mounted' },
+    { id: 'bench', name: 'Workout Bench', icon: '🪑', description: 'Flat or adjustable' },
+    { id: 'foam_roller', name: 'Foam Roller', icon: '🧴', description: 'For recovery & mobility' },
+    { id: 'jump_rope', name: 'Jump Rope', icon: '〰️', description: 'For cardio workouts' },
+    { id: 'trx', name: 'TRX/Suspension', icon: '⛓️', description: 'Suspension trainer' },
+    { id: 'gym_access', name: 'Full Gym Access', icon: '🏢', description: 'Machines & full equipment' },
   ];
 
   const toggleEquipment = (id) => {
@@ -4155,9 +4155,9 @@ function AIFitnessAssessment({ onComplete, onCancel }) {
       
       if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
         errorMessage = 'Camera permission denied. Please allow camera access:\n\n';
-        errorMessage += 'â€¢ iPhone/iPad: Settings â†’ Safari â†’ Camera â†’ Allow\n';
-        errorMessage += 'â€¢ Android: Settings â†’ Apps â†’ Browser â†’ Permissions â†’ Camera\n';
-        errorMessage += 'â€¢ Or tap the camera icon in your browser\'s address bar';
+        errorMessage += '• iPhone/iPad: Settings → Safari → Camera → Allow\n';
+        errorMessage += '• Android: Settings → Apps → Browser → Permissions → Camera\n';
+        errorMessage += '• Or tap the camera icon in your browser\'s address bar';
       } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
         errorMessage = 'No camera found. Please make sure your device has a camera.';
       } else if (err.name === 'NotReadableError' || err.name === 'TrackStartError') {
@@ -4519,13 +4519,13 @@ Important considerations:
     return (
       <div style={styles.screenContent} className="fade-in">
         <div style={styles.assessmentHeader}>
-          <button style={styles.backButton} onClick={onCancel}>â† Back</button>
+          <button style={styles.backButton} onClick={onCancel}>← Back</button>
           <h2 style={styles.assessmentStageTitle}>AI Fitness Assessment</h2>
         </div>
         
         <div style={styles.introContent}>
           <div style={styles.cameraPreviewBox}>
-            <div style={styles.cameraIcon}>ðŸ“·</div>
+            <div style={styles.cameraIcon}>📷</div>
             <p style={styles.cameraText}>Camera Preview</p>
           </div>
           
@@ -4543,7 +4543,7 @@ Important considerations:
           </div>
           
           <div style={styles.privacyNote}>
-            <span style={styles.privacyIcon}>ðŸ”’</span>
+            <span style={styles.privacyIcon}>🔒</span>
             <p style={styles.privacyText}>Your video is analyzed in real-time and never stored. Privacy first.</p>
           </div>
           
@@ -4562,7 +4562,7 @@ Important considerations:
     return (
       <div style={styles.screenContent} className="fade-in">
         <div style={styles.errorContainer}>
-          <div style={styles.errorIcon}>ðŸ“·</div>
+          <div style={styles.errorIcon}>📷</div>
           <h2 style={styles.errorTitle}>Camera Access Needed</h2>
           <p style={{...styles.errorText, whiteSpace: 'pre-line', textAlign: 'left', maxWidth: '300px'}}>{cameraError}</p>
           <button style={styles.primaryButton} className="btn-primary" onClick={() => { setCameraError(null); startCamera(); }}>
@@ -4582,9 +4582,9 @@ Important considerations:
   // Manual/Quick Assessment without camera
   if (stage === 'manual') {
     const fitnessLevels = [
-      { id: 'beginner', label: 'Beginner', desc: 'New to exercise or returning after a long break', icon: 'ðŸŒ±' },
-      { id: 'intermediate', label: 'Intermediate', desc: 'Exercise 2-3 times per week regularly', icon: 'ðŸŒ¿' },
-      { id: 'advanced', label: 'Advanced', desc: 'Exercise 4+ times per week with good form', icon: 'ðŸŒ³' }
+      { id: 'beginner', label: 'Beginner', desc: 'New to exercise or returning after a long break', icon: '🌱' },
+      { id: 'intermediate', label: 'Intermediate', desc: 'Exercise 2-3 times per week regularly', icon: '🌿' },
+      { id: 'advanced', label: 'Advanced', desc: 'Exercise 4+ times per week with good form', icon: '🌳' }
     ];
     
     return (
@@ -4619,7 +4619,7 @@ Important considerations:
                 <h3 style={styles.fitnessLevelTitle}>{level.label}</h3>
                 <p style={styles.fitnessLevelDesc}>{level.desc}</p>
               </div>
-              <span style={styles.fitnessLevelArrow}>â†’</span>
+              <span style={styles.fitnessLevelArrow}>→</span>
             </button>
           ))}
         </div>
@@ -4636,7 +4636,7 @@ Important considerations:
       <div style={styles.screenContent} className="fade-in">
         <div style={styles.cameraSetupContainer}>
           <div style={styles.loadingSpinner} className="pulse">
-            <span style={styles.spinnerIcon}>ðŸ“·</span>
+            <span style={styles.spinnerIcon}>📷</span>
           </div>
           <p style={styles.setupText}>Setting up camera...</p>
         </div>
@@ -4727,7 +4727,7 @@ Important considerations:
                   onClick={completeExercise}
                   className="btn-primary"
                 >
-                  âœ“ I Did It!
+                  ✓ I Did It!
                 </button>
                 <p style={styles.performingHint}>Tap when you've completed the exercise</p>
               </div>
@@ -4737,7 +4737,7 @@ Important considerations:
           {(exerciseState === 'captured' || exerciseState === 'analyzing') && (
             <div style={styles.centerContent}>
               <div style={styles.analyzingSpinner} className="breathe">
-                <span style={styles.analyzingIcon}>ðŸ¤–</span>
+                <span style={styles.analyzingIcon}>🤖</span>
               </div>
               <p style={styles.analyzingText}>AI analyzing your form...</p>
             </div>
@@ -4745,7 +4745,7 @@ Important considerations:
 
           {/* Cancel button */}
           <button style={styles.cancelAssessmentButton} onClick={() => { stopCamera(); onCancel(); }}>
-            âœ•
+            ✕
           </button>
         </div>
       </div>
@@ -4757,22 +4757,22 @@ Important considerations:
       <div style={styles.screenContent} className="fade-in">
         <div style={styles.analyzingContainer}>
           <div style={styles.analyzingAnimation} className="breathe">
-            <span style={styles.analyzingMainIcon}>ðŸ¤–</span>
+            <span style={styles.analyzingMainIcon}>🤖</span>
           </div>
           <h2 style={styles.analyzingTitle}>Creating Your Plan</h2>
           <p style={styles.analyzingSubtext}>Our AI is analyzing your movements and building a personalized workout plan with your equipment...</p>
           
           <div style={styles.analysisSteps}>
             <div style={styles.analysisStep}>
-              <span style={styles.stepCheck}>âœ“</span>
+              <span style={styles.stepCheck}>✓</span>
               <span style={styles.stepText}>Movement analysis complete</span>
             </div>
             <div style={styles.analysisStep}>
-              <span style={styles.stepCheck}>âœ“</span>
+              <span style={styles.stepCheck}>✓</span>
               <span style={styles.stepText}>Form assessment done</span>
             </div>
             <div style={styles.analysisStep}>
-              <span style={styles.stepCheck}>âœ“</span>
+              <span style={styles.stepCheck}>✓</span>
               <span style={styles.stepText}>Equipment preferences saved</span>
             </div>
             <div style={{...styles.analysisStep, opacity: 0.6}}>
@@ -4789,12 +4789,12 @@ Important considerations:
     return (
       <div style={styles.screenContent} className="fade-in">
         <div style={styles.assessmentHeader}>
-          <button style={styles.backButton} onClick={() => setStage('exercise')}>â† Back</button>
+          <button style={styles.backButton} onClick={() => setStage('exercise')}>← Back</button>
           <h2 style={styles.assessmentStageTitle}>Your Equipment</h2>
         </div>
 
         <div style={styles.equipmentIntro}>
-          <div style={styles.equipmentIcon}>ðŸŽ’</div>
+          <div style={styles.equipmentIcon}>🎒</div>
           <h3 style={styles.equipmentTitle}>What equipment do you have?</h3>
           <p style={styles.equipmentSubtitle}>Select all that you have access to. We'll create workouts that use your available equipment.</p>
         </div>
@@ -4818,7 +4818,7 @@ Important considerations:
                 ...styles.equipmentCheckbox,
                 ...(selectedEquipment.includes(item.id) ? styles.equipmentCheckboxSelected : {})
               }}>
-                {selectedEquipment.includes(item.id) && 'âœ“'}
+                {selectedEquipment.includes(item.id) && '✓'}
               </div>
             </div>
           ))}
@@ -4869,7 +4869,7 @@ Important considerations:
         </div>
 
         <div style={styles.resultsSection}>
-          <h3 style={styles.resultsSectionTitle}>ðŸ’ª Your Strengths</h3>
+          <h3 style={styles.resultsSectionTitle}>💪 Your Strengths</h3>
           <div style={styles.tagList}>
             {finalResults.strengths.map((s, i) => (
               <span key={i} style={styles.strengthTag}>{s}</span>
@@ -4878,7 +4878,7 @@ Important considerations:
         </div>
 
         <div style={styles.resultsSection}>
-          <h3 style={styles.resultsSectionTitle}>ðŸŽ¯ Focus Areas</h3>
+          <h3 style={styles.resultsSectionTitle}>🎯 Focus Areas</h3>
           <div style={styles.tagList}>
             {finalResults.focusAreas.map((f, i) => (
               <span key={i} style={styles.focusTag}>{f}</span>
@@ -4888,7 +4888,7 @@ Important considerations:
 
         {finalResults.equipmentUsed && finalResults.equipmentUsed.length > 0 && (
           <div style={styles.resultsSection}>
-            <h3 style={styles.resultsSectionTitle}>ðŸŽ’ Equipment in Your Plan</h3>
+            <h3 style={styles.resultsSectionTitle}>🎒 Equipment in Your Plan</h3>
             <div style={styles.tagList}>
               {finalResults.equipmentUsed.map((e, i) => (
                 <span key={i} style={styles.equipmentTag}>{e}</span>
@@ -4898,9 +4898,9 @@ Important considerations:
         )}
 
         <div style={styles.resultsSection}>
-          <h3 style={styles.resultsSectionTitle}>ðŸ“… Your Weekly Plan</h3>
+          <h3 style={styles.resultsSectionTitle}>📅 Your Weekly Plan</h3>
           <p style={styles.planOverview}>
-            {finalResults.weeklyPlan.daysPerWeek} days/week Â· {finalResults.weeklyPlan.minutesPerSession} min/session
+            {finalResults.weeklyPlan.daysPerWeek} days/week · {finalResults.weeklyPlan.minutesPerSession} min/session
           </p>
           <div style={styles.workoutPreviewList}>
             {finalResults.weeklyPlan.workouts.slice(0, 3).map((w, i) => (
@@ -4914,17 +4914,17 @@ Important considerations:
         </div>
 
         <div style={styles.safetySection}>
-          <h4 style={styles.safetyTitle}>âš ï¸ Safety Notes</h4>
+          <h4 style={styles.safetyTitle}>âš ️ Safety Notes</h4>
           {finalResults.safetyRecommendations.map((s, i) => (
-            <p key={i} style={styles.safetyItem}>â€¢ {s}</p>
+            <p key={i} style={styles.safetyItem}>• {s}</p>
           ))}
         </div>
 
         {finalResults.equipmentToBuy && finalResults.equipmentToBuy.length > 0 && (
           <div style={styles.equipmentSuggestionSection}>
-            <h4 style={styles.equipmentSuggestionTitle}>ðŸ’¡ Optional Equipment to Consider</h4>
+            <h4 style={styles.equipmentSuggestionTitle}>💡 Optional Equipment to Consider</h4>
             {finalResults.equipmentToBuy.map((e, i) => (
-              <p key={i} style={styles.equipmentSuggestionItem}>â€¢ {e}</p>
+              <p key={i} style={styles.equipmentSuggestionItem}>• {e}</p>
             ))}
           </div>
         )}
@@ -4967,7 +4967,7 @@ function FitnessHomeScreen({ user }) {
 
       {user.equipment && user.equipment.length > 0 && !user.equipment.includes('none') && (
         <div style={styles.equipmentBadge}>
-          <span style={styles.equipmentBadgeLabel}>ðŸŽ’ Your Equipment</span>
+          <span style={styles.equipmentBadgeLabel}>🎒 Your Equipment</span>
           <div style={styles.equipmentBadgeList}>
             {user.equipment.slice(0, 4).map((eq, i) => {
               const equipmentItem = [
@@ -5020,9 +5020,9 @@ function FitnessHomeScreen({ user }) {
                 <div style={styles.exerciseIndex}>{idx + 1}</div>
                 <div style={styles.exerciseDetails}>
                   <h4 style={styles.exerciseTitle}>{ex.name}</h4>
-                  <p style={styles.exerciseMeta}>{ex.sets} sets Ã— {ex.reps}</p>
+                  <p style={styles.exerciseMeta}>{ex.sets} sets × {ex.reps}</p>
                   {ex.equipment && ex.equipment !== 'Bodyweight' && ex.equipment !== 'None' && (
-                    <p style={styles.exerciseEquipment}>ðŸŽ’ {ex.equipment}</p>
+                    <p style={styles.exerciseEquipment}>🎒 {ex.equipment}</p>
                   )}
                   {ex.notes && <p style={styles.exerciseNotes}>{ex.notes}</p>}
                 </div>
@@ -5059,11 +5059,11 @@ function TreatmentsScreen({ setActiveModal }) {
   const [activeCategory, setActiveCategory] = useState('weight-loss');
 
   const categories = [
-    { id: 'weight-loss', name: 'Weight Loss', icon: 'âš–ï¸' },
-    { id: 'iv-therapy', name: 'IV Therapy', icon: 'ðŸ’§' },
-    { id: 'vitamin-boosters', name: 'Boosters', icon: 'ðŸ’‰' },
-    { id: 'hormone', name: 'Hormone', icon: 'ðŸ§¬' },
-    { id: 'body', name: 'Body', icon: 'âœ¨' },
+    { id: 'weight-loss', name: 'Weight Loss', icon: 'âš–️' },
+    { id: 'iv-therapy', name: 'IV Therapy', icon: '💧' },
+    { id: 'vitamin-boosters', name: 'Boosters', icon: '💉' },
+    { id: 'hormone', name: 'Hormone', icon: '🧬' },
+    { id: 'body', name: 'Body', icon: '✨' },
   ];
 
   const services = {
@@ -5420,10 +5420,10 @@ function TreatmentsScreen({ setActiveModal }) {
                            service.tier === 'upgrade' ? '#2AABB3' :
                            service.tier === 'high-dose' ? '#C4956A' : '#E8EDE6'
               }}>
-                {service.tier === 'premium' ? 'â­ Premium' : 
-                 service.tier === 'advanced' ? 'ðŸ”· Advanced' :
-                 service.tier === 'upgrade' ? 'â¬†ï¸ Upgrade' :
-                 service.tier === 'high-dose' ? 'ðŸ’ª High Dose' : service.tier}
+                {service.tier === 'premium' ? '⭐ Premium' : 
+                 service.tier === 'advanced' ? '🔷 Advanced' :
+                 service.tier === 'upgrade' ? '⬆️ Upgrade' :
+                 service.tier === 'high-dose' ? '💪 High Dose' : service.tier}
               </span>
             )}
             <h3 style={styles.serviceName}>{service.name}</h3>
@@ -5432,7 +5432,7 @@ function TreatmentsScreen({ setActiveModal }) {
             
             <div style={styles.serviceBenefits}>
               {service.benefits.slice(0, 3).map((benefit, idx) => (
-                <span key={idx} style={styles.serviceBenefit}>âœ“ {benefit}</span>
+                <span key={idx} style={styles.serviceBenefit}>✓ {benefit}</span>
               ))}
             </div>
 
@@ -5448,7 +5448,7 @@ function TreatmentsScreen({ setActiveModal }) {
               )}
             </div>
 
-            <button style={styles.serviceBtn}>Learn More â†’</button>
+            <button style={styles.serviceBtn}>Learn More →</button>
           </div>
         ))}
       </div>
@@ -5456,8 +5456,8 @@ function TreatmentsScreen({ setActiveModal }) {
       {/* Contact CTA */}
       <div style={styles.contactCTA}>
         <p style={styles.contactText}>Questions about our services?</p>
-        <a href="tel:801-917-4386" style={styles.contactPhone}>ðŸ“ž 801-917-4386</a>
-        <p style={styles.contactLocation}>ðŸ“ West Haven & South Ogden, UT</p>
+        <a href="tel:801-917-4386" style={styles.contactPhone}>📞 801-917-4386</a>
+        <p style={styles.contactLocation}>📍 West Haven & South Ogden, UT</p>
       </div>
     </div>
   );
@@ -5468,21 +5468,21 @@ function ProfileScreen({ user, setUser }) {
   const [showWeightLog, setShowWeightLog] = useState(false);
 
   const menuItems = [
-    { icon: 'ðŸ‘¤', label: 'Personal Information' },
-    { icon: 'ðŸ“Š', label: 'Progress & Metrics' },
-    { icon: 'ðŸŽ¯', label: 'Goals & Preferences' },
-    { icon: 'ðŸ’Š', label: 'My Treatments' },
-    { icon: 'ðŸ“±', label: 'Notifications' },
-    { icon: 'â“', label: 'Help & Support' },
+    { icon: '👤', label: 'Personal Information' },
+    { icon: '📊', label: 'Progress & Metrics' },
+    { icon: '🎯', label: 'Goals & Preferences' },
+    { icon: '💊', label: 'My Treatments' },
+    { icon: '📱', label: 'Notifications' },
+    { icon: '❓', label: 'Help & Support' },
   ];
 
   const badges = [
-    { id: 'first_workout', name: 'First Workout', icon: 'ðŸƒ', earned: user.badges?.includes('first_workout') },
-    { id: 'protein_champion', name: 'Protein Champion', icon: 'ðŸ¥©', earned: user.badges?.includes('protein_champion') },
-    { id: 'hydration_hero', name: 'Hydration Hero', icon: 'ðŸ’§', earned: user.badges?.includes('hydration_hero') },
-    { id: '7_day_streak', name: '7-Day Streak', icon: 'ðŸ”¥', earned: user.badges?.includes('7_day_streak') },
+    { id: 'first_workout', name: 'First Workout', icon: '🏃', earned: user.badges?.includes('first_workout') },
+    { id: 'protein_champion', name: 'Protein Champion', icon: '🥩', earned: user.badges?.includes('protein_champion') },
+    { id: 'hydration_hero', name: 'Hydration Hero', icon: '💧', earned: user.badges?.includes('hydration_hero') },
+    { id: '7_day_streak', name: '7-Day Streak', icon: '🔥', earned: user.badges?.includes('7_day_streak') },
     { id: '14_day_streak', name: '14-Day Streak', icon: 'âš¡', earned: user.badges?.includes('14_day_streak') },
-    { id: 'meal_master', name: 'Meal Master', icon: 'ðŸ½ï¸', earned: user.badges?.includes('meal_master') },
+    { id: 'meal_master', name: 'Meal Master', icon: '🍽️', earned: user.badges?.includes('meal_master') },
   ];
 
   const weightLoss = user.weightLog?.length >= 2
@@ -5500,7 +5500,7 @@ function ProfileScreen({ user, setUser }) {
         
         {/* Level Badge */}
         <div style={styles.levelBadgeProfile}>
-          <span style={styles.levelBadgeIcon}>â­</span>
+          <span style={styles.levelBadgeIcon}>⭐</span>
           <span style={styles.levelBadgeText}>{user.level || 'Bronze'} Level</span>
           <span style={styles.levelBadgePoints}>{user.totalPoints || 0} pts</span>
         </div>
@@ -5509,7 +5509,7 @@ function ProfileScreen({ user, setUser }) {
       {/* Streak & Stats */}
       <div style={styles.statsRow}>
         <div style={styles.statItem}>
-          <span style={styles.statValue}>ðŸ”¥ {user.currentStreak || 0}</span>
+          <span style={styles.statValue}>🔥 {user.currentStreak || 0}</span>
           <span style={styles.statLabel}>Day Streak</span>
         </div>
         <div style={styles.statDivider} />
@@ -5592,7 +5592,7 @@ function ProfileScreen({ user, setUser }) {
             >
               <span style={styles.badgeIcon}>{badge.icon}</span>
               <span style={styles.badgeName}>{badge.name}</span>
-              {badge.earned && <span style={styles.badgeCheck}>âœ“</span>}
+              {badge.earned && <span style={styles.badgeCheck}>✓</span>}
             </div>
           ))}
         </div>
@@ -5601,7 +5601,7 @@ function ProfileScreen({ user, setUser }) {
       {/* Provider Connection */}
       <section style={styles.section}>
         <div style={styles.providerCard}>
-          <div style={styles.providerCardIcon}>ðŸ©º</div>
+          <div style={styles.providerCardIcon}>🩺</div>
           <div style={styles.providerCardInfo}>
             <p style={styles.providerCardTitle}>Connected to Provider</p>
             <p style={styles.providerCardText}>Your progress is shared with Dr. Williams</p>
@@ -5615,7 +5615,7 @@ function ProfileScreen({ user, setUser }) {
           <div key={idx} style={styles.menuItem} className="card-hover">
             <span style={styles.menuIcon}>{item.icon}</span>
             <span style={styles.menuLabel}>{item.label}</span>
-            <span style={styles.menuArrow}>â€º</span>
+            <span style={styles.menuArrow}>›</span>
           </div>
         ))}
       </div>
@@ -5937,7 +5937,7 @@ function Modal({ activeModal, setActiveModal }) {
     sermorelin: {
       title: 'Sermorelin Therapy',
       subtitle: 'Growth Hormone Support',
-      description: 'Sermorelin is a growth hormone-releasing peptide that stimulates your body\'s natural production of growth hormone. This supports muscle preservation during weight lossâ€”a key concern for GLP-1 patients.',
+      description: 'Sermorelin is a growth hormone-releasing peptide that stimulates your body\'s natural production of growth hormone. This supports muscle preservation during weight loss—a key concern for GLP-1 patients.',
       benefits: [
         'Preserves lean muscle mass during weight loss',
         'Supports faster recovery from workouts',
@@ -5978,7 +5978,7 @@ function Modal({ activeModal, setActiveModal }) {
   return (
     <div style={styles.modalOverlay} onClick={() => setActiveModal(null)}>
       <div style={styles.modalContent} className="slide-up" onClick={e => e.stopPropagation()}>
-        <button style={styles.modalClose} onClick={() => setActiveModal(null)}>Ã—</button>
+        <button style={styles.modalClose} onClick={() => setActiveModal(null)}>×</button>
         <span style={styles.modalSubtitle}>{data.subtitle}</span>
         <h2 style={styles.modalTitle}>{data.title}</h2>
         <p style={styles.modalDescription}>{data.description}</p>
@@ -5987,7 +5987,7 @@ function Modal({ activeModal, setActiveModal }) {
           <h4 style={styles.benefitsTitle}>Key Benefits</h4>
           {data.benefits.map((benefit, idx) => (
             <div key={idx} style={styles.benefitItem}>
-              <span style={styles.benefitCheck}>âœ“</span>
+              <span style={styles.benefitCheck}>✓</span>
               <span style={styles.benefitText}>{benefit}</span>
             </div>
           ))}
