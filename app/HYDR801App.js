@@ -54,16 +54,56 @@ export default function HYDR801App() {
     medicationSchedule: 'Weekly - Sundays',
     // Injection tracking
     injectionLog: [
-      { id: 1, type: 'glp1', date: '2024-12-01', dose: '0.25mg', notes: 'First injection, no issues' },
-      { id: 2, type: 'lipoc', date: '2024-12-04', dose: 'standard', notes: '' },
-      { id: 3, type: 'glp1', date: '2024-12-08', dose: '0.25mg', notes: 'Mild nausea' },
-      { id: 4, type: 'lipoc', date: '2024-12-11', dose: 'standard', notes: '' },
-      { id: 5, type: 'glp1', date: '2024-12-15', dose: '0.5mg', dose: '0.5mg', notes: 'Dose increase, tolerated well' },
-      { id: 6, type: 'lipoc', date: '2024-12-18', dose: 'standard', notes: '' },
-      { id: 7, type: 'glp1', date: '2024-12-22', dose: '0.5mg', notes: '' },
+      { id: 1, type: 'glp1', date: '2024-12-01', dose: '0.25mg', notes: 'First injection, no issues', completed: true },
+      { id: 2, type: 'lipoc', date: '2024-12-04', dose: 'standard', notes: '', completed: true },
+      { id: 3, type: 'glp1', date: '2024-12-08', dose: '0.25mg', notes: 'Mild nausea', completed: true },
+      { id: 4, type: 'lipoc', date: '2024-12-11', dose: 'standard', notes: '', completed: true },
+      { id: 5, type: 'glp1', date: '2024-12-15', dose: '0.5mg', notes: 'Dose increase, tolerated well', completed: true },
+      { id: 6, type: 'lipoc', date: '2024-12-18', dose: 'standard', notes: '', completed: true },
+      { id: 7, type: 'glp1', date: '2024-12-22', dose: '0.5mg', notes: '', completed: true },
+      { id: 8, type: 'glp1', date: '2024-12-29', dose: '0.5mg', notes: '', completed: false },
+    ],
+    // Scheduled injections (upcoming)
+    scheduledInjections: [
+      { id: 's1', type: 'glp1', date: '2025-01-05', dose: '0.5mg', completed: false },
+      { id: 's2', type: 'lipoc', date: '2025-01-08', dose: 'standard', completed: false },
     ],
     glp1Supply: { currentDose: '0.5mg', refillDate: '2025-01-15', weeksRemaining: 3 },
     lipocSupply: { refillDate: '2025-01-20', injectionsRemaining: 8 },
+    // Achievements
+    achievements: {
+      glp1Injections: 4,
+      lipocInjections: 3,
+      ivTherapySessions: 2,
+      totalWeightLost: 5.2,
+      longestStreak: 14,
+      proteinGoalsMet: 18,
+      hydrationGoalsMet: 21,
+      workoutsCompleted: 8,
+      referralsMade: 3,
+      monthsOnProgram: 1,
+    },
+    earnedBadges: ['first_glp1', 'first_lipoc', 'first_iv', '5lb_lost', '7_day_streak', '14_day_streak', 'protein_week', 'hydration_week', 'first_referral'],
+    // Loyalty Program
+    referralCode: 'SARAH2024',
+    loyaltyTier: 'Silver',
+    totalSpent: 1850,
+    lifetimeSpent: 2450,
+    referralCount: 3,
+    referralCredits: 150,
+    loyaltyPoints: 2450,
+    referralHistory: [
+      { id: 1, name: 'Jessica M.', date: '2024-12-10', status: 'completed', credit: 50 },
+      { id: 2, name: 'Amanda K.', date: '2024-12-18', status: 'completed', credit: 50 },
+      { id: 3, name: 'Taylor R.', date: '2025-01-05', status: 'pending', credit: 50 },
+    ],
+    spendingHistory: [
+      { id: 1, date: '2024-12-01', description: 'GLP-1 Initial Consult + Month 1', amount: 300 },
+      { id: 2, date: '2024-12-15', description: 'Physique Boost IV', amount: 199 },
+      { id: 3, date: '2025-01-01', description: 'GLP-1 Month 2 (0.5mg)', amount: 200 },
+      { id: 4, date: '2025-01-10', description: 'Lipo-C Injections', amount: 20 },
+      { id: 5, date: '2025-01-15', description: 'B12 Injection', amount: 15 },
+    ],
   });
   const [activeModal, setActiveModal] = useState(null);
 
@@ -4083,7 +4123,8 @@ function InjectionTrackerScreen({ user, setUser, onBack }) {
       type: selectedType,
       date: selectedDate,
       dose: selectedType === 'glp1' ? selectedDose : 'standard',
-      notes: injectionNotes
+      notes: injectionNotes,
+      completed: true // New injections are marked complete by default
     };
     
     const updatedLog = [...(user.injectionLog || []), newInjection].sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -4100,6 +4141,15 @@ function InjectionTrackerScreen({ user, setUser, onBack }) {
     setUser({
       ...user,
       injectionLog: user.injectionLog.filter(i => i.id !== id)
+    });
+  };
+
+  const toggleInjectionComplete = (id) => {
+    setUser({
+      ...user,
+      injectionLog: user.injectionLog.map(i => 
+        i.id === id ? { ...i, completed: !i.completed } : i
+      )
     });
   };
 
@@ -4210,7 +4260,18 @@ function InjectionTrackerScreen({ user, setUser, onBack }) {
         >
           📦 Supply
         </button>
+        <button 
+          style={{...styles.injectionTab, ...(activeTab === 'badges' ? styles.injectionTabActive : {})}}
+          onClick={() => setActiveTab('badges')}
+        >
+          🏆 Badges
+        </button>
       </div>
+
+      {/* Badges Tab */}
+      {activeTab === 'badges' && (
+        <InjectionBadgesSection user={user} sortedLog={sortedLog} />
+      )}
 
       {/* History Tab */}
       {activeTab === 'log' && (
@@ -4223,7 +4284,21 @@ function InjectionTrackerScreen({ user, setUser, onBack }) {
             </div>
           ) : (
             sortedLog.map((injection) => (
-              <div key={injection.id} style={styles.injectionLogItem}>
+              <div key={injection.id} style={{
+                ...styles.injectionLogItem,
+                opacity: injection.completed ? 1 : 0.8,
+                background: injection.completed ? '#FFFFFF' : '#FFFBF0'
+              }}>
+                <button 
+                  style={{
+                    ...styles.injectionCheckbox,
+                    background: injection.completed ? '#4A6741' : '#FFFFFF',
+                    borderColor: injection.completed ? '#4A6741' : '#D0D0D0'
+                  }}
+                  onClick={() => toggleInjectionComplete(injection.id)}
+                >
+                  {injection.completed && <span style={styles.checkboxCheck}>✓</span>}
+                </button>
                 <div style={{
                   ...styles.injectionLogIcon,
                   background: injection.type === 'glp1' ? '#E8EDE6' : '#E8F4F8'
@@ -4239,6 +4314,9 @@ function InjectionTrackerScreen({ user, setUser, onBack }) {
                   </div>
                   <p style={styles.injectionLogDose}>{injection.dose}</p>
                   {injection.notes && <p style={styles.injectionLogNotes}>{injection.notes}</p>}
+                  {!injection.completed && (
+                    <span style={styles.injectionPendingBadge}>⏳ Pending</span>
+                  )}
                 </div>
                 <button style={styles.deleteInjectionBtn} onClick={() => deleteInjection(injection.id)}>×</button>
               </div>
@@ -4249,57 +4327,13 @@ function InjectionTrackerScreen({ user, setUser, onBack }) {
 
       {/* Calendar Tab */}
       {activeTab === 'calendar' && (
-        <div style={styles.injectionCalendar}>
-          <div style={styles.calendarHeader}>
-            <span style={styles.calendarMonth}>
-              {new Date(currentYear, currentMonth).toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}
-            </span>
-          </div>
-          <div style={styles.calendarDaysHeader}>
-            {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-              <span key={day} style={styles.calendarDayLabel}>{day}</span>
-            ))}
-          </div>
-          <div style={styles.calendarGrid}>
-            {calendarDays.map((day, idx) => {
-              const injections = getInjectionsForDay(day);
-              const hasGlp1 = injections.some(i => i.type === 'glp1');
-              const hasLipoc = injections.some(i => i.type === 'lipoc');
-              const isToday = day === today.getDate() && currentMonth === today.getMonth();
-              
-              return (
-                <div 
-                  key={idx} 
-                  style={{
-                    ...styles.calendarDay,
-                    ...(isToday ? styles.calendarDayToday : {}),
-                    ...(day === null ? styles.calendarDayEmpty : {})
-                  }}
-                >
-                  {day && (
-                    <>
-                      <span style={styles.calendarDayNumber}>{day}</span>
-                      <div style={styles.calendarDots}>
-                        {hasGlp1 && <span style={{...styles.calendarDot, background: '#4A6741'}} />}
-                        {hasLipoc && <span style={{...styles.calendarDot, background: '#2AABB3'}} />}
-                      </div>
-                    </>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-          <div style={styles.calendarLegend}>
-            <div style={styles.legendItem}>
-              <span style={{...styles.legendDot, background: '#4A6741'}} />
-              <span style={styles.legendLabel}>GLP-1</span>
-            </div>
-            <div style={styles.legendItem}>
-              <span style={{...styles.legendDot, background: '#2AABB3'}} />
-              <span style={styles.legendLabel}>Lipo-C</span>
-            </div>
-          </div>
-        </div>
+        <InjectionCalendarTab 
+          user={user} 
+          setUser={setUser}
+          sortedLog={sortedLog}
+          toggleInjectionComplete={toggleInjectionComplete}
+          setShowAddModal={setShowAddModal}
+        />
       )}
 
       {/* Supply Tab */}
@@ -4440,6 +4474,509 @@ function InjectionTrackerScreen({ user, setUser, onBack }) {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// Injection Calendar Tab Component - Enhanced with day selection and marking complete
+function InjectionCalendarTab({ user, setUser, sortedLog, toggleInjectionComplete, setShowAddModal }) {
+  const [viewMonth, setViewMonth] = useState(new Date());
+  const [selectedDay, setSelectedDay] = useState(null);
+  
+  const today = new Date();
+  const currentMonth = viewMonth.getMonth();
+  const currentYear = viewMonth.getFullYear();
+  const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+  const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
+  const daysInMonth = lastDayOfMonth.getDate();
+  const startingDay = firstDayOfMonth.getDay();
+
+  const calendarDays = [];
+  for (let i = 0; i < startingDay; i++) {
+    calendarDays.push(null);
+  }
+  for (let day = 1; day <= daysInMonth; day++) {
+    calendarDays.push(day);
+  }
+
+  const getInjectionsForDay = (day) => {
+    if (!day) return [];
+    const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    return sortedLog.filter(i => i.date === dateStr);
+  };
+
+  const goToPrevMonth = () => {
+    setViewMonth(new Date(currentYear, currentMonth - 1, 1));
+    setSelectedDay(null);
+  };
+
+  const goToNextMonth = () => {
+    setViewMonth(new Date(currentYear, currentMonth + 1, 1));
+    setSelectedDay(null);
+  };
+
+  const goToToday = () => {
+    setViewMonth(new Date());
+    setSelectedDay(today.getDate());
+  };
+
+  const selectedDayInjections = selectedDay ? getInjectionsForDay(selectedDay) : [];
+  const selectedDateStr = selectedDay 
+    ? `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`
+    : null;
+
+  // Calculate scheduled/expected injection dates
+  const glp1Injections = sortedLog.filter(i => i.type === 'glp1' && i.completed);
+  const lipocInjections = sortedLog.filter(i => i.type === 'lipoc' && i.completed);
+  const lastGlp1 = glp1Injections.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+  const lastLipoc = lipocInjections.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+
+  const getExpectedDates = () => {
+    const expected = [];
+    if (lastGlp1) {
+      for (let i = 1; i <= 8; i++) {
+        const nextDate = new Date(new Date(lastGlp1.date).getTime() + (i * 7 * 24 * 60 * 60 * 1000));
+        if (nextDate.getMonth() === currentMonth && nextDate.getFullYear() === currentYear) {
+          expected.push({ type: 'glp1', day: nextDate.getDate(), isExpected: true });
+        }
+      }
+    }
+    if (lastLipoc) {
+      for (let i = 1; i <= 8; i++) {
+        const nextDate = new Date(new Date(lastLipoc.date).getTime() + (i * 7 * 24 * 60 * 60 * 1000));
+        if (nextDate.getMonth() === currentMonth && nextDate.getFullYear() === currentYear) {
+          expected.push({ type: 'lipoc', day: nextDate.getDate(), isExpected: true });
+        }
+      }
+    }
+    return expected;
+  };
+
+  const expectedDates = getExpectedDates();
+
+  const isExpectedDay = (day, type) => {
+    return expectedDates.some(e => e.day === day && e.type === type);
+  };
+
+  return (
+    <div style={styles.injectionCalendar}>
+      {/* Month Navigation */}
+      <div style={styles.calendarNavHeader}>
+        <button style={styles.calendarNavBtn} onClick={goToPrevMonth}>‹</button>
+        <div style={styles.calendarMonthTitle}>
+          <span style={styles.calendarMonth}>
+            {viewMonth.toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}
+          </span>
+          <button style={styles.todayBtn} onClick={goToToday}>Today</button>
+        </div>
+        <button style={styles.calendarNavBtn} onClick={goToNextMonth}>›</button>
+      </div>
+
+      {/* Day Headers */}
+      <div style={styles.calendarDaysHeader}>
+        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+          <span key={day} style={styles.calendarDayLabel}>{day}</span>
+        ))}
+      </div>
+
+      {/* Calendar Grid */}
+      <div style={styles.calendarGrid}>
+        {calendarDays.map((day, idx) => {
+          const injections = getInjectionsForDay(day);
+          const hasGlp1Completed = injections.some(i => i.type === 'glp1' && i.completed);
+          const hasGlp1Pending = injections.some(i => i.type === 'glp1' && !i.completed);
+          const hasLipocCompleted = injections.some(i => i.type === 'lipoc' && i.completed);
+          const hasLipocPending = injections.some(i => i.type === 'lipoc' && !i.completed);
+          const glp1Expected = isExpectedDay(day, 'glp1') && !hasGlp1Completed && !hasGlp1Pending;
+          const lipocExpected = isExpectedDay(day, 'lipoc') && !hasLipocCompleted && !hasLipocPending;
+          const isToday = day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
+          const isSelected = day === selectedDay;
+          const isPast = day && new Date(currentYear, currentMonth, day) < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+          
+          return (
+            <div 
+              key={idx} 
+              style={{
+                ...styles.calendarDay,
+                ...(isToday ? styles.calendarDayToday : {}),
+                ...(isSelected ? styles.calendarDaySelected : {}),
+                ...(day === null ? styles.calendarDayEmpty : {}),
+                cursor: day ? 'pointer' : 'default',
+              }}
+              onClick={() => day && setSelectedDay(day === selectedDay ? null : day)}
+            >
+              {day && (
+                <>
+                  <span style={{
+                    ...styles.calendarDayNumber,
+                    ...(isToday ? styles.calendarDayNumberToday : {}),
+                    ...(isSelected ? styles.calendarDayNumberSelected : {})
+                  }}>
+                    {day}
+                  </span>
+                  <div style={styles.calendarDots}>
+                    {hasGlp1Completed && <span style={{...styles.calendarDot, background: '#4A6741'}} title="GLP-1 ✓" />}
+                    {hasGlp1Pending && <span style={{...styles.calendarDotPending, borderColor: '#4A6741'}} title="GLP-1 pending" />}
+                    {glp1Expected && <span style={{...styles.calendarDotExpected, background: '#4A674140'}} title="GLP-1 expected" />}
+                    {hasLipocCompleted && <span style={{...styles.calendarDot, background: '#2AABB3'}} title="Lipo-C ✓" />}
+                    {hasLipocPending && <span style={{...styles.calendarDotPending, borderColor: '#2AABB3'}} title="Lipo-C pending" />}
+                    {lipocExpected && <span style={{...styles.calendarDotExpected, background: '#2AABB340'}} title="Lipo-C expected" />}
+                  </div>
+                </>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Legend */}
+      <div style={styles.calendarLegendEnhanced}>
+        <div style={styles.legendItem}>
+          <span style={{...styles.legendDot, background: '#4A6741'}} />
+          <span style={styles.legendLabel}>GLP-1 Done</span>
+        </div>
+        <div style={styles.legendItem}>
+          <span style={{...styles.legendDot, background: '#2AABB3'}} />
+          <span style={styles.legendLabel}>Lipo-C Done</span>
+        </div>
+        <div style={styles.legendItem}>
+          <span style={{...styles.legendDotOutline, borderColor: '#4A6741'}} />
+          <span style={styles.legendLabel}>Pending</span>
+        </div>
+        <div style={styles.legendItem}>
+          <span style={{...styles.legendDotFaded}} />
+          <span style={styles.legendLabel}>Expected</span>
+        </div>
+      </div>
+
+      {/* Selected Day Detail */}
+      {selectedDay && (
+        <div style={styles.selectedDayDetail}>
+          <div style={styles.selectedDayHeader}>
+            <h3 style={styles.selectedDayTitle}>
+              {new Date(currentYear, currentMonth, selectedDay).toLocaleDateString('en-US', {
+                weekday: 'long', 
+                month: 'long', 
+                day: 'numeric'
+              })}
+            </h3>
+            <button 
+              style={styles.addToDayBtn}
+              onClick={() => setShowAddModal(true)}
+            >
+              + Log
+            </button>
+          </div>
+
+          {selectedDayInjections.length === 0 ? (
+            <div style={styles.noDayInjections}>
+              <p style={styles.noDayInjectionsText}>No injections logged for this day</p>
+              {(isExpectedDay(selectedDay, 'glp1') || isExpectedDay(selectedDay, 'lipoc')) && (
+                <p style={styles.expectedHint}>
+                  💡 {isExpectedDay(selectedDay, 'glp1') ? 'GLP-1' : 'Lipo-C'} injection expected on this day
+                </p>
+              )}
+            </div>
+          ) : (
+            <div style={styles.dayInjectionsList}>
+              {selectedDayInjections.map((injection) => (
+                <div 
+                  key={injection.id} 
+                  style={{
+                    ...styles.dayInjectionItem,
+                    borderLeftColor: injection.type === 'glp1' ? '#4A6741' : '#2AABB3'
+                  }}
+                >
+                  <button 
+                    style={{
+                      ...styles.dayInjectionCheckbox,
+                      background: injection.completed ? (injection.type === 'glp1' ? '#4A6741' : '#2AABB3') : '#FFFFFF',
+                      borderColor: injection.type === 'glp1' ? '#4A6741' : '#2AABB3'
+                    }}
+                    onClick={() => toggleInjectionComplete(injection.id)}
+                  >
+                    {injection.completed && <span style={styles.checkboxCheck}>✓</span>}
+                  </button>
+                  <div style={styles.dayInjectionInfo}>
+                    <div style={styles.dayInjectionHeader}>
+                      <span style={{
+                        ...styles.dayInjectionType,
+                        color: injection.type === 'glp1' ? '#4A6741' : '#2AABB3'
+                      }}>
+                        {injection.type === 'glp1' ? '💉 GLP-1' : '🧪 Lipo-C'}
+                      </span>
+                      <span style={styles.dayInjectionDose}>{injection.dose}</span>
+                    </div>
+                    {injection.notes && (
+                      <p style={styles.dayInjectionNotes}>{injection.notes}</p>
+                    )}
+                    <span style={{
+                      ...styles.dayInjectionStatus,
+                      color: injection.completed ? '#4A6741' : '#E57373',
+                      background: injection.completed ? '#E8EDE6' : '#FFF5F0'
+                    }}>
+                      {injection.completed ? '✓ Completed' : '⏳ Pending'}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Injection Badges Section - Peloton-style achievements
+function InjectionBadgesSection({ user, sortedLog }) {
+  const glp1Count = sortedLog.filter(i => i.type === 'glp1' && i.completed).length;
+  const lipocCount = sortedLog.filter(i => i.type === 'lipoc' && i.completed).length;
+  const totalInjections = glp1Count + lipocCount;
+  const ivSessions = user.achievements?.ivTherapySessions || 0;
+  const weightLost = user.achievements?.totalWeightLost || 0;
+  const currentStreak = user.currentStreak || 0;
+  const longestStreak = user.longestStreak || 0;
+  const referrals = user.referralCount || 0;
+  const monthsOnProgram = user.achievements?.monthsOnProgram || 1;
+
+  // Badge categories
+  const badgeCategories = [
+    {
+      title: 'GLP-1 MILESTONES',
+      color: '#4A6741',
+      badges: [
+        { id: 'first_glp1', name: 'First Injection', icon: '1', threshold: 1, current: glp1Count },
+        { id: 'glp1_4', name: '4 Weeks', icon: '4', threshold: 4, current: glp1Count },
+        { id: 'glp1_8', name: '8 Weeks', icon: '8', threshold: 8, current: glp1Count },
+        { id: 'glp1_12', name: '12 Weeks', icon: '12', threshold: 12, current: glp1Count },
+        { id: 'glp1_26', name: '6 Months', icon: '26', threshold: 26, current: glp1Count },
+        { id: 'glp1_52', name: '1 Year', icon: '52', threshold: 52, current: glp1Count },
+      ]
+    },
+    {
+      title: 'LIPO-C MILESTONES',
+      color: '#2AABB3',
+      badges: [
+        { id: 'first_lipoc', name: 'First Shot', icon: '1', threshold: 1, current: lipocCount },
+        { id: 'lipoc_4', name: '4 Weeks', icon: '4', threshold: 4, current: lipocCount },
+        { id: 'lipoc_8', name: '8 Weeks', icon: '8', threshold: 8, current: lipocCount },
+        { id: 'lipoc_12', name: '12 Weeks', icon: '12', threshold: 12, current: lipocCount },
+      ]
+    },
+    {
+      title: 'WEIGHT LOSS',
+      color: '#C4956A',
+      badges: [
+        { id: '5lb_lost', name: '5 lbs Lost', icon: '5', threshold: 5, current: weightLost },
+        { id: '10lb_lost', name: '10 lbs Lost', icon: '10', threshold: 10, current: weightLost },
+        { id: '25lb_lost', name: '25 lbs Lost', icon: '25', threshold: 25, current: weightLost },
+        { id: '50lb_lost', name: '50 lbs Lost', icon: '50', threshold: 50, current: weightLost },
+        { id: '75lb_lost', name: '75 lbs Lost', icon: '75', threshold: 75, current: weightLost },
+        { id: '100lb_lost', name: '100 lbs Lost', icon: '💯', threshold: 100, current: weightLost },
+      ]
+    },
+    {
+      title: 'STREAKS',
+      color: '#9B7E9B',
+      badges: [
+        { id: '7_day_streak', name: '7 Day Streak', icon: '7', threshold: 7, current: longestStreak },
+        { id: '14_day_streak', name: '14 Day Streak', icon: '14', threshold: 14, current: longestStreak },
+        { id: '30_day_streak', name: '30 Day Streak', icon: '30', threshold: 30, current: longestStreak },
+        { id: '60_day_streak', name: '60 Day Streak', icon: '60', threshold: 60, current: longestStreak },
+        { id: '90_day_streak', name: '90 Day Streak', icon: '90', threshold: 90, current: longestStreak },
+      ]
+    },
+    {
+      title: 'IV THERAPY',
+      color: '#E57373',
+      badges: [
+        { id: 'first_iv', name: 'First IV', icon: '1', threshold: 1, current: ivSessions },
+        { id: 'iv_5', name: '5 Sessions', icon: '5', threshold: 5, current: ivSessions },
+        { id: 'iv_10', name: '10 Sessions', icon: '10', threshold: 10, current: ivSessions },
+        { id: 'iv_25', name: '25 Sessions', icon: '25', threshold: 25, current: ivSessions },
+      ]
+    },
+    {
+      title: 'COMMUNITY',
+      color: '#4A8BA8',
+      badges: [
+        { id: 'first_referral', name: 'First Referral', icon: '1', threshold: 1, current: referrals },
+        { id: 'referral_3', name: '3 Referrals', icon: '3', threshold: 3, current: referrals },
+        { id: 'referral_5', name: '5 Referrals', icon: '5', threshold: 5, current: referrals },
+        { id: 'referral_10', name: '10 Referrals', icon: '10', threshold: 10, current: referrals },
+      ]
+    },
+  ];
+
+  // Special event badges (like Peloton's special events)
+  const specialBadges = [
+    { 
+      id: 'new_year_2025', 
+      name: 'New Year 2025', 
+      description: 'Started fresh in 2025', 
+      icon: '🎆',
+      earned: new Date(user.startDate) >= new Date('2025-01-01'),
+      color: '#FFD700'
+    },
+    { 
+      id: 'wellness_warrior', 
+      name: 'Wellness Warrior', 
+      description: 'Completed all 4 goals in a day', 
+      icon: '⚔️',
+      earned: user.badges?.includes('wellness_warrior'),
+      color: '#9B7E9B'
+    },
+    { 
+      id: 'protein_champion', 
+      name: 'Protein Champion', 
+      description: 'Hit protein goal 7 days straight', 
+      icon: '🥩',
+      earned: user.badges?.includes('protein_champion') || (user.achievements?.proteinGoalsMet >= 7),
+      color: '#C4956A'
+    },
+    { 
+      id: 'hydration_hero', 
+      name: 'Hydration Hero', 
+      description: 'Hit water goal 7 days straight', 
+      icon: '💧',
+      earned: user.badges?.includes('hydration_hero') || (user.achievements?.hydrationGoalsMet >= 7),
+      color: '#2AABB3'
+    },
+    { 
+      id: 'month_1', 
+      name: '1 Month Strong', 
+      description: 'Completed first month', 
+      icon: '🌟',
+      earned: monthsOnProgram >= 1,
+      color: '#4A6741'
+    },
+    { 
+      id: 'month_3', 
+      name: '3 Month Milestone', 
+      description: 'Completed 3 months', 
+      icon: '🏅',
+      earned: monthsOnProgram >= 3,
+      color: '#FFD700'
+    },
+  ];
+
+  const totalEarned = badgeCategories.reduce((sum, cat) => 
+    sum + cat.badges.filter(b => b.current >= b.threshold).length, 0
+  ) + specialBadges.filter(b => b.earned).length;
+
+  const totalPossible = badgeCategories.reduce((sum, cat) => sum + cat.badges.length, 0) + specialBadges.length;
+
+  return (
+    <div style={styles.badgesSectionContainer}>
+      {/* Achievement Summary */}
+      <div style={styles.badgesSummary}>
+        <div style={styles.badgesSummaryIcon}>🏆</div>
+        <div style={styles.badgesSummaryContent}>
+          <p style={styles.badgesSummaryTitle}>{totalEarned} Badges Earned</p>
+          <p style={styles.badgesSummarySubtitle}>{totalPossible - totalEarned} more to unlock</p>
+        </div>
+        <div style={styles.badgesSummaryProgress}>
+          <div style={{
+            ...styles.badgesSummaryProgressFill,
+            width: `${(totalEarned / totalPossible) * 100}%`
+          }} />
+        </div>
+      </div>
+
+      {/* Special Events */}
+      <div style={styles.badgeCategory}>
+        <h3 style={styles.badgeCategoryTitle}>SPECIAL ACHIEVEMENTS</h3>
+        <div style={styles.specialBadgesScroll}>
+          {specialBadges.map(badge => (
+            <div 
+              key={badge.id}
+              style={{
+                ...styles.specialBadgeCard,
+                opacity: badge.earned ? 1 : 0.4,
+                background: badge.earned 
+                  ? `linear-gradient(145deg, ${badge.color}15 0%, ${badge.color}30 100%)`
+                  : '#F5F4F2'
+              }}
+            >
+              <div style={{
+                ...styles.specialBadgeIcon,
+                border: badge.earned ? `3px solid ${badge.color}` : '3px solid #D0D0D0'
+              }}>
+                <span style={styles.specialBadgeEmoji}>{badge.icon}</span>
+              </div>
+              <p style={styles.specialBadgeName}>{badge.name}</p>
+              {badge.earned && <span style={styles.specialBadgeCheck}>✓</span>}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Milestone Categories */}
+      {badgeCategories.map(category => (
+        <div key={category.title} style={styles.badgeCategory}>
+          <h3 style={styles.badgeCategoryTitle}>{category.title}</h3>
+          <div style={styles.milestoneBadgesContainer}>
+            <div style={styles.milestoneBadgesScroll}>
+              {category.badges.map(badge => {
+                const earned = badge.current >= badge.threshold;
+                const progress = Math.min(100, (badge.current / badge.threshold) * 100);
+                
+                return (
+                  <div 
+                    key={badge.id}
+                    style={{
+                      ...styles.milestoneBadge,
+                      opacity: earned ? 1 : 0.5,
+                    }}
+                  >
+                    <div style={{
+                      ...styles.milestoneBadgeCircle,
+                      background: earned 
+                        ? `linear-gradient(145deg, ${category.color} 0%, ${category.color}CC 100%)`
+                        : '#2D2D2D',
+                      borderColor: earned ? category.color : '#444',
+                    }}>
+                      {/* Progress ring for unearned badges */}
+                      {!earned && (
+                        <svg 
+                          style={styles.milestoneBadgeProgress}
+                          viewBox="0 0 80 80"
+                        >
+                          <circle
+                            cx="40"
+                            cy="40"
+                            r="36"
+                            fill="none"
+                            stroke={category.color}
+                            strokeWidth="4"
+                            strokeDasharray={`${(progress / 100) * 226} 226`}
+                            strokeLinecap="round"
+                            transform="rotate(-90 40 40)"
+                            opacity="0.6"
+                          />
+                        </svg>
+                      )}
+                      <span style={{
+                        ...styles.milestoneBadgeNumber,
+                        color: earned ? '#FFFFFF' : category.color
+                      }}>
+                        {badge.icon}
+                      </span>
+                    </div>
+                    <p style={styles.milestoneBadgeName}>{badge.name}</p>
+                    {!earned && (
+                      <p style={styles.milestoneBadgeProgressText}>
+                        {badge.current}/{badge.threshold}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -6009,9 +6546,640 @@ function TreatmentsScreen({ setActiveModal }) {
   );
 }
 
+// Achievements Screen
+function AchievementsScreen({ user, setUser, onBack }) {
+  const [selectedCategory, setSelectedCategory] = useState('all');
+
+  // Badge definitions organized by category
+  const badgeCategories = {
+    'GLP-1 Journey': {
+      icon: '💉',
+      badges: [
+        { id: 'first_glp1', name: 'First Shot', desc: 'Complete your first GLP-1 injection', icon: '1', requirement: 1, type: 'glp1Injections' },
+        { id: 'glp1_4', name: '4 Weeks', desc: 'Complete 4 GLP-1 injections', icon: '4', requirement: 4, type: 'glp1Injections' },
+        { id: 'glp1_12', name: '3 Months', desc: 'Complete 12 GLP-1 injections', icon: '12', requirement: 12, type: 'glp1Injections' },
+        { id: 'glp1_26', name: '6 Months', desc: 'Complete 26 GLP-1 injections', icon: '26', requirement: 26, type: 'glp1Injections' },
+        { id: 'glp1_52', name: '1 Year', desc: 'Complete 52 GLP-1 injections', icon: '52', requirement: 52, type: 'glp1Injections' },
+      ]
+    },
+    'Lipo-C Progress': {
+      icon: '🧪',
+      badges: [
+        { id: 'first_lipoc', name: 'Lipo Starter', desc: 'Complete your first Lipo-C injection', icon: '1', requirement: 1, type: 'lipocInjections' },
+        { id: 'lipoc_5', name: 'Lipo Regular', desc: 'Complete 5 Lipo-C injections', icon: '5', requirement: 5, type: 'lipocInjections' },
+        { id: 'lipoc_10', name: 'Lipo Pro', desc: 'Complete 10 Lipo-C injections', icon: '10', requirement: 10, type: 'lipocInjections' },
+        { id: 'lipoc_25', name: 'Lipo Master', desc: 'Complete 25 Lipo-C injections', icon: '25', requirement: 25, type: 'lipocInjections' },
+      ]
+    },
+    'Weight Loss': {
+      icon: '⚖️',
+      badges: [
+        { id: '5lb_lost', name: '5 lbs Down', desc: 'Lose 5 pounds', icon: '5', requirement: 5, type: 'totalWeightLost' },
+        { id: '10lb_lost', name: '10 lbs Down', desc: 'Lose 10 pounds', icon: '10', requirement: 10, type: 'totalWeightLost' },
+        { id: '25lb_lost', name: '25 lbs Down', desc: 'Lose 25 pounds', icon: '25', requirement: 25, type: 'totalWeightLost' },
+        { id: '50lb_lost', name: '50 lbs Down', desc: 'Lose 50 pounds', icon: '50', requirement: 50, type: 'totalWeightLost' },
+        { id: '100lb_lost', name: 'Century Club', desc: 'Lose 100 pounds', icon: '100', requirement: 100, type: 'totalWeightLost' },
+      ]
+    },
+    'Consistency': {
+      icon: '🔥',
+      badges: [
+        { id: '7_day_streak', name: '7-Day Streak', desc: 'Maintain a 7-day streak', icon: '7', requirement: 7, type: 'longestStreak' },
+        { id: '14_day_streak', name: '14-Day Streak', desc: 'Maintain a 14-day streak', icon: '14', requirement: 14, type: 'longestStreak' },
+        { id: '30_day_streak', name: '30-Day Streak', desc: 'Maintain a 30-day streak', icon: '30', requirement: 30, type: 'longestStreak' },
+        { id: '60_day_streak', name: '60-Day Streak', desc: 'Maintain a 60-day streak', icon: '60', requirement: 60, type: 'longestStreak' },
+        { id: '90_day_streak', name: '90-Day Streak', desc: 'Maintain a 90-day streak', icon: '90', requirement: 90, type: 'longestStreak' },
+      ]
+    },
+    'IV Therapy': {
+      icon: '💧',
+      badges: [
+        { id: 'first_iv', name: 'First Drip', desc: 'Complete your first IV session', icon: '1', requirement: 1, type: 'ivTherapySessions' },
+        { id: 'iv_5', name: 'IV Regular', desc: 'Complete 5 IV sessions', icon: '5', requirement: 5, type: 'ivTherapySessions' },
+        { id: 'iv_10', name: 'IV Enthusiast', desc: 'Complete 10 IV sessions', icon: '10', requirement: 10, type: 'ivTherapySessions' },
+        { id: 'iv_25', name: 'IV Champion', desc: 'Complete 25 IV sessions', icon: '25', requirement: 25, type: 'ivTherapySessions' },
+      ]
+    },
+    'Nutrition': {
+      icon: '🥗',
+      badges: [
+        { id: 'protein_week', name: 'Protein Pro', desc: 'Hit protein goal 7 days in a row', icon: '7', requirement: 7, type: 'proteinGoalsMet' },
+        { id: 'protein_month', name: 'Protein Master', desc: 'Hit protein goal 30 days', icon: '30', requirement: 30, type: 'proteinGoalsMet' },
+        { id: 'hydration_week', name: 'Hydration Hero', desc: 'Hit hydration goal 7 days in a row', icon: '7', requirement: 7, type: 'hydrationGoalsMet' },
+        { id: 'hydration_month', name: 'Hydration Master', desc: 'Hit hydration goal 30 days', icon: '30', requirement: 30, type: 'hydrationGoalsMet' },
+      ]
+    },
+    'Fitness': {
+      icon: '💪',
+      badges: [
+        { id: 'first_workout', name: 'First Workout', desc: 'Complete your first workout', icon: '1', requirement: 1, type: 'workoutsCompleted' },
+        { id: 'workout_10', name: '10 Workouts', desc: 'Complete 10 workouts', icon: '10', requirement: 10, type: 'workoutsCompleted' },
+        { id: 'workout_25', name: '25 Workouts', desc: 'Complete 25 workouts', icon: '25', requirement: 25, type: 'workoutsCompleted' },
+        { id: 'workout_50', name: '50 Workouts', desc: 'Complete 50 workouts', icon: '50', requirement: 50, type: 'workoutsCompleted' },
+      ]
+    },
+    'Community': {
+      icon: '👥',
+      badges: [
+        { id: 'first_referral', name: 'First Referral', desc: 'Refer your first friend', icon: '1', requirement: 1, type: 'referralsMade' },
+        { id: 'referral_3', name: '3 Referrals', desc: 'Refer 3 friends', icon: '3', requirement: 3, type: 'referralsMade' },
+        { id: 'referral_5', name: '5 Referrals', desc: 'Refer 5 friends', icon: '5', requirement: 5, type: 'referralsMade' },
+        { id: 'referral_10', name: '10 Referrals', desc: 'Refer 10 friends', icon: '10', requirement: 10, type: 'referralsMade' },
+      ]
+    },
+  };
+
+  const categories = ['all', ...Object.keys(badgeCategories)];
+  
+  const isBadgeEarned = (badge) => {
+    return user.earnedBadges?.includes(badge.id) || 
+           (user.achievements && user.achievements[badge.type] >= badge.requirement);
+  };
+
+  const getBadgeProgress = (badge) => {
+    const current = user.achievements?.[badge.type] || 0;
+    return Math.min(100, (current / badge.requirement) * 100);
+  };
+
+  const totalBadges = Object.values(badgeCategories).reduce((sum, cat) => sum + cat.badges.length, 0);
+  const earnedCount = Object.values(badgeCategories).reduce((sum, cat) => 
+    sum + cat.badges.filter(b => isBadgeEarned(b)).length, 0);
+
+  const filteredCategories = selectedCategory === 'all' 
+    ? Object.entries(badgeCategories) 
+    : Object.entries(badgeCategories).filter(([key]) => key === selectedCategory);
+
+  return (
+    <div style={styles.screenContent} className="fade-in">
+      <div style={styles.achievementsHeader}>
+        <button style={styles.backButton} onClick={onBack}>← Back</button>
+        <h1 style={styles.achievementsTitle}>Achievements</h1>
+        <div style={{ width: '50px' }} />
+      </div>
+
+      {/* Summary Card */}
+      <div style={styles.achievementsSummary}>
+        <div style={styles.achievementsSummaryIcon}>🏆</div>
+        <div style={styles.achievementsSummaryInfo}>
+          <h2 style={styles.achievementsSummaryCount}>{earnedCount} / {totalBadges}</h2>
+          <p style={styles.achievementsSummaryLabel}>Badges Earned</p>
+        </div>
+        <div style={styles.achievementsSummaryProgress}>
+          <div style={{...styles.achievementsSummaryProgressFill, width: `${(earnedCount/totalBadges)*100}%`}} />
+        </div>
+      </div>
+
+      {/* Category Filter */}
+      <div style={styles.achievementsCategoryFilter}>
+        {categories.map(cat => (
+          <button
+            key={cat}
+            style={{
+              ...styles.achievementsCategoryBtn,
+              ...(selectedCategory === cat ? styles.achievementsCategoryBtnActive : {})
+            }}
+            onClick={() => setSelectedCategory(cat)}
+          >
+            {cat === 'all' ? '🏅 All' : `${badgeCategories[cat]?.icon || ''} ${cat.split(' ')[0]}`}
+          </button>
+        ))}
+      </div>
+
+      {/* Badge Lists by Category */}
+      {filteredCategories.map(([categoryName, category]) => (
+        <div key={categoryName} style={styles.achievementsCategorySection}>
+          <div style={styles.achievementsCategoryHeader}>
+            <span style={styles.achievementsCategoryIcon}>{category.icon}</span>
+            <h3 style={styles.achievementsCategoryTitle}>{categoryName.toUpperCase()}</h3>
+          </div>
+          <div style={styles.badgesGrid}>
+            {category.badges.map((badge) => {
+              const earned = isBadgeEarned(badge);
+              const progress = getBadgeProgress(badge);
+              
+              return (
+                <div 
+                  key={badge.id} 
+                  style={{
+                    ...styles.badgeCard,
+                    opacity: earned ? 1 : 0.5,
+                  }}
+                >
+                  <div style={{
+                    ...styles.badgeCircle,
+                    background: earned 
+                      ? 'linear-gradient(135deg, #D946B0 0%, #9B2D7B 100%)' 
+                      : 'linear-gradient(135deg, #3D3D4D 0%, #2D2D3D 100%)',
+                    boxShadow: earned ? '0 4px 15px rgba(217, 70, 176, 0.4)' : 'none'
+                  }}>
+                    <div style={styles.badgeInnerCircle}>
+                      <span style={{
+                        ...styles.badgeNumber,
+                        color: earned ? '#FFFFFF' : '#666666'
+                      }}>{badge.icon}</span>
+                    </div>
+                    {!earned && progress > 0 && progress < 100 && (
+                      <svg style={styles.badgeProgressRing} viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" fill="none" stroke="#4A4A5A" strokeWidth="6" />
+                        <circle 
+                          cx="50" cy="50" r="45" fill="none" 
+                          stroke="#D946B0" strokeWidth="6" strokeLinecap="round"
+                          strokeDasharray={`${progress * 2.83} 283`}
+                          transform="rotate(-90 50 50)"
+                        />
+                      </svg>
+                    )}
+                  </div>
+                  <p style={styles.badgeName}>{badge.name}</p>
+                  {earned && <span style={styles.badgeEarnedCheck}>✓</span>}
+                  {!earned && (
+                    <p style={styles.badgeProgressText}>
+                      {user.achievements?.[badge.type] || 0}/{badge.requirement}
+                    </p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+
+      {/* Special Events Section */}
+      <div style={styles.achievementsCategorySection}>
+        <div style={styles.achievementsCategoryHeader}>
+          <span style={styles.achievementsCategoryIcon}>⭐</span>
+          <h3 style={styles.achievementsCategoryTitle}>SPECIAL EVENTS</h3>
+        </div>
+        <div style={styles.specialBadgesRow}>
+          <div style={styles.specialBadgeCard}>
+            <div style={styles.specialBadgeImage}>
+              <span style={styles.specialBadgeEmoji}>🎄</span>
+            </div>
+            <p style={styles.specialBadgeName}>Holiday 2024</p>
+          </div>
+          <div style={{...styles.specialBadgeCard, opacity: 0.4}}>
+            <div style={styles.specialBadgeImage}>
+              <span style={styles.specialBadgeEmoji}>💝</span>
+            </div>
+            <p style={styles.specialBadgeName}>Valentine's 2025</p>
+          </div>
+          <div style={{...styles.specialBadgeCard, opacity: 0.4}}>
+            <div style={styles.specialBadgeImage}>
+              <span style={styles.specialBadgeEmoji}>☀️</span>
+            </div>
+            <p style={styles.specialBadgeName}>Summer 2025</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Loyalty Program Screen
+function LoyaltyProgramScreen({ user, setUser, onBack }) {
+  const [activeTab, setActiveTab] = useState('rewards');
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  // Tier definitions
+  const tiers = [
+    { 
+      id: 'Bronze', 
+      icon: '🥉', 
+      minSpend: 0, 
+      maxSpend: 499,
+      color: '#CD7F32',
+      bgColor: '#FDF5E6',
+      benefits: ['5% off IV Therapy', '$25 referral credit', 'Birthday bonus'],
+      discount: 5
+    },
+    { 
+      id: 'Silver', 
+      icon: '🥈', 
+      minSpend: 500, 
+      maxSpend: 1499,
+      color: '#A8A8A8',
+      bgColor: '#F5F5F5',
+      benefits: ['10% off IV Therapy', '$50 referral credit', 'Priority scheduling', 'Free B12 monthly'],
+      discount: 10
+    },
+    { 
+      id: 'Gold', 
+      icon: '🥇', 
+      minSpend: 1500, 
+      maxSpend: 2999,
+      color: '#FFD700',
+      bgColor: '#FFFEF0',
+      benefits: ['15% off all services', '$75 referral credit', 'VIP scheduling', 'Free monthly booster', 'Exclusive events'],
+      discount: 15
+    },
+    { 
+      id: 'Platinum', 
+      icon: '💎', 
+      minSpend: 3000, 
+      maxSpend: Infinity,
+      color: '#E5E4E2',
+      bgColor: '#F8F8FF',
+      benefits: ['20% off everything', '$100 referral credit', 'Concierge service', 'Free monthly IV', 'VIP events', 'First access to new treatments'],
+      discount: 20
+    },
+  ];
+
+  const currentTier = tiers.find(t => t.id === user.loyaltyTier) || tiers[0];
+  const currentTierIndex = tiers.findIndex(t => t.id === user.loyaltyTier);
+  const nextTier = currentTierIndex < tiers.length - 1 ? tiers[currentTierIndex + 1] : null;
+  
+  const spendToNextTier = nextTier ? nextTier.minSpend - (user.lifetimeSpent || 0) : 0;
+  const progressToNext = nextTier 
+    ? Math.min(100, ((user.lifetimeSpent - currentTier.minSpend) / (nextTier.minSpend - currentTier.minSpend)) * 100)
+    : 100;
+
+  const handleCopyCode = () => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(user.referralCode || 'HYDR801');
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleShare = async (method) => {
+    const shareText = `Join me at HYDR801 Infusion & Wellness! Use my code ${user.referralCode} to get $25 off your first treatment. 💪✨`;
+    const shareUrl = `https://hydr801.com/refer/${user.referralCode}`;
+    
+    if (method === 'native' && navigator.share) {
+      try {
+        await navigator.share({
+          title: 'HYDR801 Referral',
+          text: shareText,
+          url: shareUrl,
+        });
+      } catch (err) {
+        console.log('Share cancelled');
+      }
+    } else if (method === 'sms') {
+      window.open(`sms:?body=${encodeURIComponent(shareText + ' ' + shareUrl)}`);
+    } else if (method === 'email') {
+      window.open(`mailto:?subject=${encodeURIComponent('Join me at HYDR801!')}&body=${encodeURIComponent(shareText + '\n\n' + shareUrl)}`);
+    } else if (method === 'facebook') {
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`);
+    } else if (method === 'twitter') {
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`);
+    }
+    setShowShareModal(false);
+  };
+
+  return (
+    <div style={styles.screenContent} className="fade-in">
+      <div style={styles.loyaltyHeader}>
+        <button style={styles.backButton} onClick={onBack}>← Back</button>
+        <h2 style={styles.loyaltyHeaderTitle}>Rewards Program</h2>
+        <div style={{ width: '50px' }} />
+      </div>
+
+      {/* Current Tier Card */}
+      <div style={{...styles.tierCard, background: `linear-gradient(135deg, ${currentTier.bgColor} 0%, #FFFFFF 100%)`}}>
+        <div style={styles.tierCardHeader}>
+          <span style={styles.tierIcon}>{currentTier.icon}</span>
+          <div style={styles.tierInfo}>
+            <h2 style={{...styles.tierName, color: currentTier.color}}>{currentTier.id} Member</h2>
+            <p style={styles.tierSpent}>${user.lifetimeSpent?.toLocaleString() || 0} lifetime spending</p>
+          </div>
+        </div>
+        
+        {nextTier && (
+          <div style={styles.tierProgress}>
+            <div style={styles.tierProgressHeader}>
+              <span style={styles.tierProgressLabel}>Progress to {nextTier.id}</span>
+              <span style={styles.tierProgressValue}>${spendToNextTier} to go</span>
+            </div>
+            <div style={styles.tierProgressBar}>
+              <div style={{...styles.tierProgressFill, width: `${progressToNext}%`, background: nextTier.color}} />
+            </div>
+          </div>
+        )}
+        
+        <div style={styles.tierDiscount}>
+          <span style={styles.discountBadge}>{currentTier.discount}% OFF</span>
+          <span style={styles.discountText}>your services</span>
+        </div>
+      </div>
+
+      {/* Referral Code Card */}
+      <div style={styles.referralCard}>
+        <div style={styles.referralHeader}>
+          <span style={styles.referralIcon}>🎁</span>
+          <div>
+            <h3 style={styles.referralTitle}>Share & Earn</h3>
+            <p style={styles.referralSubtitle}>Get ${currentTier.id === 'Platinum' ? '100' : currentTier.id === 'Gold' ? '75' : currentTier.id === 'Silver' ? '50' : '25'} credit for each friend</p>
+          </div>
+        </div>
+        
+        <div style={styles.referralCodeBox}>
+          <span style={styles.referralCodeLabel}>Your Referral Code</span>
+          <div style={styles.referralCodeRow}>
+            <span style={styles.referralCode}>{user.referralCode || 'HYDR801'}</span>
+            <button style={styles.copyButton} onClick={handleCopyCode}>
+              {copied ? '✓ Copied!' : '📋 Copy'}
+            </button>
+          </div>
+        </div>
+        
+        <button style={styles.shareButton} onClick={() => setShowShareModal(true)}>
+          <span>📤</span> Share with Friends
+        </button>
+        
+        <div style={styles.referralStats}>
+          <div style={styles.referralStat}>
+            <span style={styles.referralStatValue}>{user.referralCount || 0}</span>
+            <span style={styles.referralStatLabel}>Friends Referred</span>
+          </div>
+          <div style={styles.referralStatDivider} />
+          <div style={styles.referralStat}>
+            <span style={styles.referralStatValue}>${user.referralCredits || 0}</span>
+            <span style={styles.referralStatLabel}>Credits Earned</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div style={styles.loyaltyTabs}>
+        {['rewards', 'history', 'tiers'].map(tab => (
+          <button
+            key={tab}
+            style={{...styles.loyaltyTab, ...(activeTab === tab ? styles.loyaltyTabActive : {})}}
+            onClick={() => setActiveTab(tab)}
+          >
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+          </button>
+        ))}
+      </div>
+
+      {/* Tab Content */}
+      {activeTab === 'rewards' && (
+        <div className="fade-in">
+          <h3 style={styles.loyaltySectionTitle}>Your {currentTier.id} Benefits</h3>
+          <div style={styles.benefitsList}>
+            {currentTier.benefits.map((benefit, idx) => (
+              <div key={idx} style={styles.benefitItem}>
+                <span style={styles.benefitCheck}>✓</span>
+                <span style={styles.benefitText}>{benefit}</span>
+              </div>
+            ))}
+          </div>
+          
+          {nextTier && (
+            <>
+              <h3 style={{...styles.loyaltySectionTitle, marginTop: '24px'}}>Unlock with {nextTier.id}</h3>
+              <div style={{...styles.benefitsList, opacity: 0.6}}>
+                {nextTier.benefits.filter(b => !currentTier.benefits.includes(b)).map((benefit, idx) => (
+                  <div key={idx} style={styles.benefitItem}>
+                    <span style={{...styles.benefitCheck, background: '#E0E0E0', color: '#9B9B9B'}}>🔒</span>
+                    <span style={styles.benefitText}>{benefit}</span>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {/* Available Rewards */}
+          <h3 style={{...styles.loyaltySectionTitle, marginTop: '24px'}}>Available Rewards</h3>
+          <div style={styles.rewardsList}>
+            <div style={styles.rewardCard}>
+              <span style={styles.rewardIcon}>💧</span>
+              <div style={styles.rewardInfo}>
+                <h4 style={styles.rewardName}>{currentTier.discount}% Off IV Therapy</h4>
+                <p style={styles.rewardDesc}>Applied automatically at checkout</p>
+              </div>
+              <span style={styles.rewardStatus}>Active</span>
+            </div>
+            {user.referralCredits > 0 && (
+              <div style={styles.rewardCard}>
+                <span style={styles.rewardIcon}>💵</span>
+                <div style={styles.rewardInfo}>
+                  <h4 style={styles.rewardName}>${user.referralCredits} Credit Balance</h4>
+                  <p style={styles.rewardDesc}>Use toward any service</p>
+                </div>
+                <span style={{...styles.rewardStatus, background: '#E8EDE6', color: '#4A6741'}}>Available</span>
+              </div>
+            )}
+            {(currentTier.id === 'Silver' || currentTier.id === 'Gold' || currentTier.id === 'Platinum') && (
+              <div style={styles.rewardCard}>
+                <span style={styles.rewardIcon}>💉</span>
+                <div style={styles.rewardInfo}>
+                  <h4 style={styles.rewardName}>Free Monthly {currentTier.id === 'Platinum' ? 'IV' : 'Booster'}</h4>
+                  <p style={styles.rewardDesc}>Resets on the 1st</p>
+                </div>
+                <span style={{...styles.rewardStatus, background: '#FFF5F0', color: '#C4956A'}}>Claim</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'history' && (
+        <div className="fade-in">
+          <h3 style={styles.loyaltySectionTitle}>Referral History</h3>
+          {user.referralHistory && user.referralHistory.length > 0 ? (
+            <div style={styles.historyList}>
+              {user.referralHistory.map((ref, idx) => (
+                <div key={idx} style={styles.historyItem}>
+                  <div style={styles.historyAvatar}>{ref.name[0]}</div>
+                  <div style={styles.historyInfo}>
+                    <p style={styles.historyName}>{ref.name}</p>
+                    <p style={styles.historyDate}>{new Date(ref.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+                  </div>
+                  <div style={styles.historyRight}>
+                    <span style={{
+                      ...styles.historyStatus,
+                      background: ref.status === 'completed' ? '#E8EDE6' : '#FFF5F0',
+                      color: ref.status === 'completed' ? '#4A6741' : '#C4956A'
+                    }}>
+                      {ref.status === 'completed' ? '✓ Earned' : '⏳ Pending'}
+                    </span>
+                    <span style={styles.historyCredit}>+${ref.credit}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div style={styles.emptyHistory}>
+              <span style={styles.emptyIcon}>👥</span>
+              <p style={styles.emptyText}>No referrals yet</p>
+              <p style={styles.emptySubtext}>Share your code to start earning!</p>
+            </div>
+          )}
+
+          <h3 style={{...styles.loyaltySectionTitle, marginTop: '24px'}}>Spending History</h3>
+          {user.spendingHistory && user.spendingHistory.length > 0 ? (
+            <div style={styles.historyList}>
+              {user.spendingHistory.map((item, idx) => (
+                <div key={idx} style={styles.spendingItem}>
+                  <div style={styles.spendingIcon}>💳</div>
+                  <div style={styles.spendingInfo}>
+                    <p style={styles.spendingDesc}>{item.description}</p>
+                    <p style={styles.spendingDate}>{new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+                  </div>
+                  <span style={styles.spendingAmount}>${item.amount}</span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div style={styles.emptyHistory}>
+              <span style={styles.emptyIcon}>📋</span>
+              <p style={styles.emptyText}>No purchases yet</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {activeTab === 'tiers' && (
+        <div className="fade-in">
+          <h3 style={styles.loyaltySectionTitle}>Membership Tiers</h3>
+          <div style={styles.tiersList}>
+            {tiers.map((tier, idx) => {
+              const isCurrentTier = tier.id === user.loyaltyTier;
+              const isUnlocked = (user.lifetimeSpent || 0) >= tier.minSpend;
+              
+              return (
+                <div 
+                  key={idx} 
+                  style={{
+                    ...styles.tierListItem,
+                    border: isCurrentTier ? `2px solid ${tier.color}` : '1px solid #E8E8E8',
+                    background: isCurrentTier ? tier.bgColor : '#FFFFFF',
+                    opacity: isUnlocked ? 1 : 0.6
+                  }}
+                >
+                  <div style={styles.tierListHeader}>
+                    <span style={styles.tierListIcon}>{tier.icon}</span>
+                    <div style={styles.tierListInfo}>
+                      <h4 style={{...styles.tierListName, color: tier.color}}>{tier.id}</h4>
+                      <p style={styles.tierListSpend}>
+                        {tier.maxSpend === Infinity 
+                          ? `$${tier.minSpend.toLocaleString()}+` 
+                          : `$${tier.minSpend.toLocaleString()} - $${tier.maxSpend.toLocaleString()}`}
+                      </p>
+                    </div>
+                    {isCurrentTier && (
+                      <span style={styles.currentTierBadge}>Current</span>
+                    )}
+                    {!isUnlocked && (
+                      <span style={styles.lockedBadge}>🔒</span>
+                    )}
+                  </div>
+                  <div style={styles.tierListBenefits}>
+                    {tier.benefits.slice(0, 3).map((benefit, bidx) => (
+                      <span key={bidx} style={styles.tierBenefitTag}>• {benefit}</span>
+                    ))}
+                    {tier.benefits.length > 3 && (
+                      <span style={styles.tierMoreBenefits}>+{tier.benefits.length - 3} more</span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Share Modal */}
+      {showShareModal && (
+        <div style={styles.shareModalOverlay} onClick={() => setShowShareModal(false)}>
+          <div style={styles.shareModalContent} className="slide-up" onClick={e => e.stopPropagation()}>
+            <button style={styles.shareModalClose} onClick={() => setShowShareModal(false)}>×</button>
+            <h3 style={styles.shareModalTitle}>Share Your Code</h3>
+            <p style={styles.shareModalSubtitle}>Friends get $25 off, you get ${currentTier.id === 'Platinum' ? '100' : currentTier.id === 'Gold' ? '75' : currentTier.id === 'Silver' ? '50' : '25'}!</p>
+            
+            <div style={styles.shareCodeDisplay}>
+              <span style={styles.shareCodeText}>{user.referralCode || 'HYDR801'}</span>
+            </div>
+            
+            <div style={styles.shareOptions}>
+              {navigator.share && (
+                <button style={styles.shareOption} onClick={() => handleShare('native')}>
+                  <span style={styles.shareOptionIcon}>📱</span>
+                  <span style={styles.shareOptionLabel}>Share</span>
+                </button>
+              )}
+              <button style={styles.shareOption} onClick={() => handleShare('sms')}>
+                <span style={styles.shareOptionIcon}>💬</span>
+                <span style={styles.shareOptionLabel}>Text</span>
+              </button>
+              <button style={styles.shareOption} onClick={() => handleShare('email')}>
+                <span style={styles.shareOptionIcon}>📧</span>
+                <span style={styles.shareOptionLabel}>Email</span>
+              </button>
+              <button style={styles.shareOption} onClick={() => handleShare('facebook')}>
+                <span style={styles.shareOptionIcon}>📘</span>
+                <span style={styles.shareOptionLabel}>Facebook</span>
+              </button>
+              <button style={styles.shareOption} onClick={() => handleShare('twitter')}>
+                <span style={styles.shareOptionIcon}>🐦</span>
+                <span style={styles.shareOptionLabel}>Twitter</span>
+              </button>
+              <button style={styles.shareOption} onClick={handleCopyCode}>
+                <span style={styles.shareOptionIcon}>{copied ? '✓' : '📋'}</span>
+                <span style={styles.shareOptionLabel}>{copied ? 'Copied!' : 'Copy'}</span>
+              </button>
+            </div>
+            
+            <div style={styles.sharePreview}>
+              <p style={styles.sharePreviewLabel}>Preview Message:</p>
+              <p style={styles.sharePreviewText}>
+                "Join me at HYDR801 Infusion & Wellness! Use my code {user.referralCode} to get $25 off your first treatment. 💪✨"
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // Profile Screen
 function ProfileScreen({ user, setUser }) {
   const [showWeightLog, setShowWeightLog] = useState(false);
+  const [showLoyalty, setShowLoyalty] = useState(false);
 
   const menuItems = [
     { icon: '👤', label: 'Personal Information' },
@@ -6027,13 +7195,17 @@ function ProfileScreen({ user, setUser }) {
     { id: 'protein_champion', name: 'Protein Champion', icon: '🥩', earned: user.badges?.includes('protein_champion') },
     { id: 'hydration_hero', name: 'Hydration Hero', icon: '💧', earned: user.badges?.includes('hydration_hero') },
     { id: '7_day_streak', name: '7-Day Streak', icon: '🔥', earned: user.badges?.includes('7_day_streak') },
-    { id: '14_day_streak', name: '14-Day Streak', icon: 'âš¡', earned: user.badges?.includes('14_day_streak') },
+    { id: '14_day_streak', name: '14-Day Streak', icon: '⚡', earned: user.badges?.includes('14_day_streak') },
     { id: 'meal_master', name: 'Meal Master', icon: '🍽️', earned: user.badges?.includes('meal_master') },
   ];
 
   const weightLoss = user.weightLog?.length >= 2
     ? (user.weightLog[0].weight - user.weightLog[user.weightLog.length - 1].weight).toFixed(1)
     : 0;
+
+  if (showLoyalty) {
+    return <LoyaltyProgramScreen user={user} setUser={setUser} onBack={() => setShowLoyalty(false)} />;
+  }
 
   return (
     <div style={styles.screenContent} className="fade-in">
@@ -6044,13 +7216,29 @@ function ProfileScreen({ user, setUser }) {
         <h1 style={styles.profileName}>{user.name}</h1>
         <p style={styles.profileJourney}>Week {user.week} of your journey</p>
         
-        {/* Level Badge */}
-        <div style={styles.levelBadgeProfile}>
+        {/* Level Badge - Now clickable */}
+        <div style={styles.levelBadgeProfile} onClick={() => setShowLoyalty(true)} className="card-hover">
           <span style={styles.levelBadgeIcon}>⭐</span>
-          <span style={styles.levelBadgeText}>{user.level || 'Bronze'} Level</span>
-          <span style={styles.levelBadgePoints}>{user.totalPoints || 0} pts</span>
+          <span style={styles.levelBadgeText}>{user.loyaltyTier || 'Bronze'} Member</span>
+          <span style={styles.levelBadgePoints}>${user.lifetimeSpent || 0} spent</span>
         </div>
       </header>
+
+      {/* Loyalty Program Card */}
+      <div style={styles.loyaltyPreviewCard} className="card-hover" onClick={() => setShowLoyalty(true)}>
+        <div style={styles.loyaltyPreviewLeft}>
+          <div style={styles.loyaltyPreviewBadge}>
+            {user.loyaltyTier === 'Platinum' ? '💎' : user.loyaltyTier === 'Gold' ? '🥇' : user.loyaltyTier === 'Silver' ? '🥈' : '🥉'}
+          </div>
+          <div style={styles.loyaltyPreviewInfo}>
+            <h4 style={styles.loyaltyPreviewTitle}>{user.loyaltyTier || 'Bronze'} Rewards</h4>
+            <p style={styles.loyaltyPreviewSubtext}>
+              {user.referralCount || 0} referrals • ${user.referralCredits || 0} credits
+            </p>
+          </div>
+        </div>
+        <div style={styles.loyaltyPreviewArrow}>→</div>
+      </div>
 
       {/* Streak & Stats */}
       <div style={styles.statsRow}>
@@ -11569,5 +12757,948 @@ const styles = {
     color: '#FFFFFF',
     cursor: 'pointer',
     textAlign: 'left',
+  },
+  
+  // Loyalty Program Styles
+  loyaltyPreviewCard: {
+    background: 'linear-gradient(135deg, #F5E6D3 0%, #FFFFFF 100%)',
+    borderRadius: '16px',
+    padding: '16px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '20px',
+    cursor: 'pointer',
+  },
+  loyaltyPreviewLeft: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+  },
+  loyaltyPreviewBadge: {
+    fontSize: '32px',
+  },
+  loyaltyPreviewInfo: {
+    flex: 1,
+  },
+  loyaltyPreviewTitle: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+    marginBottom: '2px',
+  },
+  loyaltyPreviewSubtext: {
+    fontSize: '13px',
+    color: '#8B8B8B',
+  },
+  loyaltyPreviewArrow: {
+    fontSize: '18px',
+    color: '#C4956A',
+  },
+  loyaltyHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '20px',
+  },
+  loyaltyHeaderTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '20px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  tierCard: {
+    borderRadius: '20px',
+    padding: '24px',
+    marginBottom: '20px',
+    border: '1px solid rgba(0,0,0,0.05)',
+  },
+  tierCardHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '16px',
+    marginBottom: '20px',
+  },
+  tierIcon: {
+    fontSize: '48px',
+  },
+  tierInfo: {
+    flex: 1,
+  },
+  tierName: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '24px',
+    fontWeight: '600',
+    marginBottom: '4px',
+  },
+  tierSpent: {
+    fontSize: '14px',
+    color: '#6B6B6B',
+  },
+  tierProgress: {
+    marginBottom: '16px',
+  },
+  tierProgressHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: '8px',
+  },
+  tierProgressLabel: {
+    fontSize: '13px',
+    color: '#6B6B6B',
+  },
+  tierProgressValue: {
+    fontSize: '13px',
+    fontWeight: '500',
+    color: '#4A6741',
+  },
+  tierProgressBar: {
+    height: '8px',
+    background: '#E8E8E8',
+    borderRadius: '4px',
+    overflow: 'hidden',
+  },
+  tierProgressFill: {
+    height: '100%',
+    borderRadius: '4px',
+    transition: 'width 0.5s ease',
+  },
+  tierDiscount: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+  },
+  discountBadge: {
+    background: '#4A6741',
+    color: '#FFFFFF',
+    fontSize: '14px',
+    fontWeight: '600',
+    padding: '6px 14px',
+    borderRadius: '20px',
+  },
+  discountText: {
+    fontSize: '14px',
+    color: '#6B6B6B',
+  },
+  referralCard: {
+    background: '#FFFFFF',
+    borderRadius: '20px',
+    padding: '24px',
+    marginBottom: '20px',
+    boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+  },
+  referralHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    marginBottom: '20px',
+  },
+  referralIcon: {
+    fontSize: '28px',
+  },
+  referralTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '18px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '2px',
+  },
+  referralSubtitle: {
+    fontSize: '13px',
+    color: '#6B6B6B',
+  },
+  referralCodeBox: {
+    background: '#F5F4F2',
+    borderRadius: '14px',
+    padding: '16px',
+    marginBottom: '16px',
+  },
+  referralCodeLabel: {
+    fontSize: '11px',
+    color: '#9B9B9B',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+    marginBottom: '8px',
+    display: 'block',
+  },
+  referralCodeRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  referralCode: {
+    fontFamily: "'DM Sans', monospace",
+    fontSize: '24px',
+    fontWeight: '700',
+    color: '#4A6741',
+    letterSpacing: '2px',
+  },
+  copyButton: {
+    background: '#FFFFFF',
+    border: '1px solid #E0E0E0',
+    borderRadius: '10px',
+    padding: '8px 14px',
+    fontSize: '13px',
+    color: '#4A6741',
+    cursor: 'pointer',
+    fontWeight: '500',
+  },
+  shareButton: {
+    width: '100%',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    border: 'none',
+    borderRadius: '14px',
+    padding: '16px',
+    fontSize: '15px',
+    fontWeight: '600',
+    color: '#FFFFFF',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '10px',
+    marginBottom: '16px',
+  },
+  referralStats: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '24px',
+  },
+  referralStat: {
+    textAlign: 'center',
+  },
+  referralStatValue: {
+    fontSize: '24px',
+    fontWeight: '700',
+    color: '#4A6741',
+    display: 'block',
+  },
+  referralStatLabel: {
+    fontSize: '12px',
+    color: '#9B9B9B',
+  },
+  referralStatDivider: {
+    width: '1px',
+    height: '36px',
+    background: '#E8E8E8',
+  },
+  loyaltyTabs: {
+    display: 'flex',
+    gap: '8px',
+    marginBottom: '20px',
+  },
+  loyaltyTab: {
+    flex: 1,
+    background: '#F5F4F2',
+    border: 'none',
+    borderRadius: '12px',
+    padding: '12px',
+    fontSize: '14px',
+    fontWeight: '500',
+    color: '#6B6B6B',
+    cursor: 'pointer',
+    transition: 'all 0.2s',
+  },
+  loyaltyTabActive: {
+    background: '#4A6741',
+    color: '#FFFFFF',
+  },
+  loyaltySectionTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '16px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '14px',
+  },
+  benefitsList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+  },
+  benefitItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    background: '#FFFFFF',
+    borderRadius: '12px',
+    padding: '14px',
+  },
+  benefitCheck: {
+    width: '24px',
+    height: '24px',
+    borderRadius: '12px',
+    background: '#E8EDE6',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#4A6741',
+    fontSize: '12px',
+  },
+  benefitText: {
+    fontSize: '14px',
+    color: '#2D2D2D',
+  },
+  rewardsList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+  },
+  rewardCard: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    background: '#FFFFFF',
+    borderRadius: '14px',
+    padding: '16px',
+  },
+  rewardIcon: {
+    fontSize: '28px',
+  },
+  rewardInfo: {
+    flex: 1,
+  },
+  rewardName: {
+    fontSize: '14px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '2px',
+  },
+  rewardDesc: {
+    fontSize: '12px',
+    color: '#9B9B9B',
+  },
+  rewardStatus: {
+    background: '#F5F4F2',
+    color: '#6B6B6B',
+    fontSize: '12px',
+    fontWeight: '500',
+    padding: '6px 12px',
+    borderRadius: '16px',
+  },
+  historyList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+  },
+  historyItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    background: '#FFFFFF',
+    borderRadius: '14px',
+    padding: '16px',
+  },
+  historyAvatar: {
+    width: '40px',
+    height: '40px',
+    borderRadius: '20px',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#FFFFFF',
+    fontWeight: '500',
+    fontSize: '16px',
+  },
+  historyInfo: {
+    flex: 1,
+  },
+  historyName: {
+    fontSize: '14px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '2px',
+  },
+  historyDate: {
+    fontSize: '12px',
+    color: '#9B9B9B',
+  },
+  historyRight: {
+    textAlign: 'right',
+  },
+  historyStatus: {
+    fontSize: '11px',
+    fontWeight: '500',
+    padding: '4px 10px',
+    borderRadius: '12px',
+    display: 'inline-block',
+    marginBottom: '4px',
+  },
+  historyCredit: {
+    fontSize: '14px',
+    fontWeight: '600',
+    color: '#4A6741',
+    display: 'block',
+  },
+  spendingItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    background: '#FFFFFF',
+    borderRadius: '14px',
+    padding: '16px',
+  },
+  spendingIcon: {
+    fontSize: '20px',
+    width: '40px',
+    height: '40px',
+    background: '#F5F4F2',
+    borderRadius: '10px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  spendingInfo: {
+    flex: 1,
+  },
+  spendingDesc: {
+    fontSize: '14px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '2px',
+  },
+  spendingDate: {
+    fontSize: '12px',
+    color: '#9B9B9B',
+  },
+  spendingAmount: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+  },
+  emptyHistory: {
+    textAlign: 'center',
+    padding: '40px 20px',
+    background: '#FFFFFF',
+    borderRadius: '14px',
+  },
+  emptyIcon: {
+    fontSize: '40px',
+    display: 'block',
+    marginBottom: '12px',
+  },
+  emptyText: {
+    fontSize: '16px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '4px',
+  },
+  emptySubtext: {
+    fontSize: '13px',
+    color: '#9B9B9B',
+  },
+  tiersList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px',
+  },
+  tierListItem: {
+    borderRadius: '16px',
+    padding: '16px',
+    transition: 'all 0.2s',
+  },
+  tierListHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    marginBottom: '12px',
+  },
+  tierListIcon: {
+    fontSize: '28px',
+  },
+  tierListInfo: {
+    flex: 1,
+  },
+  tierListName: {
+    fontSize: '18px',
+    fontWeight: '600',
+    marginBottom: '2px',
+  },
+  tierListSpend: {
+    fontSize: '12px',
+    color: '#6B6B6B',
+  },
+  currentTierBadge: {
+    background: '#4A6741',
+    color: '#FFFFFF',
+    fontSize: '11px',
+    fontWeight: '500',
+    padding: '4px 10px',
+    borderRadius: '12px',
+  },
+  lockedBadge: {
+    fontSize: '18px',
+  },
+  tierListBenefits: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '6px',
+  },
+  tierBenefitTag: {
+    fontSize: '11px',
+    color: '#6B6B6B',
+  },
+  tierMoreBenefits: {
+    fontSize: '11px',
+    color: '#4A6741',
+    fontWeight: '500',
+  },
+  shareModalOverlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'rgba(0,0,0,0.5)',
+    display: 'flex',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    zIndex: 1000,
+    padding: '20px',
+  },
+  shareModalContent: {
+    background: '#FFFFFF',
+    borderRadius: '24px 24px 0 0',
+    padding: '32px 24px',
+    maxWidth: '390px',
+    width: '100%',
+    position: 'relative',
+  },
+  shareModalClose: {
+    position: 'absolute',
+    top: '16px',
+    right: '16px',
+    background: '#F0EFED',
+    border: 'none',
+    width: '32px',
+    height: '32px',
+    borderRadius: '16px',
+    fontSize: '20px',
+    color: '#6B6B6B',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  shareModalTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '22px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '8px',
+    textAlign: 'center',
+  },
+  shareModalSubtitle: {
+    fontSize: '14px',
+    color: '#6B6B6B',
+    textAlign: 'center',
+    marginBottom: '24px',
+  },
+  shareCodeDisplay: {
+    background: 'linear-gradient(135deg, #E8EDE6 0%, #F5F4F2 100%)',
+    borderRadius: '16px',
+    padding: '20px',
+    textAlign: 'center',
+    marginBottom: '24px',
+  },
+  shareCodeText: {
+    fontFamily: "'DM Sans', monospace",
+    fontSize: '28px',
+    fontWeight: '700',
+    color: '#4A6741',
+    letterSpacing: '3px',
+  },
+  shareOptions: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: '12px',
+    marginBottom: '24px',
+  },
+  shareOption: {
+    background: '#F5F4F2',
+    border: 'none',
+    borderRadius: '14px',
+    padding: '16px 12px',
+    cursor: 'pointer',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '8px',
+    transition: 'all 0.2s',
+  },
+  shareOptionIcon: {
+    fontSize: '24px',
+  },
+  shareOptionLabel: {
+    fontSize: '12px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  sharePreview: {
+    background: '#F9F9F9',
+    borderRadius: '12px',
+    padding: '14px',
+  },
+  sharePreviewLabel: {
+    fontSize: '11px',
+    color: '#9B9B9B',
+    marginBottom: '8px',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+  },
+  sharePreviewText: {
+    fontSize: '13px',
+    color: '#4B4B4B',
+    lineHeight: '1.5',
+    fontStyle: 'italic',
+  },
+
+  // ==================== BADGE STYLES ====================
+  badgesSectionContainer: {
+    paddingBottom: '20px',
+  },
+  badgesSummary: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    background: 'linear-gradient(135deg, #2D2D2D 0%, #1A1A1A 100%)',
+    borderRadius: '16px',
+    padding: '18px',
+    marginBottom: '24px',
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  badgesSummaryIcon: {
+    fontSize: '32px',
+  },
+  badgesSummaryContent: {
+    flex: 1,
+  },
+  badgesSummaryTitle: {
+    fontSize: '18px',
+    fontWeight: '600',
+    color: '#FFFFFF',
+    marginBottom: '4px',
+  },
+  badgesSummarySubtitle: {
+    fontSize: '13px',
+    color: 'rgba(255,255,255,0.6)',
+  },
+  badgesSummaryProgress: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: '4px',
+    background: 'rgba(255,255,255,0.2)',
+    borderRadius: '0 0 16px 16px',
+  },
+  badgesSummaryProgressFill: {
+    height: '100%',
+    background: 'linear-gradient(90deg, #4A6741, #FFD700)',
+    borderRadius: '0 0 0 16px',
+  },
+  badgeCategory: {
+    marginBottom: '24px',
+  },
+  badgeCategoryTitle: {
+    fontSize: '12px',
+    fontWeight: '600',
+    color: '#9B9B9B',
+    letterSpacing: '1px',
+    marginBottom: '12px',
+    paddingLeft: '4px',
+  },
+  specialBadgesScroll: {
+    display: 'flex',
+    gap: '12px',
+    overflowX: 'auto',
+    paddingBottom: '8px',
+    scrollbarWidth: 'none',
+  },
+  specialBadgeCard: {
+    flexShrink: 0,
+    width: '100px',
+    padding: '14px 10px',
+    borderRadius: '16px',
+    textAlign: 'center',
+    position: 'relative',
+  },
+  specialBadgeIcon: {
+    width: '60px',
+    height: '60px',
+    borderRadius: '30px',
+    background: '#FFFFFF',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '0 auto 10px',
+  },
+  specialBadgeEmoji: {
+    fontSize: '28px',
+  },
+  specialBadgeName: {
+    fontSize: '11px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    lineHeight: '1.3',
+  },
+  specialBadgeCheck: {
+    position: 'absolute',
+    top: '8px',
+    right: '8px',
+    fontSize: '12px',
+    color: '#4A6741',
+    background: '#E8EDE6',
+    borderRadius: '10px',
+    width: '18px',
+    height: '18px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  milestoneBadgesContainer: {
+    background: '#1A1A1A',
+    borderRadius: '16px',
+    padding: '16px 12px',
+  },
+  milestoneBadgesScroll: {
+    display: 'flex',
+    gap: '16px',
+    overflowX: 'auto',
+    paddingBottom: '4px',
+    scrollbarWidth: 'none',
+  },
+  milestoneBadge: {
+    flexShrink: 0,
+    textAlign: 'center',
+    width: '70px',
+  },
+  milestoneBadgeCircle: {
+    width: '60px',
+    height: '60px',
+    borderRadius: '30px',
+    border: '3px solid',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '0 auto 8px',
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  milestoneBadgeProgress: {
+    position: 'absolute',
+    width: '80px',
+    height: '80px',
+    top: '-10px',
+    left: '-10px',
+  },
+  milestoneBadgeNumber: {
+    fontSize: '18px',
+    fontWeight: '700',
+    zIndex: 1,
+  },
+  milestoneBadgeName: {
+    fontSize: '10px',
+    color: '#FFFFFF',
+    lineHeight: '1.2',
+  },
+  milestoneBadgeProgressText: {
+    fontSize: '9px',
+    color: '#888888',
+    marginTop: '2px',
+  },
+
+  // ==================== ENHANCED CALENDAR STYLES ====================
+  calendarNavHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: '16px',
+  },
+  calendarNavBtn: {
+    width: '36px',
+    height: '36px',
+    borderRadius: '18px',
+    background: '#F5F4F2',
+    border: 'none',
+    fontSize: '20px',
+    color: '#4A6741',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  calendarMonthTitle: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '4px',
+  },
+  todayBtn: {
+    background: 'none',
+    border: '1px solid #E0E0E0',
+    borderRadius: '12px',
+    padding: '4px 12px',
+    fontSize: '11px',
+    color: '#4A6741',
+    cursor: 'pointer',
+  },
+  calendarDaySelected: {
+    background: '#4A6741 !important',
+    borderRadius: '8px',
+  },
+  calendarDayNumberToday: {
+    background: '#4A6741',
+    color: '#FFFFFF',
+    width: '24px',
+    height: '24px',
+    borderRadius: '12px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  calendarDayNumberSelected: {
+    color: '#FFFFFF',
+  },
+  calendarDotPending: {
+    width: '6px',
+    height: '6px',
+    borderRadius: '3px',
+    background: 'transparent',
+    border: '1.5px solid',
+  },
+  calendarDotExpected: {
+    width: '6px',
+    height: '6px',
+    borderRadius: '3px',
+  },
+  calendarLegendEnhanced: {
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '16px',
+    flexWrap: 'wrap',
+    marginTop: '12px',
+    paddingTop: '12px',
+    borderTop: '1px solid #F0EFED',
+  },
+  legendDotOutline: {
+    width: '8px',
+    height: '8px',
+    borderRadius: '4px',
+    background: 'transparent',
+    border: '2px solid',
+  },
+  legendDotFaded: {
+    width: '8px',
+    height: '8px',
+    borderRadius: '4px',
+    background: '#D0D0D0',
+  },
+  selectedDayDetail: {
+    marginTop: '20px',
+    background: '#FFFFFF',
+    borderRadius: '16px',
+    padding: '16px',
+    border: '1px solid #E8E8E8',
+  },
+  selectedDayHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '14px',
+    paddingBottom: '12px',
+    borderBottom: '1px solid #F0EFED',
+  },
+  selectedDayTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '16px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  addToDayBtn: {
+    background: '#4A6741',
+    color: '#FFFFFF',
+    border: 'none',
+    borderRadius: '8px',
+    padding: '8px 14px',
+    fontSize: '13px',
+    fontWeight: '500',
+    cursor: 'pointer',
+  },
+  noDayInjections: {
+    textAlign: 'center',
+    padding: '16px',
+  },
+  noDayInjectionsText: {
+    fontSize: '14px',
+    color: '#9B9B9B',
+    marginBottom: '8px',
+  },
+  expectedHint: {
+    fontSize: '13px',
+    color: '#C4956A',
+    background: '#FFF9E6',
+    padding: '10px 14px',
+    borderRadius: '10px',
+  },
+  dayInjectionsList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+  },
+  dayInjectionItem: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '12px',
+    padding: '12px',
+    background: '#FAFAFA',
+    borderRadius: '12px',
+    borderLeft: '4px solid',
+  },
+  dayInjectionCheckbox: {
+    width: '28px',
+    height: '28px',
+    borderRadius: '14px',
+    border: '2px solid',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    flexShrink: 0,
+  },
+  dayInjectionInfo: {
+    flex: 1,
+  },
+  dayInjectionHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '4px',
+  },
+  dayInjectionType: {
+    fontSize: '14px',
+    fontWeight: '600',
+  },
+  dayInjectionDose: {
+    fontSize: '13px',
+    color: '#6B6B6B',
+    background: '#FFFFFF',
+    padding: '2px 8px',
+    borderRadius: '6px',
+  },
+  dayInjectionNotes: {
+    fontSize: '12px',
+    color: '#8B8B8B',
+    fontStyle: 'italic',
+    marginBottom: '6px',
+  },
+  dayInjectionStatus: {
+    display: 'inline-block',
+    fontSize: '11px',
+    fontWeight: '500',
+    padding: '4px 10px',
+    borderRadius: '12px',
   },
 };
