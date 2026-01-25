@@ -153,13 +153,13 @@ export default function HYDR801App() {
           style={{...styles.modeBtn, ...(appMode === 'patient' ? styles.modeBtnActive : {})}}
           onClick={() => { setAppMode('patient'); setCurrentScreen('home'); }}
         >
-          👤 Patient View
+          ðŸ‘¤ Patient View
         </button>
         <button 
           style={{...styles.modeBtn, ...(appMode === 'provider' ? styles.modeBtnActive : {})}}
           onClick={() => { setAppMode('provider'); setCurrentScreen('dashboard'); }}
         >
-          🩺 Provider View
+          ðŸ©º Provider View
         </button>
       </div>
       
@@ -317,7 +317,7 @@ function OnboardingFlow({ onComplete }) {
       )
     },
     {
-      icon: '🍽️',
+      icon: 'ðŸ½ï¸',
       title: 'Personalized Nutrition',
       subtitle: 'AI-powered meal plans for GLP-1 success',
       description: 'Get high-protein meal plans optimized for your medication, dietary preferences, and lifestyle.',
@@ -327,14 +327,14 @@ function OnboardingFlow({ onComplete }) {
           <circle cx="70" cy="70" r="15" fill="#4A6741"/>
           <circle cx="130" cy="70" r="15" fill="#C4956A"/>
           <circle cx="100" cy="100" r="18" fill="#2AABB3"/>
-          <text x="70" y="75" textAnchor="middle" fill="white" fontSize="14">🥩</text>
-          <text x="130" y="75" textAnchor="middle" fill="white" fontSize="14">🥬</text>
-          <text x="100" y="105" textAnchor="middle" fill="white" fontSize="16">💧</text>
+          <text x="70" y="75" textAnchor="middle" fill="white" fontSize="14">ðŸ¥©</text>
+          <text x="130" y="75" textAnchor="middle" fill="white" fontSize="14">ðŸ¥¬</text>
+          <text x="100" y="105" textAnchor="middle" fill="white" fontSize="16">ðŸ’§</text>
         </svg>
       )
     },
     {
-      icon: '💪',
+      icon: 'ðŸ’ª',
       title: 'Smart Fitness Assessment',
       subtitle: 'Camera-powered exercise analysis',
       description: 'Our AI analyzes your movements to create workouts perfect for your fitness level and available equipment.',
@@ -350,7 +350,7 @@ function OnboardingFlow({ onComplete }) {
       )
     },
     {
-      icon: '📊',
+      icon: 'ðŸ“Š',
       title: 'Track Your Progress',
       subtitle: 'See how far you\'ve come',
       description: 'Log meals, workouts, and weight. Earn badges, maintain streaks, and watch your transformation unfold.',
@@ -366,7 +366,7 @@ function OnboardingFlow({ onComplete }) {
       )
     },
     {
-      icon: '🤝',
+      icon: 'ðŸ¤',
       title: 'Connected Care',
       subtitle: 'Your provider sees your progress',
       description: 'Your healthcare team can monitor your journey and provide personalized guidance along the way.',
@@ -459,7 +459,7 @@ function ProviderDashboard({ patients, setCurrentScreen }) {
           <p style={styles.greeting}>Good morning,</p>
           <h1 style={styles.providerName}>Dr. Williams</h1>
         </div>
-        <div style={styles.providerAvatar}>👩‍⚕️</div>
+        <div style={styles.providerAvatar}>ðŸ‘©â€âš•ï¸</div>
       </header>
 
       {/* Quick Stats */}
@@ -481,7 +481,7 @@ function ProviderDashboard({ patients, setCurrentScreen }) {
       {/* Alerts Section */}
       {alerts.length > 0 && (
         <section style={styles.section}>
-          <h3 style={styles.sectionTitle}>⚠️ Patient Alerts</h3>
+          <h3 style={styles.sectionTitle}>âš ï¸ Patient Alerts</h3>
           <div style={styles.alertsList}>
             {alerts.map((alert, idx) => (
               <div key={idx} style={styles.alertCard}>
@@ -499,7 +499,7 @@ function ProviderDashboard({ patients, setCurrentScreen }) {
 
       {/* Today's Schedule */}
       <section style={styles.section}>
-        <h3 style={styles.sectionTitle}>📅 Today's Appointments</h3>
+        <h3 style={styles.sectionTitle}>ðŸ“… Today's Appointments</h3>
         {todayAppointments.length > 0 ? (
           <div style={styles.appointmentsList}>
             {todayAppointments.map((patient, idx) => (
@@ -521,7 +521,7 @@ function ProviderDashboard({ patients, setCurrentScreen }) {
       {/* Patient Overview */}
       <section style={styles.section}>
         <div style={styles.sectionHeader}>
-          <h3 style={styles.sectionTitle}>👥 Recent Patient Activity</h3>
+          <h3 style={styles.sectionTitle}>ðŸ‘¥ Recent Patient Activity</h3>
           <button style={styles.viewAllBtn} onClick={() => setCurrentScreen('patients')}>View All</button>
         </div>
         <div style={styles.patientMiniList}>
@@ -536,19 +536,19 @@ function ProviderDashboard({ patients, setCurrentScreen }) {
         <h3 style={styles.sectionTitle}>Quick Actions</h3>
         <div style={styles.quickActionsGrid}>
           <div style={styles.quickActionCard}>
-            <span style={styles.qaIcon}>📨</span>
+            <span style={styles.qaIcon}>ðŸ“¨</span>
             <span style={styles.qaLabel}>Send Reminder</span>
           </div>
           <div style={styles.quickActionCard}>
-            <span style={styles.qaIcon}>📊</span>
+            <span style={styles.qaIcon}>ðŸ“Š</span>
             <span style={styles.qaLabel}>View Reports</span>
           </div>
           <div style={styles.quickActionCard}>
-            <span style={styles.qaIcon}>💊</span>
+            <span style={styles.qaIcon}>ðŸ’Š</span>
             <span style={styles.qaLabel}>Adjust Dose</span>
           </div>
           <div style={styles.quickActionCard}>
-            <span style={styles.qaIcon}>📝</span>
+            <span style={styles.qaIcon}>ðŸ“</span>
             <span style={styles.qaLabel}>Add Note</span>
           </div>
         </div>
@@ -624,7 +624,7 @@ function PatientListScreen({ patients, setCurrentScreen }) {
       </header>
 
       <div style={styles.searchBar}>
-        <span style={styles.searchIcon}>🔍</span>
+        <span style={styles.searchIcon}>ðŸ”</span>
         <input 
           type="text"
           placeholder="Search patients..."
@@ -651,7 +651,7 @@ function PatientListScreen({ patients, setCurrentScreen }) {
               <div style={styles.plcAvatar}>{patient.name[0]}</div>
               <div style={styles.plcInfo}>
                 <p style={styles.plcName}>{patient.name}</p>
-                <p style={styles.plcMeta}>Week {patient.week} · {patient.medicationDose}</p>
+                <p style={styles.plcMeta}>Week {patient.week} Â· {patient.medicationDose}</p>
               </div>
               <div style={styles.plcRight}>
                 <div style={{
@@ -662,7 +662,7 @@ function PatientListScreen({ patients, setCurrentScreen }) {
                   {compliance}%
                 </div>
                 {patient.alerts?.length > 0 && (
-                  <span style={styles.plcAlert}>⚠️</span>
+                  <span style={styles.plcAlert}>âš ï¸</span>
                 )}
               </div>
             </div>
@@ -684,18 +684,18 @@ function PatientDetailScreen({ patient, onBack }) {
   return (
     <div style={styles.screenContent} className="fade-in">
       <div style={styles.patientDetailHeader}>
-        <button style={styles.backButton} onClick={onBack}>← Back</button>
+        <button style={styles.backButton} onClick={onBack}>â† Back</button>
       </div>
 
       <div style={styles.patientProfile}>
         <div style={styles.pdAvatar}>{patient.name[0]}</div>
         <h2 style={styles.pdName}>{patient.name}</h2>
-        <p style={styles.pdMeta}>Week {patient.week} · {patient.medicationDose} weekly</p>
+        <p style={styles.pdMeta}>Week {patient.week} Â· {patient.medicationDose} weekly</p>
         
         {patient.alerts?.length > 0 && (
           <div style={styles.pdAlerts}>
             {patient.alerts.map((alert, idx) => (
-              <div key={idx} style={styles.pdAlertItem}>⚠️ {alert}</div>
+              <div key={idx} style={styles.pdAlertItem}>âš ï¸ {alert}</div>
             ))}
           </div>
         )}
@@ -758,9 +758,9 @@ function PatientDetailScreen({ patient, onBack }) {
 
           {/* Quick Actions */}
           <div style={styles.pdActions}>
-            <button style={styles.pdActionBtn}>📨 Send Message</button>
-            <button style={styles.pdActionBtn}>📝 Add Note</button>
-            <button style={styles.pdActionBtn}>💊 Adjust Dose</button>
+            <button style={styles.pdActionBtn}>ðŸ“¨ Send Message</button>
+            <button style={styles.pdActionBtn}>ðŸ“ Add Note</button>
+            <button style={styles.pdActionBtn}>ðŸ’Š Adjust Dose</button>
           </div>
         </div>
       )}
@@ -947,18 +947,18 @@ function ProviderSettingsScreen() {
 
       <div style={styles.settingsList}>
         {[
-          { icon: '👤', label: 'Account Settings' },
-          { icon: '🔔', label: 'Notification Preferences' },
-          { icon: '📊', label: 'Default Patient Goals' },
-          { icon: '📝', label: 'Note Templates' },
-          { icon: '🔗', label: 'EHR Integration' },
-          { icon: '👥', label: 'Team Members' },
-          { icon: '❓', label: 'Help & Support' },
+          { icon: 'ðŸ‘¤', label: 'Account Settings' },
+          { icon: 'ðŸ””', label: 'Notification Preferences' },
+          { icon: 'ðŸ“Š', label: 'Default Patient Goals' },
+          { icon: 'ðŸ“', label: 'Note Templates' },
+          { icon: 'ðŸ”—', label: 'EHR Integration' },
+          { icon: 'ðŸ‘¥', label: 'Team Members' },
+          { icon: 'â“', label: 'Help & Support' },
         ].map((item, idx) => (
           <div key={idx} style={styles.settingItem} className="card-hover">
             <span style={styles.settingIcon}>{item.icon}</span>
             <span style={styles.settingLabel}>{item.label}</span>
-            <span style={styles.settingArrow}>›</span>
+            <span style={styles.settingArrow}>â€º</span>
           </div>
         ))}
       </div>
@@ -969,11 +969,11 @@ function ProviderSettingsScreen() {
 // Provider Bottom Nav
 function ProviderBottomNav({ currentScreen, setCurrentScreen }) {
   const items = [
-    { id: 'dashboard', icon: '🏠', label: 'Dashboard' },
-    { id: 'patients', icon: '👥', label: 'Patients' },
-    { id: 'messages', icon: '💬', label: 'Messages' },
-    { id: 'analytics', icon: '📊', label: 'Analytics' },
-    { id: 'settings', icon: '⚙️', label: 'Settings' },
+    { id: 'dashboard', icon: 'ðŸ ', label: 'Dashboard' },
+    { id: 'patients', icon: 'ðŸ‘¥', label: 'Patients' },
+    { id: 'messages', icon: 'ðŸ’¬', label: 'Messages' },
+    { id: 'analytics', icon: 'ðŸ“Š', label: 'Analytics' },
+    { id: 'settings', icon: 'âš™ï¸', label: 'Settings' },
   ];
 
   return (
@@ -998,12 +998,64 @@ function ProviderBottomNav({ currentScreen, setCurrentScreen }) {
 
 // Home Screen
 function HomeScreen({ user, setUser, setActiveModal }) {
+  const [showEducation, setShowEducation] = useState(false);
+  const [showKickstart, setShowKickstart] = useState(false);
+  
   const greeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return 'Good morning';
     if (hour < 18) return 'Good afternoon';
     return 'Good evening';
   };
+
+  // Rotating daily tips based on GLP-1 education content
+  const dailyTips = [
+    {
+      title: 'Prioritize Protein First',
+      text: 'Aim for 25-35g protein at each meal to preserve muscle mass and support your metabolism.',
+      icon: '🥩'
+    },
+    {
+      title: "Don't Chase Zero Appetite",
+      text: 'Having some appetite is healthy! The goal is control, not complete suppression.',
+      icon: '🎯'
+    },
+    {
+      title: 'Stay Proactively Hydrated',
+      text: 'GLP-1 can reduce thirst signals. Set reminders to drink water throughout the day.',
+      icon: '💧'
+    },
+    {
+      title: 'Include Fiber Daily',
+      text: 'Fiber supports digestion, gut health, and helps you feel satisfied longer.',
+      icon: '🥬'
+    },
+    {
+      title: 'Eat Intentionally',
+      text: "Low hunger doesn't mean your body doesn't need fuel. Eat enough to support your goals.",
+      icon: '🍽️'
+    },
+    {
+      title: 'Protect Your Muscle',
+      text: 'Even 20-30 min of strength training 2x/week helps preserve muscle during weight loss.',
+      icon: '💪'
+    },
+    {
+      title: "Carbs Aren't the Enemy",
+      text: 'The right carbs provide energy and satisfaction. Include them strategically.',
+      icon: '🍞'
+    }
+  ];
+  
+  const todayTip = dailyTips[new Date().getDay() % dailyTips.length];
+
+  if (showEducation) {
+    return <GLP1EducationScreen onBack={() => setShowEducation(false)} />;
+  }
+
+  if (showKickstart) {
+    return <KickstartGuideScreen onBack={() => setShowKickstart(false)} />;
+  }
 
   return (
     <div style={styles.screenContent} className="fade-in">
@@ -1031,17 +1083,11 @@ function HomeScreen({ user, setUser, setActiveModal }) {
       <div style={styles.heroCard} className="slide-up">
         <div style={styles.heroContent}>
           <p style={styles.heroSubtitle}>Today's Focus</p>
-          <h2 style={styles.heroTitle}>Prioritize Protein</h2>
-          <p style={styles.heroText}>
-            Aim for 25-30g protein at each meal to preserve muscle mass and support your metabolism.
-          </p>
+          <h2 style={styles.heroTitle}>{todayTip.title}</h2>
+          <p style={styles.heroText}>{todayTip.text}</p>
         </div>
         <div style={styles.heroImagePlaceholder}>
-          <img 
-            src="/logo.png" 
-            alt="" 
-            style={{ width: '70px', height: '70px', objectFit: 'contain', opacity: 0.9 }}
-          />
+          <span style={{fontSize: '48px'}}>{todayTip.icon}</span>
         </div>
       </div>
 
@@ -1087,6 +1133,31 @@ function HomeScreen({ user, setUser, setActiveModal }) {
         </div>
       </section>
 
+      {/* GLP-1 Education Card */}
+      <section style={styles.section}>
+        <h3 style={styles.sectionTitle}>Learn & Succeed</h3>
+        <div style={styles.educationPreviewCard} className="card-hover" onClick={() => setShowEducation(true)}>
+          <div style={styles.educationPreviewIcon}>📚</div>
+          <div style={styles.educationPreviewContent}>
+            <span style={styles.educationPreviewBadge}>From a Registered Dietitian</span>
+            <h4 style={styles.educationPreviewTitle}>21 GLP-1 Mistakes to Avoid</h4>
+            <p style={styles.educationPreviewText}>Learn what actually works for sustainable results</p>
+          </div>
+          <div style={styles.treatmentArrow}>→</div>
+        </div>
+        
+        {/* Kickstart Guide Card */}
+        <div style={styles.kickstartPreviewCard} className="card-hover" onClick={() => setShowKickstart(true)}>
+          <div style={styles.kickstartPreviewIcon}>🚀</div>
+          <div style={styles.kickstartPreviewContent}>
+            <span style={styles.kickstartPreviewBadge}>Your Complete Roadmap</span>
+            <h4 style={styles.kickstartPreviewTitle}>GLP-1 Kickstart Guide</h4>
+            <p style={styles.kickstartPreviewText}>First 30 days, side effects, checklists & more</p>
+          </div>
+          <div style={{...styles.treatmentArrow, color: '#FFFFFF'}}>→</div>
+        </div>
+      </section>
+
       <section style={styles.section}>
         <h3 style={styles.sectionTitle}>Optimize Your Journey</h3>
         <div style={styles.treatmentPreview} className="card-hover" onClick={() => setActiveModal('physique-boost')}>
@@ -1106,9 +1177,21 @@ function HomeScreen({ user, setUser, setActiveModal }) {
           <div style={styles.treatmentArrow}>→</div>
         </div>
       </section>
+
+      {/* Quick Education Tips */}
+      <section style={styles.section}>
+        <h3 style={styles.sectionTitle}>Did You Know?</h3>
+        <div style={styles.didYouKnowCard}>
+          <span style={styles.didYouKnowIcon}>💡</span>
+          <p style={styles.didYouKnowText}>
+            <strong>Side effects aren't always unavoidable.</strong> Many symptoms like nausea, fatigue, and dizziness are often tied to not eating enough or hydration issues—not just the medication.
+          </p>
+        </div>
+      </section>
     </div>
   );
 }
+
 
 // Goal Card Component
 function GoalCard({ icon, label, current, goal, unit, color, onIncrement }) {
@@ -1146,9 +1229,19 @@ function NutritionScreen({ user, setUser }) {
   const [selectedDay, setSelectedDay] = useState(0);
 
   const tips = [
-    { icon: '🥚', title: 'Protein First', desc: 'Start each meal with protein to feel satisfied longer' },
-    { icon: '💧', title: 'Hydrate Mindfully', desc: 'GLP-1s can reduce thirst—set reminders to drink water' },
-    { icon: '🥬', title: 'Fiber for Fullness', desc: 'Add vegetables to every meal for nutrients and satiety' },
+    { icon: 'ðŸ¥©', title: 'Protein First', desc: 'Aim for 25-35g protein per meal to preserve muscle' },
+    { icon: 'ðŸ'§', title: 'Hydrate Proactively', desc: 'GLP-1 can reduce thirst awarenessâ€"set reminders' },
+    { icon: 'ðŸ¥¬', title: "Don't Skip Fiber", desc: 'Supports digestion, gut health, and satisfaction' },
+    { icon: 'ðŸž', title: "Carbs Aren't Evil", desc: 'Include carbs strategically for energy and satisfaction' },
+    { icon: 'ðŸ½ï¸', title: 'Eat Intentionally', desc: "Low hunger doesn't mean you don't need fuel" },
+  ];
+
+  // Four Essential Nutrition Shifts for GLP-1 patients
+  const essentialShifts = [
+    { number: 1, title: 'Protein Targets', detail: '25-35g per meal minimum', why: 'Muscle preservation' },
+    { number: 2, title: 'Proper Meal Timing', detail: 'Eat consistently throughout the week', why: 'Prevents rebound hunger' },
+    { number: 3, title: 'Hydration Awareness', detail: '64+ oz daily, set reminders', why: 'GLP-1 reduces thirst signals' },
+    { number: 4, title: 'Fiber Intake', detail: '25-30g daily from produce', why: 'Long-term weight maintenance' }
   ];
 
   const days = ['Today', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -1189,7 +1282,7 @@ function NutritionScreen({ user, setUser }) {
 
         <div style={styles.mealPlanPrompt}>
           <div style={styles.mealPlanBadge}>
-            <span style={styles.mealPlanBadgeIcon}>✨</span>
+            <span style={styles.mealPlanBadgeIcon}>âœ¨</span>
             <span style={styles.mealPlanBadgeText}>AI-Powered</span>
           </div>
           
@@ -1207,21 +1300,21 @@ function NutritionScreen({ user, setUser }) {
           
           <h2 style={styles.mealPlanTitle}>Personalized Meal Plans</h2>
           <p style={styles.mealPlanDesc}>
-            Get AI-generated meal plans optimized for GLP-1 success—high protein, 
+            Get AI-generated meal plans optimized for GLP-1 successâ€”high protein, 
             proper portions, and foods that work with your medication.
           </p>
           
           <div style={styles.mealPlanFeatures}>
             <div style={styles.mealPlanFeature}>
-              <span style={styles.mpFeatureIcon}>🎯</span>
+              <span style={styles.mpFeatureIcon}>ðŸŽ¯</span>
               <span style={styles.mpFeatureText}>Tailored to your preferences</span>
             </div>
             <div style={styles.mealPlanFeature}>
-              <span style={styles.mpFeatureIcon}>🥗</span>
+              <span style={styles.mpFeatureIcon}>ðŸ¥—</span>
               <span style={styles.mpFeatureText}>GLP-1 optimized nutrition</span>
             </div>
             <div style={styles.mealPlanFeature}>
-              <span style={styles.mpFeatureIcon}>📊</span>
+              <span style={styles.mpFeatureIcon}>ðŸ“Š</span>
               <span style={styles.mpFeatureText}>Macros calculated for you</span>
             </div>
           </div>
@@ -1383,10 +1476,10 @@ function NutritionScreen({ user, setUser }) {
           <div style={styles.snackList}>
             {todayPlan.snacks.map((snack, idx) => (
               <div key={idx} style={styles.snackCard}>
-                <span style={styles.snackEmoji}>{snack.emoji || '🍎'}</span>
+                <span style={styles.snackEmoji}>{snack.emoji || 'ðŸŽ'}</span>
                 <div style={styles.snackInfo}>
                   <p style={styles.snackName}>{snack.name}</p>
-                  <p style={styles.snackMacros}>{snack.calories} cal · {snack.protein}g protein</p>
+                  <p style={styles.snackMacros}>{snack.calories} cal Â· {snack.protein}g protein</p>
                 </div>
               </div>
             ))}
@@ -1396,7 +1489,7 @@ function NutritionScreen({ user, setUser }) {
 
       {/* Hydration reminder */}
       <div style={styles.hydrationReminder}>
-        <span style={styles.hydrationIcon}>💧</span>
+        <span style={styles.hydrationIcon}>ðŸ’§</span>
         <div style={styles.hydrationContent}>
           <p style={styles.hydrationTitle}>Hydration Reminder</p>
           <p style={styles.hydrationText}>{user.mealPlan?.hydrationTip || 'Drink water 30 minutes before meals to aid digestion'}</p>
@@ -1411,7 +1504,7 @@ function NutritionScreen({ user, setUser }) {
           setShowMealPlanner(true);
         }}
       >
-        ✏️ Update Dietary Preferences
+        âœï¸ Update Dietary Preferences
       </button>
     </div>
   );
@@ -1435,19 +1528,19 @@ function MealCard({ meal, user, setUser }) {
     <div style={styles.mealPlanCard} className="card-hover">
       <div style={styles.mealPlanCardHeader} onClick={() => setExpanded(!expanded)}>
         <div style={styles.mealTimeIcon}>
-          {meal.type === 'breakfast' && '🌅'}
-          {meal.type === 'lunch' && '☀️'}
-          {meal.type === 'dinner' && '🌙'}
-          {meal.type === 'snack' && '🍎'}
+          {meal.type === 'breakfast' && 'ðŸŒ…'}
+          {meal.type === 'lunch' && 'â˜€ï¸'}
+          {meal.type === 'dinner' && 'ðŸŒ™'}
+          {meal.type === 'snack' && 'ðŸŽ'}
         </div>
         <div style={styles.mealPlanCardInfo}>
           <p style={styles.mealPlanType}>{meal.type?.charAt(0).toUpperCase() + meal.type?.slice(1)}</p>
           <h4 style={styles.mealPlanName}>{meal.name}</h4>
           <p style={styles.mealPlanMacros}>
-            {meal.calories} cal · {meal.protein}g protein · {meal.fiber}g fiber
+            {meal.calories} cal Â· {meal.protein}g protein Â· {meal.fiber}g fiber
           </p>
         </div>
-        <div style={styles.mealExpandIcon}>{expanded ? '−' : '+'}</div>
+        <div style={styles.mealExpandIcon}>{expanded ? 'âˆ’' : '+'}</div>
       </div>
       
       {expanded && (
@@ -1460,7 +1553,7 @@ function MealCard({ meal, user, setUser }) {
             <div style={styles.ingredientsList}>
               <p style={styles.ingredientsTitle}>Ingredients:</p>
               {meal.ingredients.map((ing, idx) => (
-                <p key={idx} style={styles.ingredientItem}>• {ing}</p>
+                <p key={idx} style={styles.ingredientItem}>â€¢ {ing}</p>
               ))}
             </div>
           )}
@@ -1474,7 +1567,7 @@ function MealCard({ meal, user, setUser }) {
 
           {meal.glp1Tip && (
             <div style={styles.glp1TipBox}>
-              <span style={styles.glp1TipIcon}>💡</span>
+              <span style={styles.glp1TipIcon}>ðŸ’¡</span>
               <p style={styles.glp1TipText}>{meal.glp1Tip}</p>
             </div>
           )}
@@ -1487,7 +1580,7 @@ function MealCard({ meal, user, setUser }) {
             onClick={handleLog}
             disabled={logged}
           >
-            {logged ? '✓ Logged' : 'Log This Meal'}
+            {logged ? 'âœ“ Logged' : 'Log This Meal'}
           </button>
         </div>
       )}
@@ -1511,41 +1604,41 @@ function MealPlanSetup({ user, onComplete, onCancel }) {
   const [isGenerating, setIsGenerating] = useState(false);
 
   const dietTypes = [
-    { id: 'omnivore', name: 'Omnivore', icon: '🍖', desc: 'Eat everything' },
-    { id: 'pescatarian', name: 'Pescatarian', icon: '🐟', desc: 'Fish & seafood, no meat' },
-    { id: 'vegetarian', name: 'Vegetarian', icon: '🥬', desc: 'No meat or fish' },
-    { id: 'vegan', name: 'Vegan', icon: '🌱', desc: 'No animal products' },
-    { id: 'keto', name: 'Keto', icon: '🥑', desc: 'Very low carb' },
-    { id: 'mediterranean', name: 'Mediterranean', icon: '🫒', desc: 'Heart-healthy focus' },
+    { id: 'omnivore', name: 'Omnivore', icon: 'ðŸ–', desc: 'Eat everything' },
+    { id: 'pescatarian', name: 'Pescatarian', icon: 'ðŸŸ', desc: 'Fish & seafood, no meat' },
+    { id: 'vegetarian', name: 'Vegetarian', icon: 'ðŸ¥¬', desc: 'No meat or fish' },
+    { id: 'vegan', name: 'Vegan', icon: 'ðŸŒ±', desc: 'No animal products' },
+    { id: 'keto', name: 'Keto', icon: 'ðŸ¥‘', desc: 'Very low carb' },
+    { id: 'mediterranean', name: 'Mediterranean', icon: 'ðŸ«’', desc: 'Heart-healthy focus' },
   ];
 
   const allergyOptions = [
-    { id: 'dairy', name: 'Dairy', icon: '🥛' },
-    { id: 'gluten', name: 'Gluten', icon: '🌾' },
-    { id: 'nuts', name: 'Tree Nuts', icon: '🥜' },
-    { id: 'peanuts', name: 'Peanuts', icon: '🥜' },
-    { id: 'eggs', name: 'Eggs', icon: '🥚' },
-    { id: 'soy', name: 'Soy', icon: '🫘' },
-    { id: 'shellfish', name: 'Shellfish', icon: '🦐' },
-    { id: 'fish', name: 'Fish', icon: '🐟' },
+    { id: 'dairy', name: 'Dairy', icon: 'ðŸ¥›' },
+    { id: 'gluten', name: 'Gluten', icon: 'ðŸŒ¾' },
+    { id: 'nuts', name: 'Tree Nuts', icon: 'ðŸ¥œ' },
+    { id: 'peanuts', name: 'Peanuts', icon: 'ðŸ¥œ' },
+    { id: 'eggs', name: 'Eggs', icon: 'ðŸ¥š' },
+    { id: 'soy', name: 'Soy', icon: 'ðŸ«˜' },
+    { id: 'shellfish', name: 'Shellfish', icon: 'ðŸ¦' },
+    { id: 'fish', name: 'Fish', icon: 'ðŸŸ' },
   ];
 
   const cuisineOptions = [
-    { id: 'american', name: 'American', icon: '🍔' },
-    { id: 'mexican', name: 'Mexican', icon: '🌮' },
-    { id: 'italian', name: 'Italian', icon: '🍝' },
-    { id: 'asian', name: 'Asian', icon: '🍜' },
-    { id: 'mediterranean', name: 'Mediterranean', icon: '🥙' },
-    { id: 'indian', name: 'Indian', icon: '🍛' },
-    { id: 'japanese', name: 'Japanese', icon: '🍱' },
-    { id: 'thai', name: 'Thai', icon: '🍲' },
+    { id: 'american', name: 'American', icon: 'ðŸ”' },
+    { id: 'mexican', name: 'Mexican', icon: 'ðŸŒ®' },
+    { id: 'italian', name: 'Italian', icon: 'ðŸ' },
+    { id: 'asian', name: 'Asian', icon: 'ðŸœ' },
+    { id: 'mediterranean', name: 'Mediterranean', icon: 'ðŸ¥™' },
+    { id: 'indian', name: 'Indian', icon: 'ðŸ›' },
+    { id: 'japanese', name: 'Japanese', icon: 'ðŸ±' },
+    { id: 'thai', name: 'Thai', icon: 'ðŸ²' },
   ];
 
   const cookingTimeOptions = [
-    { id: 'minimal', name: 'Minimal (< 15 min)', icon: '⚡' },
-    { id: 'quick', name: 'Quick (15-30 min)', icon: '🕐' },
-    { id: 'moderate', name: 'Moderate (30-45 min)', icon: '🕑' },
-    { id: 'any', name: 'Any time is fine', icon: '👨‍🍳' },
+    { id: 'minimal', name: 'Minimal (< 15 min)', icon: 'âš¡' },
+    { id: 'quick', name: 'Quick (15-30 min)', icon: 'ðŸ•' },
+    { id: 'moderate', name: 'Moderate (30-45 min)', icon: 'ðŸ•‘' },
+    { id: 'any', name: 'Any time is fine', icon: 'ðŸ‘¨â€ðŸ³' },
   ];
 
   const toggleSelection = (array, item) => {
@@ -1614,7 +1707,7 @@ Create a JSON response with this structure (respond ONLY with JSON, no markdown)
       "snacks": [
         {
           "name": "Snack name",
-          "emoji": "🍎",
+          "emoji": "ðŸŽ",
           "calories": 150,
           "protein": 10,
           "description": "Brief description"
@@ -1677,7 +1770,7 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
             fiber: 5,
             ingredients: ['1 cup plain Greek yogurt (2%)', '1/2 cup mixed berries', '1 tbsp almond butter', '1 tbsp chia seeds'],
             instructions: 'Add yogurt to a bowl. Top with berries, drizzle almond butter, and sprinkle chia seeds.',
-            glp1Tip: 'Eat the yogurt slowly—protein-rich foods help you feel satisfied longer on GLP-1.',
+            glp1Tip: 'Eat the yogurt slowlyâ€”protein-rich foods help you feel satisfied longer on GLP-1.',
             prepTime: '5 min'
           },
           {
@@ -1704,14 +1797,14 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
             fat: 22,
             fiber: 6,
             ingredients: ['6 oz salmon fillet', '1 cup asparagus', '1/2 cup cooked quinoa', '1 tbsp olive oil', 'Lemon, garlic, herbs'],
-            instructions: 'Season salmon and bake at 400°F for 12-15 min. Roast asparagus alongside. Serve over quinoa.',
-            glp1Tip: 'If you feel full quickly, save the quinoa for later—prioritize the protein and veggies.',
+            instructions: 'Season salmon and bake at 400Â°F for 12-15 min. Roast asparagus alongside. Serve over quinoa.',
+            glp1Tip: 'If you feel full quickly, save the quinoa for laterâ€”prioritize the protein and veggies.',
             prepTime: '25 min'
           }
         ],
         snacks: [
-          { name: 'Cottage cheese with cucumber', emoji: '🥒', calories: 120, protein: 14, description: '1/2 cup cottage cheese with sliced cucumber' },
-          { name: 'Turkey roll-ups', emoji: '🦃', calories: 100, protein: 12, description: '3 slices turkey wrapped around cheese stick' }
+          { name: 'Cottage cheese with cucumber', emoji: 'ðŸ¥’', calories: 120, protein: 14, description: '1/2 cup cottage cheese with sliced cucumber' },
+          { name: 'Turkey roll-ups', emoji: 'ðŸ¦ƒ', calories: 100, protein: 12, description: '3 slices turkey wrapped around cheese stick' }
         ],
         dailyTotals: { calories: 1250, protein: 110, fiber: 19 }
       },
@@ -1728,8 +1821,8 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
             fat: 14,
             fiber: 4,
             ingredients: ['5 egg whites', '1 whole egg', '1 cup spinach', '1/4 cup tomatoes', '2 tbsp feta cheese'],
-            instructions: 'Sauté spinach and tomatoes. Add whisked eggs and scramble. Top with feta.',
-            glp1Tip: 'Eggs are easy to digest on GLP-1—a great breakfast protein source.',
+            instructions: 'SautÃ© spinach and tomatoes. Add whisked eggs and scramble. Top with feta.',
+            glp1Tip: 'Eggs are easy to digest on GLP-1â€”a great breakfast protein source.',
             prepTime: '10 min'
           },
           {
@@ -1743,7 +1836,7 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
             fiber: 5,
             ingredients: ['5 oz ground turkey', 'Butter lettuce leaves', '1/4 cup diced bell peppers', 'Asian sauce', 'Green onions'],
             instructions: 'Cook seasoned turkey. Spoon into lettuce cups with peppers and sauce.',
-            glp1Tip: 'Lettuce wraps are perfect for GLP-1—light but protein-packed.',
+            glp1Tip: 'Lettuce wraps are perfect for GLP-1â€”light but protein-packed.',
             prepTime: '15 min'
           },
           {
@@ -1757,13 +1850,13 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
             fiber: 7,
             ingredients: ['6 oz shrimp', '2 cups mixed stir-fry vegetables', '1 cup cauliflower rice', '1 tbsp sesame oil', 'Garlic, ginger, soy sauce'],
             instructions: 'Stir-fry shrimp with garlic and ginger. Add vegetables. Serve over cauliflower rice.',
-            glp1Tip: 'Shrimp is lean and easy to digest—eat protein first, then veggies.',
+            glp1Tip: 'Shrimp is lean and easy to digestâ€”eat protein first, then veggies.',
             prepTime: '20 min'
           }
         ],
         snacks: [
-          { name: 'Hard-boiled eggs', emoji: '🥚', calories: 140, protein: 12, description: '2 hard-boiled eggs with everything seasoning' },
-          { name: 'Edamame', emoji: '🫛', calories: 120, protein: 11, description: '1/2 cup shelled edamame with sea salt' }
+          { name: 'Hard-boiled eggs', emoji: 'ðŸ¥š', calories: 140, protein: 12, description: '2 hard-boiled eggs with everything seasoning' },
+          { name: 'Edamame', emoji: 'ðŸ«›', calories: 120, protein: 11, description: '1/2 cup shelled edamame with sea salt' }
         ],
         dailyTotals: { calories: 1080, protein: 101, fiber: 16 }
       }
@@ -1771,8 +1864,8 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
     hydrationTip: 'Set a timer to drink 8oz of water every 2 hours. GLP-1 can reduce thirst signals, so stay proactive!',
     weeklyTips: [
       'Eat protein first at every meal to maximize satisfaction',
-      'Take small bites and chew thoroughly—this helps with GLP-1 digestion',
-      'If you feel full, stop eating—save the rest for later'
+      'Take small bites and chew thoroughlyâ€”this helps with GLP-1 digestion',
+      'If you feel full, stop eatingâ€”save the rest for later'
     ],
     groceryCategories: {
       proteins: ['Chicken breast', 'Salmon', 'Shrimp', 'Ground turkey', 'Greek yogurt', 'Eggs', 'Cottage cheese'],
@@ -1787,7 +1880,7 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
     return (
       <div style={styles.screenContent} className="fade-in">
         <div style={styles.mpSetupHeader}>
-          <button style={styles.backButton} onClick={onCancel}>← Back</button>
+          <button style={styles.backButton} onClick={onCancel}>â† Back</button>
           <div style={styles.mpProgressDots}>
             {[1,2,3,4].map(s => (
               <div key={s} style={{...styles.mpProgressDot, ...(s <= step ? styles.mpProgressDotActive : {})}} />
@@ -1832,7 +1925,7 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
     return (
       <div style={styles.screenContent} className="fade-in">
         <div style={styles.mpSetupHeader}>
-          <button style={styles.backButton} onClick={() => setStep(1)}>← Back</button>
+          <button style={styles.backButton} onClick={() => setStep(1)}>â† Back</button>
           <div style={styles.mpProgressDots}>
             {[1,2,3,4].map(s => (
               <div key={s} style={{...styles.mpProgressDot, ...(s <= step ? styles.mpProgressDotActive : {})}} />
@@ -1887,7 +1980,7 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
     return (
       <div style={styles.screenContent} className="fade-in">
         <div style={styles.mpSetupHeader}>
-          <button style={styles.backButton} onClick={() => setStep(2)}>← Back</button>
+          <button style={styles.backButton} onClick={() => setStep(2)}>â† Back</button>
           <div style={styles.mpProgressDots}>
             {[1,2,3,4].map(s => (
               <div key={s} style={{...styles.mpProgressDot, ...(s <= step ? styles.mpProgressDotActive : {})}} />
@@ -1952,7 +2045,7 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
     return (
       <div style={styles.screenContent} className="fade-in">
         <div style={styles.mpSetupHeader}>
-          <button style={styles.backButton} onClick={() => setStep(3)}>← Back</button>
+          <button style={styles.backButton} onClick={() => setStep(3)}>â† Back</button>
           <div style={styles.mpProgressDots}>
             {[1,2,3,4].map(s => (
               <div key={s} style={{...styles.mpProgressDot, ...(s <= step ? styles.mpProgressDotActive : {})}} />
@@ -1973,7 +2066,7 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
               <button 
                 style={styles.mpCounterBtn}
                 onClick={() => setPreferences({...preferences, mealsPerDay: Math.max(2, preferences.mealsPerDay - 1)})}
-              >−</button>
+              >âˆ’</button>
               <span style={styles.mpCounterValue}>{preferences.mealsPerDay}</span>
               <button 
                 style={styles.mpCounterBtn}
@@ -1991,7 +2084,7 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
               <button 
                 style={styles.mpCounterBtn}
                 onClick={() => setPreferences({...preferences, snacksPerDay: Math.max(0, preferences.snacksPerDay - 1)})}
-              >−</button>
+              >âˆ’</button>
               <span style={styles.mpCounterValue}>{preferences.snacksPerDay}</span>
               <button 
                 style={styles.mpCounterBtn}
@@ -2003,15 +2096,15 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
 
         <div style={styles.mpSummaryBox}>
           <h4 style={styles.mpSummaryTitle}>Your Preferences Summary</h4>
-          <p style={styles.mpSummaryItem}>🍽️ Diet: {dietTypes.find(d => d.id === preferences.dietType)?.name || 'Omnivore'}</p>
-          <p style={styles.mpSummaryItem}>⚠️ Allergies: {preferences.allergies.length > 0 ? preferences.allergies.join(', ') : 'None'}</p>
-          <p style={styles.mpSummaryItem}>🌍 Cuisines: {preferences.cuisines.length > 0 ? preferences.cuisines.slice(0, 3).join(', ') : 'Any'}</p>
-          <p style={styles.mpSummaryItem}>⏱️ Cooking: {cookingTimeOptions.find(c => c.id === preferences.cookingTime)?.name || 'Any'}</p>
+          <p style={styles.mpSummaryItem}>ðŸ½ï¸ Diet: {dietTypes.find(d => d.id === preferences.dietType)?.name || 'Omnivore'}</p>
+          <p style={styles.mpSummaryItem}>âš ï¸ Allergies: {preferences.allergies.length > 0 ? preferences.allergies.join(', ') : 'None'}</p>
+          <p style={styles.mpSummaryItem}>ðŸŒ Cuisines: {preferences.cuisines.length > 0 ? preferences.cuisines.slice(0, 3).join(', ') : 'Any'}</p>
+          <p style={styles.mpSummaryItem}>â±ï¸ Cooking: {cookingTimeOptions.find(c => c.id === preferences.cookingTime)?.name || 'Any'}</p>
         </div>
 
         {isGenerating ? (
           <div style={styles.mpGenerating}>
-            <div style={styles.mpGeneratingSpinner} className="breathe">🤖</div>
+            <div style={styles.mpGeneratingSpinner} className="breathe">ðŸ¤–</div>
             <p style={styles.mpGeneratingText}>Creating your personalized meal plan...</p>
             <p style={styles.mpGeneratingSubtext}>Optimizing for GLP-1 nutrition guidelines</p>
           </div>
@@ -2235,7 +2328,7 @@ function WorkoutPlayer({ workout, user, onComplete, onExit }) {
     return (
       <div style={workoutPlayerStyles.container}>
         <div style={workoutPlayerStyles.completeScreen}>
-          <div style={workoutPlayerStyles.completeIcon}>🎉</div>
+          <div style={workoutPlayerStyles.completeIcon}>ðŸŽ‰</div>
           <h1 style={workoutPlayerStyles.completeTitle}>Workout Complete!</h1>
           <p style={workoutPlayerStyles.completeSubtitle}>Great job! You finished all {exercises.length} exercises.</p>
           
@@ -2267,7 +2360,7 @@ function WorkoutPlayer({ workout, user, onComplete, onExit }) {
       {/* Header */}
       <div style={workoutPlayerStyles.header}>
         <button style={workoutPlayerStyles.backButton} onClick={onExit}>
-          ← Exit
+          â† Exit
         </button>
         <div style={workoutPlayerStyles.progress}>
           <span style={workoutPlayerStyles.progressText}>
@@ -2286,7 +2379,7 @@ function WorkoutPlayer({ workout, user, onComplete, onExit }) {
           style={workoutPlayerStyles.toggleVideoBtn}
           onClick={() => setShowVideo(!showVideo)}
         >
-          {showVideo ? '📺' : '📺'}
+          {showVideo ? 'ðŸ“º' : 'ðŸ“º'}
         </button>
       </div>
 
@@ -2302,7 +2395,7 @@ function WorkoutPlayer({ workout, user, onComplete, onExit }) {
             allowFullScreen
           />
           <div style={workoutPlayerStyles.videoOverlay}>
-            <span style={workoutPlayerStyles.videoLabel}>📹 Demo Video</span>
+            <span style={workoutPlayerStyles.videoLabel}>ðŸ“¹ Demo Video</span>
           </div>
         </div>
       )}
@@ -2319,7 +2412,7 @@ function WorkoutPlayer({ workout, user, onComplete, onExit }) {
             {currentSet <= totalSets ? `Get ready for set ${currentSet}` : `Next: ${exercises[currentExerciseIndex + 1]?.name || 'Finish'}`}
           </p>
           <button style={workoutPlayerStyles.skipButton} onClick={skipRest}>
-            Skip Rest →
+            Skip Rest â†’
           </button>
         </div>
       )}
@@ -2341,7 +2434,7 @@ function WorkoutPlayer({ workout, user, onComplete, onExit }) {
 
         {currentExercise?.notes && (
           <div style={workoutPlayerStyles.tips}>
-            <span style={workoutPlayerStyles.tipsIcon}>💡</span>
+            <span style={workoutPlayerStyles.tipsIcon}>ðŸ’¡</span>
             <span style={workoutPlayerStyles.tipsText}>{currentExercise.notes}</span>
           </div>
         )}
@@ -2367,12 +2460,12 @@ function WorkoutPlayer({ workout, user, onComplete, onExit }) {
           onClick={previousExercise}
           disabled={currentExerciseIndex === 0}
         >
-          ← Prev
+          â† Prev
         </button>
         
         {!isResting && (
           <button style={workoutPlayerStyles.completeSetBtn} onClick={completeSet}>
-            ✓ Complete Set
+            âœ“ Complete Set
           </button>
         )}
 
@@ -2381,7 +2474,7 @@ function WorkoutPlayer({ workout, user, onComplete, onExit }) {
           onClick={nextExercise}
           disabled={currentExerciseIndex === exercises.length - 1}
         >
-          Next →
+          Next â†’
         </button>
       </div>
 
@@ -2408,10 +2501,10 @@ function WorkoutPlayer({ workout, user, onComplete, onExit }) {
                 backgroundColor: idx < currentExerciseIndex ? '#4A6741' : idx === currentExerciseIndex ? '#2AABB3' : '#E0E0E0',
                 color: idx <= currentExerciseIndex ? '#FFFFFF' : '#666666'
               }}>
-                {idx < currentExerciseIndex ? '✓' : idx + 1}
+                {idx < currentExerciseIndex ? 'âœ“' : idx + 1}
               </span>
               <span style={workoutPlayerStyles.listName}>{ex.name}</span>
-              <span style={workoutPlayerStyles.listSets}>{ex.sets}×{ex.reps}</span>
+              <span style={workoutPlayerStyles.listSets}>{ex.sets}Ã—{ex.reps}</span>
             </div>
           ))}
         </div>
@@ -2769,6 +2862,1042 @@ const workoutPlayerStyles = {
   },
 };
 
+// ==================== KICKSTART GUIDE DATA ====================
+const kickstartGuideData = {
+  title: "GLP-1 Kickstart Guide",
+  author: "Merris Taylor, MS, RD",
+  sections: [
+    { id: 'fears', title: 'Real Talk About Your Fears', icon: '💭', color: '#9B7E9B', description: 'Addressing concerns keeping you up at night' },
+    { id: 'first30days', title: 'Your First 30 Days', icon: '📅', color: '#4A6741', description: 'Week-by-week guide to getting started' },
+    { id: 'sideeffects', title: 'Side Effect Prevention', icon: '🛡️', color: '#2AABB3', description: 'Strategies to minimize discomfort' },
+    { id: 'checklist', title: 'Getting Started Checklist', icon: '✅', color: '#C4956A', description: 'Everything you need to prepare' },
+    { id: 'essentials', title: '4 Essential Nutrition Shifts', icon: '🎯', color: '#E57373', description: 'The foundation for GLP-1 success' }
+  ],
+  fears: [
+    {
+      id: 'doesnt-work',
+      question: '"What if it doesn\'t work?"',
+      answer: `GLP-1 medications have some of the highest success rates we've ever seen for weight loss—15-20% of body weight on average.
+
+**The people who get the BEST results:**
+• Build sustainable habits
+• Get proper support
+• Follow a realistic nutrition plan
+• Take a long-term approach
+
+**The people who struggle often:**
+• Try to do it alone
+• Push doses too high too fast
+• Follow random advice online
+• Look for quick fixes
+
+Here's the truth: If you've tried everything and nothing's stuck, it's not because you lack willpower. Your body has powerful biological mechanisms that fight against weight loss.
+
+Think of it like this: Your body has a weight "thermostat" stuck on a higher setting. No amount of willpower can override biology forever. GLP-1s help adjust that thermostat so your efforts can finally work.`,
+      icon: '🤔'
+    },
+    {
+      id: 'easy-way',
+      question: '"Isn\'t this the easy way out?"',
+      answer: `Do you tell people with diabetes they're taking the easy way out by using insulin?
+
+Do you shame people for using thyroid medication?
+
+Do you judge someone for taking antidepressants?
+
+No?
+
+Then why are we still shaming people for using medically-proven tools for weight management?
+
+**Here's what science tells us:**
+• Hormones play a huge role in weight
+• Biology actively fights against weight loss
+• Willpower oftentimes isn't enough
+• Tools exist to help
+
+Using tools that work WITH your body instead of against it isn't weakness—it's smart.`,
+      icon: '💪'
+    },
+    {
+      id: 'side-effects',
+      question: '"What about the side effects?"',
+      answer: `Real talk: Side effects can happen. But here's what nobody tells you...
+
+**Many side effects come from:**
+• Starting dose too high
+• Increasing too fast
+• Missing key nutrition strategies
+
+**The good news? Most side effects are:**
+• Preventable with the right plan
+• Manageable with proper support
+• Temporary as your body adjusts
+• Mild when doses are optimized
+
+Many side effects can be prevented or minimized with the right approach to nutrition and habits.`,
+      icon: '⚠️'
+    },
+    {
+      id: 'regain',
+      question: '"What if I regain the weight?"',
+      answer: `This is the big one, isn't it? After years of yo-yo dieting, this fear is so valid.
+
+**Here's what makes GLP-1s different:**
+• They address biological drivers
+• They allow time to create new habits
+• They provide time for learning
+• They support maintenance
+
+**Important transparency:** These medications do have risk of regaining after stopping. Most people gain some weight back after they stop the medication.
+
+While many people regain weight, it's not everyone. A lot of people are able to keep their weight off, but it requires creating strong new habits—especially with eating—that you take into your weight maintenance phase.`,
+      icon: '🔄'
+    }
+  ],
+  first30Days: {
+    intro: "Starting a GLP-1 medication can feel overwhelming, but knowing what to expect can help you navigate those first crucial weeks.",
+    weeks: [
+      {
+        id: 'week1', title: 'Week 1: Getting Started', icon: '1️⃣',
+        expectations: ['Minimal appetite suppression at first—medication takes time to build up', 'Side effects may begin: nausea (especially 24-48 hours after injection), fatigue, headaches', 'Potential constipation or diarrhea'],
+        tips: ['Take your injection at night to sleep through initial side effects', 'Keep meals simple but nutritious', 'Stay well hydrated', 'Consider taking an acid reducer before bedtime if experiencing reflux']
+      },
+      {
+        id: 'week2', title: 'Week 2: Adjusting', icon: '2️⃣',
+        expectations: ['Slightly decreased appetite', 'Early satiety (feeling full faster)', 'Better control around food choices', 'Side effects may still be present but potentially improving'],
+        tips: ['Establish a regular eating schedule', 'Learn to recognize your new fullness cues', 'Get enough protein with each meal', 'Take it slow with meals—no rushing']
+      },
+      {
+        id: 'week34', title: 'Weeks 3-4: Finding Your Rhythm', icon: '3️⃣',
+        expectations: ['More consistent appetite suppression', 'Better management of side effects', 'Possible initial weight loss (though this varies greatly)', 'More stable energy levels'],
+        tips: ['Eat regular meals even if not hungry', 'Focus on protein and fiber', 'Stay ahead of constipation', 'Regular hydration', 'Gentle movement if you feel up to it']
+      }
+    ],
+    successLooks: {
+      notAbout: ['Losing a specific amount of weight', 'Having zero side effects', 'Perfect eating', 'Comparing your results to others'],
+      isAbout: ["Learning your body's new signals", 'Establishing sustainable habits', 'Managing side effects effectively', 'Building a foundation for long-term success']
+    },
+    redFlags: ['Severe or persistent vomiting', 'Unable to keep fluids down', 'Severe abdominal pain', 'Extreme fatigue', 'Severe headaches', 'Any concerning symptoms that worry you']
+  },
+  sideEffectPrevention: {
+    essentials: ['Stay ahead of nausea', 'Keep hydration up', 'Plan simple meals', 'Have supplies ready'],
+    strategies: [
+      { symptom: 'Nausea', icon: '🤢', tips: ['Eat slowly', 'Small, frequent meals', 'Ginger & peppermint', 'Stay hydrated'] },
+      { symptom: 'Fatigue', icon: '😴', tips: ['Prioritize protein', 'Regular meals', 'Proper hydration', 'Electrolytes', 'Adequate rest'] },
+      { symptom: 'Constipation', icon: '💫', tips: ['High fiber foods', 'Lots of water', 'Daily movement', 'Regular routine'] }
+    ],
+    supplyList: ['Sharps container for needle disposal', 'Alcohol swabs', 'Nausea remedies (ginger tea, peppermint)', 'Electrolyte supplements', 'High-protein snacks', 'Fiber supplements (if needed)', 'Water bottle']
+  },
+  checklist: {
+    categories: [
+      { title: 'Medical Preparation', icon: '🏥', items: ['Provider consultation scheduled', 'Current medications/supplements documented', 'Medical conditions/allergies listed', 'Weight loss history noted', 'Questions for provider written down', 'Insurance coverage confirmed', 'Pharmacy selected'] },
+      { title: 'Physical Preparation', icon: '📦', items: ['Sharps container obtained', 'Alcohol swabs ready', 'Nausea remedies stocked', 'Electrolyte supplements purchased', 'High-protein foods in kitchen', 'Fiber-rich foods available', 'Easy-to-digest foods for side effect days', 'Water bottle ready'] },
+      { title: 'Tracking Setup', icon: '📊', items: ['Weight tracking method chosen', 'Food tracking method selected (optional)', 'Side effect tracking system ready', 'Injection day reminder set', 'Prescription refill reminder set', '"Before" photos taken', 'Initial measurements recorded'] },
+      { title: 'Mental Preparation', icon: '🧠', items: ['Injection day/time selected', 'Meal timing strategy planned', 'Exercise plan considered', 'Support system identified', 'Realistic expectations set', 'Understanding this is a tool, not magic', "Acceptance that progress isn't linear"] },
+      { title: 'Environment Setup', icon: '🏠', items: ['Trigger foods addressed', 'Healthy food easily accessible', 'Meal prep area organized', 'Medication storage area prepared', 'Time blocked for meal prep', 'Regular eating times planned', 'Self-care time scheduled'] }
+    ]
+  },
+  essentialShifts: [
+    { id: 'protein', title: 'Protein', icon: '🥩', number: '1', summary: 'Crucial for losing weight and minimizing muscle loss', details: 'Eating enough protein is crucial to losing weight on GLP-1 and minimizing muscle loss. Muscle burns calories and helps keep your metabolism higher as you lose weight.', tip: 'Aim for 25-35g protein at every meal. Eat your protein first before getting too full.', color: '#4A6741' },
+    { id: 'timing', title: 'Meal Timing', icon: '⏰', number: '2', summary: 'Consistent eating prevents dangerous blood sugar drops', details: "GLP-1s have the ability to lower blood sugar, and the fact that they lower appetite and sometimes cause people to forget they need to eat can be potentially dangerous.", tip: 'Eat within 1-2 hours of waking up. No more than 4-5 hours between meals. Stop eating 3-4 hours before bedtime.', color: '#C4956A' },
+    { id: 'hydration', title: 'Hydration', icon: '💧', number: '3', summary: 'GLP-1 affects thirst too—stay ahead of dehydration', details: "Get plenty of sugar-free fluids throughout the day. GLP-1 doesn't only affect appetite—it has been known to decrease thirst too.", tip: 'Use sugar-free flavorings if it helps. Add electrolytes on low-appetite days or when sweating more than usual.', color: '#2AABB3' },
+    { id: 'fiber', title: 'Fiber', icon: '🥬', number: '4', summary: 'Keeps digestion moving and provides essential nutrients', details: "Fiber helps your gut keep moving (which is a problem for some on these meds), and many high-fiber foods are packed with nutrients that you need on this journey.", tip: 'Get at least 25g of fiber per day from fruits, vegetables, and whole grains.', color: '#9B7E9B' }
+  ]
+};
+
+// ==================== GLP-1 EDUCATION DATA ====================
+const glp1MistakesData = {
+  categories: [
+    {
+      id: 'appetite',
+      title: 'Appetite & Undereating',
+      icon: '🍽️',
+      color: '#C4956A',
+      description: 'Mistakes that quietly wreck results'
+    },
+    {
+      id: 'nutrition',
+      title: 'Nutrition Quality',
+      icon: '🥗',
+      color: '#4A6741',
+      description: 'Mistakes that cost you fat loss'
+    },
+    {
+      id: 'muscle',
+      title: 'Muscle & Metabolism',
+      icon: '💪',
+      color: '#2AABB3',
+      description: 'Mistakes that lead to stalls later'
+    },
+    {
+      id: 'dose',
+      title: 'Dose & Side Effects',
+      icon: '💊',
+      color: '#9B7E9B',
+      description: 'Assumptions that create struggle'
+    },
+    {
+      id: 'progress',
+      title: 'Progress & Expectations',
+      icon: '📊',
+      color: '#E57373',
+      description: 'Mistakes that trigger panic'
+    },
+    {
+      id: 'strategy',
+      title: 'Strategy & Habits',
+      icon: '🎯',
+      color: '#4A8BA8',
+      description: 'Mistakes that lead to burnout'
+    }
+  ],
+  mistakes: [
+    {
+      id: 1,
+      category: 'appetite',
+      title: 'Undereating',
+      summary: 'Unintentionally eating less and less over time',
+      content: `One of the most common mistakes is unintentionally eating less and less over time. It starts subtly—you feel full faster, leave more bites on your plate, skip part of a meal. In the beginning, weight comes off, which feels exciting.
+
+The problem is that as weight loss progresses, your body requires fewer calories. When you're already eating very small amounts, your body adapts to functioning on less and less food. This makes continued fat loss harder and increases likelihood for weight stalls.
+
+**The Goal:** Eat enough, consistently, so your body doesn't keep adapting downward. Learning how to fuel your body helps protect your metabolism, muscle, and ability to keep losing weight.`,
+      keyTakeaway: 'Relying on "eating less" without structure can create problems later. The goal isn\'t to eat as little as possible.',
+      icon: '⚠️'
+    },
+    {
+      id: 2,
+      category: 'appetite',
+      title: 'Chasing Zero Appetite',
+      summary: 'Believing you need no appetite to lose weight',
+      content: `Many people believe that having no appetite is the goal on GLP-1. When appetite starts to come back as your body adjusts, it can feel scary—leading people to increase their dose just to chase their appetite away.
+
+**The Truth:** Having an appetite is not bad. Appetite helps you eat enough, fuel your body, and maintain muscle. Trying to completely numb it can make this journey harder.
+
+The goal of GLP-1 isn't zero appetite—it's to take the edge off enough that you feel in control and can make better eating decisions.`,
+      keyTakeaway: 'Learning to respond to your appetite, instead of being afraid of it, sets you up for better long-term results.',
+      icon: '🎯'
+    },
+    {
+      id: 3,
+      category: 'appetite',
+      title: 'Blindly "Listening to Your Body"',
+      summary: 'Not eating because hunger isn\'t showing up',
+      content: `On GLP-1, listening to your body looks very different. When you're new to the medication, your hunger and fullness cues can be much quieter than normal. You might feel full after a few bites or go most of the day without feeling hungry.
+
+The mistake happens when "listening to your body" turns into not eating simply because hunger isn't showing up. On GLP-1, low hunger is common—but letting long stretches go by without eating can lead to underfueling, low energy, muscle loss, and slower progress.
+
+**New Approach:** On GLP-1, hunger isn't always a reliable fuel gauge. Your body still needs fuel to function well. Just because the "hunger light" isn't on doesn't mean your tank is full.`,
+      keyTakeaway: 'GLP-1 changes hunger cues, but your body\'s need for fuel doesn\'t. Intentional eating is fundamental.',
+      icon: '👂'
+    },
+    {
+      id: 4,
+      category: 'appetite',
+      title: 'Undereating Early, Overeating Later',
+      summary: 'Skipping meals early in the week leads to rebound hunger',
+      content: `With weekly GLP-1 injections, medication levels are highest in the first day or two after your shot. As days go by, levels drop and appetite gradually returns.
+
+If you barely eat at the beginning of the week when appetite is lowest, this often leads to rebound hunger later. That rebound isn't a lack of willpower—it's your body responding to being underfed.
+
+**The Solution:** Learn to work with your appetite cycle so your body gets what it needs over the course of the week. This avoids the toxic cycle of undereating then binging.`,
+      keyTakeaway: 'Appetite changes across the week are normal. Learning to fuel intentionally across the full cycle matters more than any single day.',
+      icon: '📅'
+    },
+    {
+      id: 5,
+      category: 'nutrition',
+      title: 'Thinking Deficit = Fat Loss',
+      summary: 'A calorie deficit doesn\'t guarantee what kind of weight you lose',
+      content: `A calorie deficit does lead to weight loss, but it doesn't guarantee WHAT kind of weight you're losing or how you feel during your journey.
+
+When food quality is low and protein is sparse, your body can pull energy from muscle, not just fat. This leads to low energy, dizziness, hair loss, or a "skinny-fat" look—where the scale goes down but body composition doesn't improve.
+
+**What Matters:** WHAT you eat matters just as much as HOW MUCH. A calorie deficit without enough protein, micronutrients, and minerals often leads to muscle loss and a worse experience overall.`,
+      keyTakeaway: 'Food quality determines how you feel, how much muscle you keep, and what your body looks like as you lose weight.',
+      icon: '⚖️'
+    },
+    {
+      id: 6,
+      category: 'nutrition',
+      title: 'Over-Relying on Protein Supplements',
+      summary: 'Supplements slowly replacing real meals',
+      content: `Protein supplements can be helpful on GLP-1—they're convenient and a great way to add extra protein when appetite is low. The mistake happens when supplements start replacing real meals instead of supplementing them.
+
+Many people lean heavily on shakes because they think real meals can't meet their protein needs with a lower appetite. But that's not true!
+
+Most protein supplements are high in protein but low in calories, carbs, fat, and fiber. Real meals provide a mix of nutrients that help you feel more satisfied with steadier energy.`,
+      keyTakeaway: 'Protein supplements are tools to fill gaps. Learning to get enough protein from real food helps you feel satisfied and confident.',
+      icon: '🥤'
+    },
+    {
+      id: 7,
+      category: 'nutrition',
+      title: 'Ignoring Fiber & Produce',
+      summary: 'Treating protein as the only thing that matters',
+      content: `Because appetite is lower on GLP-1, many people feel like they have to "use up" their appetite on protein alone. Once they finish the protein, they feel too full for anything else, so fiber and produce get pushed aside.
+
+Fiber and produce play a big role in:
+• Digestion and gut health
+• Energy levels
+• Feeling satisfied day to day
+• Keeping digestion moving
+
+When these are missing, people notice more constipation, lower energy, and harder time feeling satisfied.`,
+      keyTakeaway: 'Protein matters, but fiber and produce help your body feel better, stay regular, and are crucial for keeping weight off long-term.',
+      icon: '🥬'
+    },
+    {
+      id: 8,
+      category: 'nutrition',
+      title: 'Cutting Out Carbs Completely',
+      summary: 'Diet culture taught that weight loss only happens without carbs',
+      content: `Many people cut carbs on GLP-1 because past diets taught them that's the "right" way to lose weight. But carbs are NOT the problem.
+
+**Why Carbs Matter:**
+• Your brain's preferred energy source
+• Help with mood, focus, and satisfaction
+• Prevent low energy and frustration
+• Make your journey more sustainable
+
+Carbs don't stop fat loss on GLP-1. The right types and amounts can make your journey more enjoyable while still losing weight consistently.`,
+      keyTakeaway: 'You don\'t need to cut carbs to lose weight on GLP-1. Including them strategically improves energy, satisfaction, and results.',
+      icon: '🍞'
+    },
+    {
+      id: 9,
+      category: 'muscle',
+      title: 'Not Thinking About Muscle',
+      summary: 'Assuming muscle loss won\'t be an issue if weight is coming off',
+      content: `Many people assume that as long as weight is coming off, muscle loss won't be an issue. But when muscle isn't protected during weight loss, it's easy to lose more than you realize.
+
+**Why Muscle Matters:**
+• Helps your body burn more energy at rest
+• Makes weight loss easier long-term
+• Prevents weight regain
+• Keeps you strong for daily activities
+
+The good news: Protecting muscle doesn't require hours in the gym. Pairing nutrition with simple strength training (even 20-30 minutes, a couple times per week) makes a huge difference.`,
+      keyTakeaway: 'On GLP-1, weight loss is easier but so is muscle loss. Strength training protects your metabolism and long-term results.',
+      icon: '💪'
+    },
+    {
+      id: 10,
+      category: 'muscle',
+      title: 'Assuming 1-2 lbs/Week is Always "Healthy"',
+      summary: 'One-size-fits-all weight loss guidelines don\'t work',
+      content: `The "1-2 pounds per week" guideline is often taken too literally on GLP-1. Just like we all have different nutrition needs, we have different safe rates of weight loss.
+
+**The Reality:**
+• For some, 2 lbs/week is too aggressive and risks muscle loss
+• For others (especially early on), 1-2 lbs may be slower than safe
+• Weight loss rate depends on starting weight, body size, and medication response
+• Your safe rate CHANGES as you lose weight
+
+Figuring out your personalized safe weight loss rate helps you lose fat without pushing your body too hard.`,
+      keyTakeaway: 'Healthy weight loss isn\'t one-size-fits-all. Knowing your personal safe range helps you avoid losing too fast or too slow.',
+      icon: '📉'
+    },
+    {
+      id: 11,
+      category: 'muscle',
+      title: 'Waiting to Address Nutrition',
+      summary: 'Waiting until stalled, exhausted, or losing muscle',
+      content: `A common mistake is assuming that as long as weight is going down, everything else will take care of itself.
+
+Ignoring nutrition becomes cumulative. What starts as "probably fine" can turn into:
+• Fatigue and weakness
+• Noticeable muscle loss
+• Struggling with everyday tasks
+• Weight loss suddenly stopping
+
+**Proactive vs Reactive:** When you proactively support your body BEFORE problems show up, you create a powerful environment to thrive while losing weight.`,
+      keyTakeaway: 'On GLP-1, proactive nutrition beats reactive nutrition every time.',
+      icon: '⏰'
+    },
+    {
+      id: 12,
+      category: 'dose',
+      title: 'Increasing Dose Too Quickly',
+      summary: 'Feeling pressure to move up every month',
+      content: `Many people feel pressure to increase their dose every month—from social media, other users, or providers following standard schedules without looking at individual response.
+
+**Important:** A higher dose doesn't always mean better results.
+
+Many people wish they had gone slower. Once at the highest dose, they felt "capped out" and nervous about going back down.
+
+The goal isn't to rush to the highest dose—it's to get the most effectiveness out of each dose you're on.`,
+      keyTakeaway: 'Higher isn\'t always better. The best approach is getting the most out of each dose while listening to your body.',
+      icon: '📈'
+    },
+    {
+      id: 13,
+      category: 'dose',
+      title: 'Feeling Like a Failure for Needing Higher Dose',
+      summary: 'Assuming needing more means you\'re doing something wrong',
+      content: `On the flip side, many feel embarrassed when they need to increase their dose. They assume it means they're not trying hard enough or failing the medication.
+
+**The Truth:** Needing a higher dose doesn't say anything about your effort or worth. Bodies respond differently to GLP-1, and some simply need more support.
+
+At the same time, the dose alone isn't what creates results. When you focus on intentional habits alongside the medication, that's when you get the most out of every dose.`,
+      keyTakeaway: 'Needing a higher dose isn\'t failure. Lasting results come from pairing medication with intentional habits.',
+      icon: '💚'
+    },
+    {
+      id: 14,
+      category: 'dose',
+      title: 'Assuming Side Effects Are Unavoidable',
+      summary: 'Chalking everything up to "just the medication"',
+      content: `Many people assume nausea, fatigue, hair loss, and GI issues are "just part of it." Sometimes side effects ARE medication-related, especially when adjusting doses.
+
+**But many times, they're made worse by controllable factors:**
+• Nausea often tied to not eating enough or going too long without food
+• High-fat meals can trigger nausea and GI symptoms
+• Fatigue, headaches, dizziness often connected to hydration or electrolytes
+
+When you pay attention to patterns around food, hydration, and timing, many symptoms become easier to manage or disappear.`,
+      keyTakeaway: 'Some side effects are medication-related, but many are influenced by how you eat and hydrate. Small adjustments make a big difference.',
+      icon: '🩺'
+    },
+    {
+      id: 15,
+      category: 'progress',
+      title: 'Only Tracking the Scale',
+      summary: 'The scale can\'t tell the difference between fat and muscle',
+      content: `The scale is one way to track progress, but not the only one—and not the best measure of what's happening in your body.
+
+**The scale can't tell you:**
+• Fat loss vs muscle gain
+• Body composition changes
+• Strength improvements
+• How clothes fit differently
+
+When building/protecting muscle while losing fat, the scale may move slowly or fluctuate—even though body composition is improving (body recomposition).
+
+Track progress through: measurements, photos, how clothes fit, energy levels, and strength.`,
+      keyTakeaway: 'The scale tells part of the story. Body composition, strength, and how you feel tell the rest.',
+      icon: '⚖️'
+    },
+    {
+      id: 16,
+      category: 'progress',
+      title: 'Expecting Immediate Results',
+      summary: 'Thinking you\'re failing if no weight loss in 1-3 months',
+      content: `Many people panic if they haven't lost weight right away, thinking the medication isn't working or they're a "non-responder."
+
+**Reality Check:**
+• The first month is usually a starting dose that doesn't cause much weight loss
+• It can take a few months to find the right dose
+• Early weight loss (or lack of it) isn't a verdict on overall success
+
+While finding your right dose, do your part: eat intentionally and build supportive habits to help the shot work better when it clicks.`,
+      keyTakeaway: 'Not losing weight right away doesn\'t mean you\'re failing. Sometimes your body needs time to find the right dose.',
+      icon: '⏳'
+    },
+    {
+      id: 17,
+      category: 'progress',
+      title: 'Comparing to Others',
+      summary: 'Social media is a highlight reel',
+      content: `Comparing your progress to people online is a common trap. Social media shows big wins and dramatic changes—not plateaus, slow months, or struggles.
+
+**Remember:**
+• The algorithm promotes extreme examples
+• You never see the full picture
+• Bodies respond differently
+• Doses and situations differ
+
+Losing 4 pounds in a month can feel discouraging when someone claims 20—but those situations are rarely comparable.`,
+      keyTakeaway: 'Your progress doesn\'t need to look like a highlight reel to be working and improving your life.',
+      icon: '📱'
+    },
+    {
+      id: 18,
+      category: 'strategy',
+      title: 'Waiting to Build Habits',
+      summary: 'Waiting until near goal weight to care about nutrition',
+      content: `Many people wait until they've lost most weight to start building habits for maintenance. But that's the hardest time to start.
+
+**The Truth:** The way you lose the weight is usually the way you keep it off.
+
+If weight loss happened mostly because appetite was low without learning to eat intentionally, maintenance will feel scary instead of freeing.
+
+When you build habits while the medication is helping, you set yourself up to confidently maintain results for a lifetime.`,
+      keyTakeaway: 'Maintenance doesn\'t start at goal weight. It starts with how you eat while you\'re losing.',
+      icon: '🏗️'
+    },
+    {
+      id: 19,
+      category: 'strategy',
+      title: 'Trying to Change Everything at Once',
+      summary: 'Piling on changes is a fast track to burnout',
+      content: `People start GLP-1 motivated and try to change everything: more steps, fewer carbs, perfect meals, more workouts, more rules.
+
+**The Problem:** When you overhaul everything at once, it's hard to keep up. When something slips, it often triggers all-or-nothing thinking—you're either "on" or "off."
+
+**Better Approach:** Focus on just a couple small, meaningful habits at a time. Once you nail a habit, add another. Progress sticks when change feels manageable.`,
+      keyTakeaway: 'Too much effort too fast leads to burnout and all-or-nothing thinking. Progress sticks when change feels manageable.',
+      icon: '🎢'
+    },
+    {
+      id: 20,
+      category: 'strategy',
+      title: 'YOLO-ing Your Time on the Shot',
+      summary: 'Swinging too far toward "anything goes"',
+      content: `Once food feels peaceful, some swing too far—assuming caring about nutrition means giving in to diet culture, or that healing your relationship with food means saying yes to every craving.
+
+**The Balance:** Eating intentionally on GLP-1 isn't restriction—it's self-care. You don't have to eat perfectly, but when most intake comes from foods that don't fuel your body, weight loss can slow.
+
+Healing your relationship with food and supporting fat loss are NOT opposites. On GLP-1, intentional eating is the BEST thing you can do for yourself.`,
+      keyTakeaway: 'Healing your relationship with food and supporting fat loss can happen together. Intentional eating is self-care.',
+      icon: '🎯'
+    },
+    {
+      id: 21,
+      category: 'strategy',
+      title: 'Over-Consuming Free Advice',
+      summary: 'Getting more confused from too many opinions',
+      content: `Trying to take in all free advice online rarely brings clarity—it usually does the opposite.
+
+When you hear dozens of different opinions daily, you end up with:
+• 30 things on your to-do list
+• Amazon cart full of supplements
+• No realistic way to keep up
+• More confusion than before
+
+**The Truth:** Losing weight consistently on GLP-1 is much simpler than social media makes it seem. More tips don't equal better results without a clear framework.`,
+      keyTakeaway: 'More information doesn\'t automatically lead to better results. Clarity, consistency, and trusted guidance move the needle.',
+      icon: '📚'
+    }
+  ]
+};
+
+// GLP-1 Education Screen Component
+function GLP1EducationScreen({ onBack }) {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedMistake, setSelectedMistake] = useState(null);
+  const [completedMistakes, setCompletedMistakes] = useState([]);
+
+  const toggleCompleted = (id) => {
+    setCompletedMistakes(prev => 
+      prev.includes(id) ? prev.filter(m => m !== id) : [...prev, id]
+    );
+  };
+
+  // Show mistake detail
+  if (selectedMistake) {
+    const mistake = glp1MistakesData.mistakes.find(m => m.id === selectedMistake);
+    const category = glp1MistakesData.categories.find(c => c.id === mistake.category);
+    
+    return (
+      <div style={styles.screenContent} className="fade-in">
+        <div style={styles.educationHeader}>
+          <button style={styles.backButton} onClick={() => setSelectedMistake(null)}>← Back</button>
+        </div>
+
+        <div style={{...styles.mistakeCategoryBadge, background: `${category.color}20`, color: category.color}}>
+          {category.icon} {category.title}
+        </div>
+
+        <h1 style={styles.mistakeDetailTitle}>Mistake #{mistake.id}</h1>
+        <h2 style={styles.mistakeDetailName}>{mistake.title}</h2>
+
+        <div style={styles.mistakeContent}>
+          {mistake.content.split('\n\n').map((paragraph, idx) => {
+            if (paragraph.startsWith('**') && paragraph.endsWith('**')) {
+              return <h4 key={idx} style={styles.mistakeSubheading}>{paragraph.replace(/\*\*/g, '')}</h4>;
+            }
+            if (paragraph.includes('**')) {
+              const parts = paragraph.split('**');
+              return (
+                <p key={idx} style={styles.mistakeParagraph}>
+                  {parts.map((part, i) => i % 2 === 1 ? <strong key={i}>{part}</strong> : part)}
+                </p>
+              );
+            }
+            if (paragraph.startsWith('•')) {
+              return (
+                <div key={idx} style={styles.mistakeBulletList}>
+                  {paragraph.split('\n').map((line, i) => (
+                    <p key={i} style={styles.mistakeBullet}>{line}</p>
+                  ))}
+                </div>
+              );
+            }
+            return <p key={idx} style={styles.mistakeParagraph}>{paragraph}</p>;
+          })}
+        </div>
+
+        <div style={styles.keyTakeawayBox}>
+          <span style={styles.keyTakeawayIcon}>💡</span>
+          <div>
+            <p style={styles.keyTakeawayLabel}>Key Takeaway</p>
+            <p style={styles.keyTakeawayText}>{mistake.keyTakeaway}</p>
+          </div>
+        </div>
+
+        <button 
+          style={{
+            ...styles.markCompleteButton,
+            background: completedMistakes.includes(mistake.id) ? '#E8EDE6' : '#4A6741',
+            color: completedMistakes.includes(mistake.id) ? '#4A6741' : '#FFFFFF'
+          }}
+          onClick={() => toggleCompleted(mistake.id)}
+        >
+          {completedMistakes.includes(mistake.id) ? '✓ Marked as Read' : 'Mark as Read'}
+        </button>
+      </div>
+    );
+  }
+
+  // Show category mistakes
+  if (selectedCategory) {
+    const category = glp1MistakesData.categories.find(c => c.id === selectedCategory);
+    const categoryMistakes = glp1MistakesData.mistakes.filter(m => m.category === selectedCategory);
+
+    return (
+      <div style={styles.screenContent} className="fade-in">
+        <div style={styles.educationHeader}>
+          <button style={styles.backButton} onClick={() => setSelectedCategory(null)}>← Back</button>
+        </div>
+
+        <div style={{...styles.categoryHeaderLarge, background: `linear-gradient(135deg, ${category.color}15 0%, ${category.color}30 100%)`}}>
+          <span style={styles.categoryIconLarge}>{category.icon}</span>
+          <h1 style={styles.categoryTitleLarge}>{category.title}</h1>
+          <p style={styles.categoryDescLarge}>{category.description}</p>
+          <p style={styles.categoryCount}>{categoryMistakes.length} mistakes to avoid</p>
+        </div>
+
+        <div style={styles.mistakesList}>
+          {categoryMistakes.map((mistake) => (
+            <div 
+              key={mistake.id}
+              style={styles.mistakeCard}
+              className="card-hover"
+              onClick={() => setSelectedMistake(mistake.id)}
+            >
+              <div style={styles.mistakeCardLeft}>
+                <span style={{...styles.mistakeNumber, background: category.color}}>#{mistake.id}</span>
+              </div>
+              <div style={styles.mistakeCardContent}>
+                <h3 style={styles.mistakeCardTitle}>{mistake.title}</h3>
+                <p style={styles.mistakeCardSummary}>{mistake.summary}</p>
+              </div>
+              {completedMistakes.includes(mistake.id) && (
+                <span style={styles.mistakeCompletedBadge}>✓</span>
+              )}
+              <span style={styles.mistakeArrow}>→</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Main education screen
+  return (
+    <div style={styles.screenContent} className="fade-in">
+      <div style={styles.educationHeader}>
+        <button style={styles.backButton} onClick={onBack}>← Back</button>
+      </div>
+
+      <header style={styles.educationIntro}>
+        <div style={styles.educationBadge}>
+          <span style={styles.educationBadgeIcon}>📚</span>
+          <span style={styles.educationBadgeText}>From a Registered Dietitian</span>
+        </div>
+        <h1 style={styles.educationTitle}>21 GLP-1 Mistakes</h1>
+        <p style={styles.educationSubtitle}>
+          Avoid the biggest mistakes before they cost you progress and plateaus
+        </p>
+        <div style={styles.progressOverview}>
+          <span style={styles.progressText}>{completedMistakes.length} of 21 read</span>
+          <div style={styles.progressBarSmall}>
+            <div style={{...styles.progressFillSmall, width: `${(completedMistakes.length / 21) * 100}%`}} />
+          </div>
+        </div>
+      </header>
+
+      <div style={styles.categoriesGrid}>
+        {glp1MistakesData.categories.map((category) => {
+          const categoryMistakes = glp1MistakesData.mistakes.filter(m => m.category === category.id);
+          const completedInCategory = categoryMistakes.filter(m => completedMistakes.includes(m.id)).length;
+          
+          return (
+            <div 
+              key={category.id}
+              style={{...styles.categoryCard, borderLeftColor: category.color}}
+              className="card-hover"
+              onClick={() => setSelectedCategory(category.id)}
+            >
+              <div style={styles.categoryCardHeader}>
+                <span style={styles.categoryCardIcon}>{category.icon}</span>
+                <span style={styles.categoryCardProgress}>{completedInCategory}/{categoryMistakes.length}</span>
+              </div>
+              <h3 style={styles.categoryCardTitle}>{category.title}</h3>
+              <p style={styles.categoryCardDesc}>{category.description}</p>
+              <div style={styles.categoryCardBar}>
+                <div style={{
+                  ...styles.categoryCardBarFill, 
+                  width: `${(completedInCategory / categoryMistakes.length) * 100}%`,
+                  background: category.color
+                }} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <section style={styles.section}>
+        <h3 style={styles.sectionTitle}>Quick Tips</h3>
+        <div style={styles.quickTipsList}>
+          <div style={styles.quickTipCard}>
+            <span style={styles.quickTipIcon}>🎯</span>
+            <div>
+              <p style={styles.quickTipTitle}>Protein First</p>
+              <p style={styles.quickTipText}>25-35g per meal to preserve muscle</p>
+            </div>
+          </div>
+          <div style={styles.quickTipCard}>
+            <span style={styles.quickTipIcon}>💧</span>
+            <div>
+              <p style={styles.quickTipTitle}>Stay Hydrated</p>
+              <p style={styles.quickTipText}>GLP-1 can reduce thirst awareness</p>
+            </div>
+          </div>
+          <div style={styles.quickTipCard}>
+            <span style={styles.quickTipIcon}>🥬</span>
+            <div>
+              <p style={styles.quickTipTitle}>Include Fiber</p>
+              <p style={styles.quickTipText}>Supports digestion and satisfaction</p>
+            </div>
+          </div>
+          <div style={styles.quickTipCard}>
+            <span style={styles.quickTipIcon}>💪</span>
+            <div>
+              <p style={styles.quickTipTitle}>Add Strength Training</p>
+              <p style={styles.quickTipText}>Even 20-30 min, 2x/week helps</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ==================== KICKSTART GUIDE SCREEN ====================
+function KickstartGuideScreen({ onBack }) {
+  const [activeSection, setActiveSection] = useState(null);
+  const [activeFear, setActiveFear] = useState(null);
+  const [activeWeek, setActiveWeek] = useState(null);
+  const [checkedItems, setCheckedItems] = useState({});
+
+  const toggleCheckItem = (categoryIdx, itemIdx) => {
+    const key = `${categoryIdx}-${itemIdx}`;
+    setCheckedItems(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const getChecklistProgress = () => {
+    const totalItems = kickstartGuideData.checklist.categories.reduce((sum, cat) => sum + cat.items.length, 0);
+    const checkedCount = Object.values(checkedItems).filter(Boolean).length;
+    return Math.round((checkedCount / totalItems) * 100);
+  };
+
+  // Main section view
+  if (!activeSection) {
+    return (
+      <div style={styles.screenContent} className="fade-in">
+        <div style={styles.kickstartHeader}>
+          <button style={styles.backButton} onClick={onBack}>← Back</button>
+        </div>
+        
+        <div style={styles.kickstartHero}>
+          <span style={styles.kickstartBadge}>📚 Complete Guide</span>
+          <h1 style={styles.kickstartTitle}>GLP-1 Kickstart Guide</h1>
+          <p style={styles.kickstartAuthor}>By {kickstartGuideData.author}</p>
+          <p style={styles.kickstartDesc}>Everything you need to know to start your GLP-1 journey with confidence.</p>
+        </div>
+
+        <div style={styles.kickstartSections}>
+          {kickstartGuideData.sections.map((section, idx) => (
+            <div 
+              key={section.id}
+              style={{...styles.kickstartSectionCard, borderLeftColor: section.color}}
+              className="card-hover"
+              onClick={() => setActiveSection(section.id)}
+            >
+              <span style={styles.kickstartSectionIcon}>{section.icon}</span>
+              <div style={styles.kickstartSectionContent}>
+                <h3 style={styles.kickstartSectionTitle}>{section.title}</h3>
+                <p style={styles.kickstartSectionDesc}>{section.description}</p>
+              </div>
+              <span style={styles.kickstartArrow}>→</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Fears section
+  if (activeSection === 'fears') {
+    if (activeFear) {
+      const fear = kickstartGuideData.fears.find(f => f.id === activeFear);
+      return (
+        <div style={styles.screenContent} className="fade-in">
+          <div style={styles.kickstartHeader}>
+            <button style={styles.backButton} onClick={() => setActiveFear(null)}>← Back</button>
+          </div>
+          <div style={styles.fearDetailCard}>
+            <span style={styles.fearDetailIcon}>{fear.icon}</span>
+            <h2 style={styles.fearDetailQuestion}>{fear.question}</h2>
+            <div style={styles.fearDetailAnswer}>
+              {fear.answer.split('\n\n').map((para, idx) => (
+                <p key={idx} style={styles.fearParagraph}>{para}</p>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div style={styles.screenContent} className="fade-in">
+        <div style={styles.kickstartHeader}>
+          <button style={styles.backButton} onClick={() => setActiveSection(null)}>← Back</button>
+        </div>
+        <div style={styles.sectionHeader}>
+          <span style={styles.sectionHeaderIcon}>💭</span>
+          <h1 style={styles.sectionHeaderTitle}>Real Talk About Your Fears</h1>
+          <p style={styles.sectionHeaderDesc}>Let's address the concerns that might be keeping you up at night.</p>
+        </div>
+        <div style={styles.fearsList}>
+          {kickstartGuideData.fears.map(fear => (
+            <div 
+              key={fear.id}
+              style={styles.fearCard}
+              className="card-hover"
+              onClick={() => setActiveFear(fear.id)}
+            >
+              <span style={styles.fearIcon}>{fear.icon}</span>
+              <span style={styles.fearQuestion}>{fear.question}</span>
+              <span style={styles.fearArrow}>→</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // First 30 Days section
+  if (activeSection === 'first30days') {
+    if (activeWeek) {
+      const week = kickstartGuideData.first30Days.weeks.find(w => w.id === activeWeek);
+      return (
+        <div style={styles.screenContent} className="fade-in">
+          <div style={styles.kickstartHeader}>
+            <button style={styles.backButton} onClick={() => setActiveWeek(null)}>← Back</button>
+          </div>
+          <div style={styles.weekDetailHeader}>
+            <span style={styles.weekDetailIcon}>{week.icon}</span>
+            <h2 style={styles.weekDetailTitle}>{week.title}</h2>
+          </div>
+          <div style={styles.weekSection}>
+            <h4 style={styles.weekSectionTitle}>What to Expect</h4>
+            {week.expectations.map((exp, idx) => (
+              <div key={idx} style={styles.weekItem}>
+                <span style={styles.weekItemBullet}>•</span>
+                <span style={styles.weekItemText}>{exp}</span>
+              </div>
+            ))}
+          </div>
+          <div style={styles.weekSection}>
+            <h4 style={styles.weekSectionTitle}>Tips for Success</h4>
+            {week.tips.map((tip, idx) => (
+              <div key={idx} style={styles.weekItem}>
+                <span style={styles.weekItemBullet}>✓</span>
+                <span style={styles.weekItemText}>{tip}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div style={styles.screenContent} className="fade-in">
+        <div style={styles.kickstartHeader}>
+          <button style={styles.backButton} onClick={() => setActiveSection(null)}>← Back</button>
+        </div>
+        <div style={styles.sectionHeader}>
+          <span style={styles.sectionHeaderIcon}>📅</span>
+          <h1 style={styles.sectionHeaderTitle}>Your First 30 Days</h1>
+          <p style={styles.sectionHeaderDesc}>{kickstartGuideData.first30Days.intro}</p>
+        </div>
+        <div style={styles.weeksList}>
+          {kickstartGuideData.first30Days.weeks.map(week => (
+            <div 
+              key={week.id}
+              style={styles.weekCard}
+              className="card-hover"
+              onClick={() => setActiveWeek(week.id)}
+            >
+              <span style={styles.weekIcon}>{week.icon}</span>
+              <span style={styles.weekTitle}>{week.title}</span>
+              <span style={styles.weekArrow}>→</span>
+            </div>
+          ))}
+        </div>
+        <div style={styles.successBox}>
+          <h4 style={styles.successTitle}>🎯 Success in Month 1</h4>
+          <p style={styles.successSubtitle}>Is NOT about:</p>
+          {kickstartGuideData.first30Days.successLooks.notAbout.map((item, idx) => (
+            <p key={idx} style={styles.successNotItem}>✗ {item}</p>
+          ))}
+          <p style={{...styles.successSubtitle, marginTop: '16px'}}>IS about:</p>
+          {kickstartGuideData.first30Days.successLooks.isAbout.map((item, idx) => (
+            <p key={idx} style={styles.successIsItem}>✓ {item}</p>
+          ))}
+        </div>
+        <div style={styles.redFlagsBox}>
+          <h4 style={styles.redFlagsTitle}>⚠️ When to Call Your Provider</h4>
+          {kickstartGuideData.first30Days.redFlags.map((flag, idx) => (
+            <p key={idx} style={styles.redFlagItem}>• {flag}</p>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Side Effects section
+  if (activeSection === 'sideeffects') {
+    return (
+      <div style={styles.screenContent} className="fade-in">
+        <div style={styles.kickstartHeader}>
+          <button style={styles.backButton} onClick={() => setActiveSection(null)}>← Back</button>
+        </div>
+        <div style={styles.sectionHeader}>
+          <span style={styles.sectionHeaderIcon}>🛡️</span>
+          <h1 style={styles.sectionHeaderTitle}>Side Effect Prevention</h1>
+          <p style={styles.sectionHeaderDesc}>Strategies to minimize discomfort and feel your best.</p>
+        </div>
+        <div style={styles.preventionEssentials}>
+          <h4 style={styles.essentialsTitle}>Prevention Essentials</h4>
+          {kickstartGuideData.sideEffectPrevention.essentials.map((item, idx) => (
+            <span key={idx} style={styles.essentialTag}>{item}</span>
+          ))}
+        </div>
+        <div style={styles.strategiesGrid}>
+          {kickstartGuideData.sideEffectPrevention.strategies.map((strategy, idx) => (
+            <div key={idx} style={styles.strategyCard}>
+              <div style={styles.strategyHeader}>
+                <span style={styles.strategyIcon}>{strategy.icon}</span>
+                <span style={styles.strategySymptom}>{strategy.symptom}</span>
+              </div>
+              <div style={styles.strategyTips}>
+                {strategy.tips.map((tip, tidx) => (
+                  <p key={tidx} style={styles.strategyTip}>• {tip}</p>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={styles.supplyListBox}>
+          <h4 style={styles.supplyListTitle}>📦 Supply Checklist</h4>
+          {kickstartGuideData.sideEffectPrevention.supplyList.map((item, idx) => (
+            <p key={idx} style={styles.supplyItem}>□ {item}</p>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Checklist section
+  if (activeSection === 'checklist') {
+    const progress = getChecklistProgress();
+    return (
+      <div style={styles.screenContent} className="fade-in">
+        <div style={styles.kickstartHeader}>
+          <button style={styles.backButton} onClick={() => setActiveSection(null)}>← Back</button>
+        </div>
+        <div style={styles.sectionHeader}>
+          <span style={styles.sectionHeaderIcon}>✅</span>
+          <h1 style={styles.sectionHeaderTitle}>Getting Started Checklist</h1>
+          <p style={styles.sectionHeaderDesc}>Everything you need to prepare for success.</p>
+        </div>
+        <div style={styles.checklistProgress}>
+          <div style={styles.checklistProgressBar}>
+            <div style={{...styles.checklistProgressFill, width: `${progress}%`}} />
+          </div>
+          <span style={styles.checklistProgressText}>{progress}% Complete</span>
+        </div>
+        {kickstartGuideData.checklist.categories.map((category, catIdx) => (
+          <div key={catIdx} style={styles.checklistCategory}>
+            <div style={styles.checklistCategoryHeader}>
+              <span style={styles.checklistCategoryIcon}>{category.icon}</span>
+              <span style={styles.checklistCategoryTitle}>{category.title}</span>
+            </div>
+            {category.items.map((item, itemIdx) => {
+              const isChecked = checkedItems[`${catIdx}-${itemIdx}`];
+              return (
+                <div 
+                  key={itemIdx} 
+                  style={styles.checklistItem}
+                  onClick={() => toggleCheckItem(catIdx, itemIdx)}
+                >
+                  <div style={{
+                    ...styles.checkbox,
+                    ...(isChecked ? styles.checkboxChecked : {})
+                  }}>
+                    {isChecked && '✓'}
+                  </div>
+                  <span style={{
+                    ...styles.checklistItemText,
+                    ...(isChecked ? styles.checklistItemChecked : {})
+                  }}>{item}</span>
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  // Essential Shifts section
+  if (activeSection === 'essentials') {
+    return (
+      <div style={styles.screenContent} className="fade-in">
+        <div style={styles.kickstartHeader}>
+          <button style={styles.backButton} onClick={() => setActiveSection(null)}>← Back</button>
+        </div>
+        <div style={styles.sectionHeader}>
+          <span style={styles.sectionHeaderIcon}>🎯</span>
+          <h1 style={styles.sectionHeaderTitle}>4 Essential Nutrition Shifts</h1>
+          <p style={styles.sectionHeaderDesc}>The foundation for GLP-1 success.</p>
+        </div>
+        <div style={styles.essentialsList}>
+          {kickstartGuideData.essentialShifts.map((shift, idx) => (
+            <div key={idx} style={{...styles.essentialCard, borderLeftColor: shift.color}}>
+              <div style={styles.essentialHeader}>
+                <div style={{...styles.essentialNumber, backgroundColor: shift.color}}>{shift.number}</div>
+                <span style={styles.essentialIcon}>{shift.icon}</span>
+                <h3 style={styles.essentialTitle}>{shift.title}</h3>
+              </div>
+              <p style={styles.essentialSummary}>{shift.summary}</p>
+              <p style={styles.essentialDetails}>{shift.details}</p>
+              <div style={{...styles.essentialTipBox, backgroundColor: `${shift.color}15`}}>
+                <span style={styles.essentialTipIcon}>💡</span>
+                <p style={styles.essentialTipText}>{shift.tip}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+}
+
 // Fitness Screen
 function FitnessScreen({ user, setUser }) {
   const [showAssessment, setShowAssessment] = useState(false);
@@ -2804,7 +3933,7 @@ function FitnessScreen({ user, setUser }) {
         
         <div style={styles.assessmentPrompt}>
           <div style={styles.aiAssessmentBadge}>
-            <span style={styles.aiBadgeIcon}>✨</span>
+            <span style={styles.aiBadgeIcon}>âœ¨</span>
             <span style={styles.aiBadgeText}>AI-Powered</span>
           </div>
           <div style={styles.assessmentIllustration}>
@@ -2822,20 +3951,20 @@ function FitnessScreen({ user, setUser }) {
           <h2 style={styles.assessmentTitle}>Smart Fitness Assessment</h2>
           <p style={styles.assessmentDesc}>
             Our AI will guide you through simple movements using your camera to analyze your 
-            mobility, strength, and balance—then create a personalized workout plan for your GLP-1 journey.
+            mobility, strength, and balanceâ€”then create a personalized workout plan for your GLP-1 journey.
           </p>
           
           <div style={styles.assessmentFeatures}>
             <div style={styles.assessmentFeature}>
-              <span style={styles.featureIcon}>📷</span>
+              <span style={styles.featureIcon}>ðŸ“·</span>
               <span style={styles.featureText}>Camera-guided movements</span>
             </div>
             <div style={styles.assessmentFeature}>
-              <span style={styles.featureIcon}>🤖</span>
+              <span style={styles.featureIcon}>ðŸ¤–</span>
               <span style={styles.featureText}>Real-time AI analysis</span>
             </div>
             <div style={styles.assessmentFeature}>
-              <span style={styles.featureIcon}>📋</span>
+              <span style={styles.featureIcon}>ðŸ“‹</span>
               <span style={styles.featureText}>Personalized workout plan</span>
             </div>
           </div>
@@ -2843,7 +3972,7 @@ function FitnessScreen({ user, setUser }) {
           <button style={styles.primaryButton} className="btn-primary" onClick={() => setShowAssessment(true)}>
             Start AI Assessment
           </button>
-          <p style={styles.assessmentNote}>Takes about 3-5 minutes · Camera required</p>
+          <p style={styles.assessmentNote}>Takes about 3-5 minutes Â· Camera required</p>
         </div>
       </div>
     );
@@ -2893,7 +4022,7 @@ function AIFitnessAssessment({ onComplete, onCancel }) {
       name: 'Bodyweight Squat',
       instruction: 'Stand with feet shoulder-width apart, then lower into a squat position',
       duration: 5,
-      icon: '🏋️',
+      icon: 'ðŸ‹ï¸',
       analyzeFor: ['depth', 'knee_alignment', 'back_position']
     },
     {
@@ -2901,7 +4030,7 @@ function AIFitnessAssessment({ onComplete, onCancel }) {
       name: 'Single Leg Balance',
       instruction: 'Stand on one leg with arms out to the sides for balance',
       duration: 5,
-      icon: '🧘',
+      icon: 'ðŸ§˜',
       analyzeFor: ['stability', 'posture', 'duration']
     },
     {
@@ -2909,7 +4038,7 @@ function AIFitnessAssessment({ onComplete, onCancel }) {
       name: 'Overhead Reach',
       instruction: 'Raise both arms straight overhead and stretch upward',
       duration: 4,
-      icon: '🙆',
+      icon: 'ðŸ™†',
       analyzeFor: ['shoulder_mobility', 'spine_alignment', 'range_of_motion']
     },
     {
@@ -2917,24 +4046,24 @@ function AIFitnessAssessment({ onComplete, onCancel }) {
       name: 'Standing March',
       instruction: 'March in place, bringing knees up to hip level',
       duration: 5,
-      icon: '🚶',
+      icon: 'ðŸš¶',
       analyzeFor: ['hip_mobility', 'coordination', 'posture']
     }
   ];
 
   const equipmentOptions = [
-    { id: 'none', name: 'No Equipment', icon: '🏠', description: 'Bodyweight exercises only' },
-    { id: 'dumbbells', name: 'Dumbbells', icon: '🏋️', description: 'Any weight set' },
-    { id: 'resistance_bands', name: 'Resistance Bands', icon: '🔴', description: 'Loop or tube bands' },
-    { id: 'kettlebell', name: 'Kettlebell', icon: '🔔', description: 'Any size kettlebell' },
-    { id: 'yoga_mat', name: 'Yoga Mat', icon: '🧘', description: 'For floor exercises' },
-    { id: 'stability_ball', name: 'Stability Ball', icon: '⚪', description: 'Exercise/Swiss ball' },
-    { id: 'pull_up_bar', name: 'Pull-Up Bar', icon: '🚪', description: 'Doorway or mounted' },
-    { id: 'bench', name: 'Workout Bench', icon: '🪑', description: 'Flat or adjustable' },
-    { id: 'foam_roller', name: 'Foam Roller', icon: '🧴', description: 'For recovery & mobility' },
-    { id: 'jump_rope', name: 'Jump Rope', icon: '〰️', description: 'For cardio workouts' },
-    { id: 'trx', name: 'TRX/Suspension', icon: '⛓️', description: 'Suspension trainer' },
-    { id: 'gym_access', name: 'Full Gym Access', icon: '🏢', description: 'Machines & full equipment' },
+    { id: 'none', name: 'No Equipment', icon: 'ðŸ ', description: 'Bodyweight exercises only' },
+    { id: 'dumbbells', name: 'Dumbbells', icon: 'ðŸ‹ï¸', description: 'Any weight set' },
+    { id: 'resistance_bands', name: 'Resistance Bands', icon: 'ðŸ”´', description: 'Loop or tube bands' },
+    { id: 'kettlebell', name: 'Kettlebell', icon: 'ðŸ””', description: 'Any size kettlebell' },
+    { id: 'yoga_mat', name: 'Yoga Mat', icon: 'ðŸ§˜', description: 'For floor exercises' },
+    { id: 'stability_ball', name: 'Stability Ball', icon: 'âšª', description: 'Exercise/Swiss ball' },
+    { id: 'pull_up_bar', name: 'Pull-Up Bar', icon: 'ðŸšª', description: 'Doorway or mounted' },
+    { id: 'bench', name: 'Workout Bench', icon: 'ðŸª‘', description: 'Flat or adjustable' },
+    { id: 'foam_roller', name: 'Foam Roller', icon: 'ðŸ§´', description: 'For recovery & mobility' },
+    { id: 'jump_rope', name: 'Jump Rope', icon: 'ã€°ï¸', description: 'For cardio workouts' },
+    { id: 'trx', name: 'TRX/Suspension', icon: 'â›“ï¸', description: 'Suspension trainer' },
+    { id: 'gym_access', name: 'Full Gym Access', icon: 'ðŸ¢', description: 'Machines & full equipment' },
   ];
 
   const toggleEquipment = (id) => {
@@ -3026,9 +4155,9 @@ function AIFitnessAssessment({ onComplete, onCancel }) {
       
       if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
         errorMessage = 'Camera permission denied. Please allow camera access:\n\n';
-        errorMessage += '• iPhone/iPad: Settings → Safari → Camera → Allow\n';
-        errorMessage += '• Android: Settings → Apps → Browser → Permissions → Camera\n';
-        errorMessage += '• Or tap the camera icon in your browser\'s address bar';
+        errorMessage += 'â€¢ iPhone/iPad: Settings â†’ Safari â†’ Camera â†’ Allow\n';
+        errorMessage += 'â€¢ Android: Settings â†’ Apps â†’ Browser â†’ Permissions â†’ Camera\n';
+        errorMessage += 'â€¢ Or tap the camera icon in your browser\'s address bar';
       } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
         errorMessage = 'No camera found. Please make sure your device has a camera.';
       } else if (err.name === 'NotReadableError' || err.name === 'TrackStartError') {
@@ -3390,13 +4519,13 @@ Important considerations:
     return (
       <div style={styles.screenContent} className="fade-in">
         <div style={styles.assessmentHeader}>
-          <button style={styles.backButton} onClick={onCancel}>← Back</button>
+          <button style={styles.backButton} onClick={onCancel}>â† Back</button>
           <h2 style={styles.assessmentStageTitle}>AI Fitness Assessment</h2>
         </div>
         
         <div style={styles.introContent}>
           <div style={styles.cameraPreviewBox}>
-            <div style={styles.cameraIcon}>📷</div>
+            <div style={styles.cameraIcon}>ðŸ“·</div>
             <p style={styles.cameraText}>Camera Preview</p>
           </div>
           
@@ -3414,7 +4543,7 @@ Important considerations:
           </div>
           
           <div style={styles.privacyNote}>
-            <span style={styles.privacyIcon}>🔒</span>
+            <span style={styles.privacyIcon}>ðŸ”’</span>
             <p style={styles.privacyText}>Your video is analyzed in real-time and never stored. Privacy first.</p>
           </div>
           
@@ -3433,7 +4562,7 @@ Important considerations:
     return (
       <div style={styles.screenContent} className="fade-in">
         <div style={styles.errorContainer}>
-          <div style={styles.errorIcon}>📷</div>
+          <div style={styles.errorIcon}>ðŸ“·</div>
           <h2 style={styles.errorTitle}>Camera Access Needed</h2>
           <p style={{...styles.errorText, whiteSpace: 'pre-line', textAlign: 'left', maxWidth: '300px'}}>{cameraError}</p>
           <button style={styles.primaryButton} className="btn-primary" onClick={() => { setCameraError(null); startCamera(); }}>
@@ -3453,9 +4582,9 @@ Important considerations:
   // Manual/Quick Assessment without camera
   if (stage === 'manual') {
     const fitnessLevels = [
-      { id: 'beginner', label: 'Beginner', desc: 'New to exercise or returning after a long break', icon: '🌱' },
-      { id: 'intermediate', label: 'Intermediate', desc: 'Exercise 2-3 times per week regularly', icon: '🌿' },
-      { id: 'advanced', label: 'Advanced', desc: 'Exercise 4+ times per week with good form', icon: '🌳' }
+      { id: 'beginner', label: 'Beginner', desc: 'New to exercise or returning after a long break', icon: 'ðŸŒ±' },
+      { id: 'intermediate', label: 'Intermediate', desc: 'Exercise 2-3 times per week regularly', icon: 'ðŸŒ¿' },
+      { id: 'advanced', label: 'Advanced', desc: 'Exercise 4+ times per week with good form', icon: 'ðŸŒ³' }
     ];
     
     return (
@@ -3490,7 +4619,7 @@ Important considerations:
                 <h3 style={styles.fitnessLevelTitle}>{level.label}</h3>
                 <p style={styles.fitnessLevelDesc}>{level.desc}</p>
               </div>
-              <span style={styles.fitnessLevelArrow}>→</span>
+              <span style={styles.fitnessLevelArrow}>â†’</span>
             </button>
           ))}
         </div>
@@ -3507,7 +4636,7 @@ Important considerations:
       <div style={styles.screenContent} className="fade-in">
         <div style={styles.cameraSetupContainer}>
           <div style={styles.loadingSpinner} className="pulse">
-            <span style={styles.spinnerIcon}>📷</span>
+            <span style={styles.spinnerIcon}>ðŸ“·</span>
           </div>
           <p style={styles.setupText}>Setting up camera...</p>
         </div>
@@ -3598,7 +4727,7 @@ Important considerations:
                   onClick={completeExercise}
                   className="btn-primary"
                 >
-                  ✓ I Did It!
+                  âœ“ I Did It!
                 </button>
                 <p style={styles.performingHint}>Tap when you've completed the exercise</p>
               </div>
@@ -3608,7 +4737,7 @@ Important considerations:
           {(exerciseState === 'captured' || exerciseState === 'analyzing') && (
             <div style={styles.centerContent}>
               <div style={styles.analyzingSpinner} className="breathe">
-                <span style={styles.analyzingIcon}>🤖</span>
+                <span style={styles.analyzingIcon}>ðŸ¤–</span>
               </div>
               <p style={styles.analyzingText}>AI analyzing your form...</p>
             </div>
@@ -3616,7 +4745,7 @@ Important considerations:
 
           {/* Cancel button */}
           <button style={styles.cancelAssessmentButton} onClick={() => { stopCamera(); onCancel(); }}>
-            ✕
+            âœ•
           </button>
         </div>
       </div>
@@ -3628,26 +4757,26 @@ Important considerations:
       <div style={styles.screenContent} className="fade-in">
         <div style={styles.analyzingContainer}>
           <div style={styles.analyzingAnimation} className="breathe">
-            <span style={styles.analyzingMainIcon}>🤖</span>
+            <span style={styles.analyzingMainIcon}>ðŸ¤–</span>
           </div>
           <h2 style={styles.analyzingTitle}>Creating Your Plan</h2>
           <p style={styles.analyzingSubtext}>Our AI is analyzing your movements and building a personalized workout plan with your equipment...</p>
           
           <div style={styles.analysisSteps}>
             <div style={styles.analysisStep}>
-              <span style={styles.stepCheck}>✓</span>
+              <span style={styles.stepCheck}>âœ“</span>
               <span style={styles.stepText}>Movement analysis complete</span>
             </div>
             <div style={styles.analysisStep}>
-              <span style={styles.stepCheck}>✓</span>
+              <span style={styles.stepCheck}>âœ“</span>
               <span style={styles.stepText}>Form assessment done</span>
             </div>
             <div style={styles.analysisStep}>
-              <span style={styles.stepCheck}>✓</span>
+              <span style={styles.stepCheck}>âœ“</span>
               <span style={styles.stepText}>Equipment preferences saved</span>
             </div>
             <div style={{...styles.analysisStep, opacity: 0.6}}>
-              <span style={styles.stepSpinner}>○</span>
+              <span style={styles.stepSpinner}>â—‹</span>
               <span style={styles.stepText}>Generating workout plan...</span>
             </div>
           </div>
@@ -3660,12 +4789,12 @@ Important considerations:
     return (
       <div style={styles.screenContent} className="fade-in">
         <div style={styles.assessmentHeader}>
-          <button style={styles.backButton} onClick={() => setStage('exercise')}>← Back</button>
+          <button style={styles.backButton} onClick={() => setStage('exercise')}>â† Back</button>
           <h2 style={styles.assessmentStageTitle}>Your Equipment</h2>
         </div>
 
         <div style={styles.equipmentIntro}>
-          <div style={styles.equipmentIcon}>🎒</div>
+          <div style={styles.equipmentIcon}>ðŸŽ’</div>
           <h3 style={styles.equipmentTitle}>What equipment do you have?</h3>
           <p style={styles.equipmentSubtitle}>Select all that you have access to. We'll create workouts that use your available equipment.</p>
         </div>
@@ -3689,7 +4818,7 @@ Important considerations:
                 ...styles.equipmentCheckbox,
                 ...(selectedEquipment.includes(item.id) ? styles.equipmentCheckboxSelected : {})
               }}>
-                {selectedEquipment.includes(item.id) && '✓'}
+                {selectedEquipment.includes(item.id) && 'âœ“'}
               </div>
             </div>
           ))}
@@ -3740,7 +4869,7 @@ Important considerations:
         </div>
 
         <div style={styles.resultsSection}>
-          <h3 style={styles.resultsSectionTitle}>💪 Your Strengths</h3>
+          <h3 style={styles.resultsSectionTitle}>ðŸ’ª Your Strengths</h3>
           <div style={styles.tagList}>
             {finalResults.strengths.map((s, i) => (
               <span key={i} style={styles.strengthTag}>{s}</span>
@@ -3749,7 +4878,7 @@ Important considerations:
         </div>
 
         <div style={styles.resultsSection}>
-          <h3 style={styles.resultsSectionTitle}>🎯 Focus Areas</h3>
+          <h3 style={styles.resultsSectionTitle}>ðŸŽ¯ Focus Areas</h3>
           <div style={styles.tagList}>
             {finalResults.focusAreas.map((f, i) => (
               <span key={i} style={styles.focusTag}>{f}</span>
@@ -3759,7 +4888,7 @@ Important considerations:
 
         {finalResults.equipmentUsed && finalResults.equipmentUsed.length > 0 && (
           <div style={styles.resultsSection}>
-            <h3 style={styles.resultsSectionTitle}>🎒 Equipment in Your Plan</h3>
+            <h3 style={styles.resultsSectionTitle}>ðŸŽ’ Equipment in Your Plan</h3>
             <div style={styles.tagList}>
               {finalResults.equipmentUsed.map((e, i) => (
                 <span key={i} style={styles.equipmentTag}>{e}</span>
@@ -3769,9 +4898,9 @@ Important considerations:
         )}
 
         <div style={styles.resultsSection}>
-          <h3 style={styles.resultsSectionTitle}>📅 Your Weekly Plan</h3>
+          <h3 style={styles.resultsSectionTitle}>ðŸ“… Your Weekly Plan</h3>
           <p style={styles.planOverview}>
-            {finalResults.weeklyPlan.daysPerWeek} days/week · {finalResults.weeklyPlan.minutesPerSession} min/session
+            {finalResults.weeklyPlan.daysPerWeek} days/week Â· {finalResults.weeklyPlan.minutesPerSession} min/session
           </p>
           <div style={styles.workoutPreviewList}>
             {finalResults.weeklyPlan.workouts.slice(0, 3).map((w, i) => (
@@ -3785,17 +4914,17 @@ Important considerations:
         </div>
 
         <div style={styles.safetySection}>
-          <h4 style={styles.safetyTitle}>⚠️ Safety Notes</h4>
+          <h4 style={styles.safetyTitle}>âš ï¸ Safety Notes</h4>
           {finalResults.safetyRecommendations.map((s, i) => (
-            <p key={i} style={styles.safetyItem}>• {s}</p>
+            <p key={i} style={styles.safetyItem}>â€¢ {s}</p>
           ))}
         </div>
 
         {finalResults.equipmentToBuy && finalResults.equipmentToBuy.length > 0 && (
           <div style={styles.equipmentSuggestionSection}>
-            <h4 style={styles.equipmentSuggestionTitle}>💡 Optional Equipment to Consider</h4>
+            <h4 style={styles.equipmentSuggestionTitle}>ðŸ’¡ Optional Equipment to Consider</h4>
             {finalResults.equipmentToBuy.map((e, i) => (
-              <p key={i} style={styles.equipmentSuggestionItem}>• {e}</p>
+              <p key={i} style={styles.equipmentSuggestionItem}>â€¢ {e}</p>
             ))}
           </div>
         )}
@@ -3838,7 +4967,7 @@ function FitnessHomeScreen({ user }) {
 
       {user.equipment && user.equipment.length > 0 && !user.equipment.includes('none') && (
         <div style={styles.equipmentBadge}>
-          <span style={styles.equipmentBadgeLabel}>🎒 Your Equipment</span>
+          <span style={styles.equipmentBadgeLabel}>ðŸŽ’ Your Equipment</span>
           <div style={styles.equipmentBadgeList}>
             {user.equipment.slice(0, 4).map((eq, i) => {
               const equipmentItem = [
@@ -3891,9 +5020,9 @@ function FitnessHomeScreen({ user }) {
                 <div style={styles.exerciseIndex}>{idx + 1}</div>
                 <div style={styles.exerciseDetails}>
                   <h4 style={styles.exerciseTitle}>{ex.name}</h4>
-                  <p style={styles.exerciseMeta}>{ex.sets} sets × {ex.reps}</p>
+                  <p style={styles.exerciseMeta}>{ex.sets} sets Ã— {ex.reps}</p>
                   {ex.equipment && ex.equipment !== 'Bodyweight' && ex.equipment !== 'None' && (
-                    <p style={styles.exerciseEquipment}>🎒 {ex.equipment}</p>
+                    <p style={styles.exerciseEquipment}>ðŸŽ’ {ex.equipment}</p>
                   )}
                   {ex.notes && <p style={styles.exerciseNotes}>{ex.notes}</p>}
                 </div>
@@ -3930,11 +5059,11 @@ function TreatmentsScreen({ setActiveModal }) {
   const [activeCategory, setActiveCategory] = useState('weight-loss');
 
   const categories = [
-    { id: 'weight-loss', name: 'Weight Loss', icon: '⚖️' },
-    { id: 'iv-therapy', name: 'IV Therapy', icon: '💧' },
-    { id: 'vitamin-boosters', name: 'Boosters', icon: '💉' },
-    { id: 'hormone', name: 'Hormone', icon: '🧬' },
-    { id: 'body', name: 'Body', icon: '✨' },
+    { id: 'weight-loss', name: 'Weight Loss', icon: 'âš–ï¸' },
+    { id: 'iv-therapy', name: 'IV Therapy', icon: 'ðŸ’§' },
+    { id: 'vitamin-boosters', name: 'Boosters', icon: 'ðŸ’‰' },
+    { id: 'hormone', name: 'Hormone', icon: 'ðŸ§¬' },
+    { id: 'body', name: 'Body', icon: 'âœ¨' },
   ];
 
   const services = {
@@ -4291,10 +5420,10 @@ function TreatmentsScreen({ setActiveModal }) {
                            service.tier === 'upgrade' ? '#2AABB3' :
                            service.tier === 'high-dose' ? '#C4956A' : '#E8EDE6'
               }}>
-                {service.tier === 'premium' ? '⭐ Premium' : 
-                 service.tier === 'advanced' ? '🔷 Advanced' :
-                 service.tier === 'upgrade' ? '⬆️ Upgrade' :
-                 service.tier === 'high-dose' ? '💪 High Dose' : service.tier}
+                {service.tier === 'premium' ? 'â­ Premium' : 
+                 service.tier === 'advanced' ? 'ðŸ”· Advanced' :
+                 service.tier === 'upgrade' ? 'â¬†ï¸ Upgrade' :
+                 service.tier === 'high-dose' ? 'ðŸ’ª High Dose' : service.tier}
               </span>
             )}
             <h3 style={styles.serviceName}>{service.name}</h3>
@@ -4303,7 +5432,7 @@ function TreatmentsScreen({ setActiveModal }) {
             
             <div style={styles.serviceBenefits}>
               {service.benefits.slice(0, 3).map((benefit, idx) => (
-                <span key={idx} style={styles.serviceBenefit}>✓ {benefit}</span>
+                <span key={idx} style={styles.serviceBenefit}>âœ“ {benefit}</span>
               ))}
             </div>
 
@@ -4319,7 +5448,7 @@ function TreatmentsScreen({ setActiveModal }) {
               )}
             </div>
 
-            <button style={styles.serviceBtn}>Learn More →</button>
+            <button style={styles.serviceBtn}>Learn More â†’</button>
           </div>
         ))}
       </div>
@@ -4327,8 +5456,8 @@ function TreatmentsScreen({ setActiveModal }) {
       {/* Contact CTA */}
       <div style={styles.contactCTA}>
         <p style={styles.contactText}>Questions about our services?</p>
-        <a href="tel:801-917-4386" style={styles.contactPhone}>📞 801-917-4386</a>
-        <p style={styles.contactLocation}>📍 West Haven & South Ogden, UT</p>
+        <a href="tel:801-917-4386" style={styles.contactPhone}>ðŸ“ž 801-917-4386</a>
+        <p style={styles.contactLocation}>ðŸ“ West Haven & South Ogden, UT</p>
       </div>
     </div>
   );
@@ -4339,21 +5468,21 @@ function ProfileScreen({ user, setUser }) {
   const [showWeightLog, setShowWeightLog] = useState(false);
 
   const menuItems = [
-    { icon: '👤', label: 'Personal Information' },
-    { icon: '📊', label: 'Progress & Metrics' },
-    { icon: '🎯', label: 'Goals & Preferences' },
-    { icon: '💊', label: 'My Treatments' },
-    { icon: '📱', label: 'Notifications' },
-    { icon: '❓', label: 'Help & Support' },
+    { icon: 'ðŸ‘¤', label: 'Personal Information' },
+    { icon: 'ðŸ“Š', label: 'Progress & Metrics' },
+    { icon: 'ðŸŽ¯', label: 'Goals & Preferences' },
+    { icon: 'ðŸ’Š', label: 'My Treatments' },
+    { icon: 'ðŸ“±', label: 'Notifications' },
+    { icon: 'â“', label: 'Help & Support' },
   ];
 
   const badges = [
-    { id: 'first_workout', name: 'First Workout', icon: '🏃', earned: user.badges?.includes('first_workout') },
-    { id: 'protein_champion', name: 'Protein Champion', icon: '🥩', earned: user.badges?.includes('protein_champion') },
-    { id: 'hydration_hero', name: 'Hydration Hero', icon: '💧', earned: user.badges?.includes('hydration_hero') },
-    { id: '7_day_streak', name: '7-Day Streak', icon: '🔥', earned: user.badges?.includes('7_day_streak') },
-    { id: '14_day_streak', name: '14-Day Streak', icon: '⚡', earned: user.badges?.includes('14_day_streak') },
-    { id: 'meal_master', name: 'Meal Master', icon: '🍽️', earned: user.badges?.includes('meal_master') },
+    { id: 'first_workout', name: 'First Workout', icon: 'ðŸƒ', earned: user.badges?.includes('first_workout') },
+    { id: 'protein_champion', name: 'Protein Champion', icon: 'ðŸ¥©', earned: user.badges?.includes('protein_champion') },
+    { id: 'hydration_hero', name: 'Hydration Hero', icon: 'ðŸ’§', earned: user.badges?.includes('hydration_hero') },
+    { id: '7_day_streak', name: '7-Day Streak', icon: 'ðŸ”¥', earned: user.badges?.includes('7_day_streak') },
+    { id: '14_day_streak', name: '14-Day Streak', icon: 'âš¡', earned: user.badges?.includes('14_day_streak') },
+    { id: 'meal_master', name: 'Meal Master', icon: 'ðŸ½ï¸', earned: user.badges?.includes('meal_master') },
   ];
 
   const weightLoss = user.weightLog?.length >= 2
@@ -4371,7 +5500,7 @@ function ProfileScreen({ user, setUser }) {
         
         {/* Level Badge */}
         <div style={styles.levelBadgeProfile}>
-          <span style={styles.levelBadgeIcon}>⭐</span>
+          <span style={styles.levelBadgeIcon}>â­</span>
           <span style={styles.levelBadgeText}>{user.level || 'Bronze'} Level</span>
           <span style={styles.levelBadgePoints}>{user.totalPoints || 0} pts</span>
         </div>
@@ -4380,7 +5509,7 @@ function ProfileScreen({ user, setUser }) {
       {/* Streak & Stats */}
       <div style={styles.statsRow}>
         <div style={styles.statItem}>
-          <span style={styles.statValue}>🔥 {user.currentStreak || 0}</span>
+          <span style={styles.statValue}>ðŸ”¥ {user.currentStreak || 0}</span>
           <span style={styles.statLabel}>Day Streak</span>
         </div>
         <div style={styles.statDivider} />
@@ -4463,7 +5592,7 @@ function ProfileScreen({ user, setUser }) {
             >
               <span style={styles.badgeIcon}>{badge.icon}</span>
               <span style={styles.badgeName}>{badge.name}</span>
-              {badge.earned && <span style={styles.badgeCheck}>✓</span>}
+              {badge.earned && <span style={styles.badgeCheck}>âœ“</span>}
             </div>
           ))}
         </div>
@@ -4472,7 +5601,7 @@ function ProfileScreen({ user, setUser }) {
       {/* Provider Connection */}
       <section style={styles.section}>
         <div style={styles.providerCard}>
-          <div style={styles.providerCardIcon}>🩺</div>
+          <div style={styles.providerCardIcon}>ðŸ©º</div>
           <div style={styles.providerCardInfo}>
             <p style={styles.providerCardTitle}>Connected to Provider</p>
             <p style={styles.providerCardText}>Your progress is shared with Dr. Williams</p>
@@ -4486,7 +5615,7 @@ function ProfileScreen({ user, setUser }) {
           <div key={idx} style={styles.menuItem} className="card-hover">
             <span style={styles.menuIcon}>{item.icon}</span>
             <span style={styles.menuLabel}>{item.label}</span>
-            <span style={styles.menuArrow}>›</span>
+            <span style={styles.menuArrow}>â€º</span>
           </div>
         ))}
       </div>
@@ -4808,7 +5937,7 @@ function Modal({ activeModal, setActiveModal }) {
     sermorelin: {
       title: 'Sermorelin Therapy',
       subtitle: 'Growth Hormone Support',
-      description: 'Sermorelin is a growth hormone-releasing peptide that stimulates your body\'s natural production of growth hormone. This supports muscle preservation during weight loss—a key concern for GLP-1 patients.',
+      description: 'Sermorelin is a growth hormone-releasing peptide that stimulates your body\'s natural production of growth hormone. This supports muscle preservation during weight lossâ€”a key concern for GLP-1 patients.',
       benefits: [
         'Preserves lean muscle mass during weight loss',
         'Supports faster recovery from workouts',
@@ -4849,7 +5978,7 @@ function Modal({ activeModal, setActiveModal }) {
   return (
     <div style={styles.modalOverlay} onClick={() => setActiveModal(null)}>
       <div style={styles.modalContent} className="slide-up" onClick={e => e.stopPropagation()}>
-        <button style={styles.modalClose} onClick={() => setActiveModal(null)}>×</button>
+        <button style={styles.modalClose} onClick={() => setActiveModal(null)}>Ã—</button>
         <span style={styles.modalSubtitle}>{data.subtitle}</span>
         <h2 style={styles.modalTitle}>{data.title}</h2>
         <p style={styles.modalDescription}>{data.description}</p>
@@ -4858,7 +5987,7 @@ function Modal({ activeModal, setActiveModal }) {
           <h4 style={styles.benefitsTitle}>Key Benefits</h4>
           {data.benefits.map((benefit, idx) => (
             <div key={idx} style={styles.benefitItem}>
-              <span style={styles.benefitCheck}>✓</span>
+              <span style={styles.benefitCheck}>âœ“</span>
               <span style={styles.benefitText}>{benefit}</span>
             </div>
           ))}
@@ -8397,5 +9526,891 @@ const styles = {
   navLabel: {
     fontSize: '10px',
     fontWeight: '500',
+  },
+  
+  // ==================== EDUCATION STYLES ====================
+  educationPreviewCard: {
+    background: 'linear-gradient(135deg, #F5F8F4 0%, #E8EDE6 100%)',
+    borderRadius: '16px',
+    padding: '20px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '16px',
+    cursor: 'pointer',
+    border: '2px solid #4A6741',
+  },
+  educationPreviewIcon: {
+    fontSize: '32px',
+  },
+  educationPreviewContent: {
+    flex: 1,
+  },
+  educationPreviewBadge: {
+    fontSize: '11px',
+    color: '#4A6741',
+    fontWeight: '500',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+    display: 'block',
+    marginBottom: '4px',
+  },
+  educationPreviewTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '17px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '4px',
+  },
+  educationPreviewText: {
+    fontSize: '13px',
+    color: '#6B6B6B',
+  },
+  didYouKnowCard: {
+    background: '#FFF9E6',
+    borderRadius: '16px',
+    padding: '20px',
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '14px',
+  },
+  didYouKnowIcon: {
+    fontSize: '24px',
+  },
+  didYouKnowText: {
+    fontSize: '14px',
+    color: '#5A4D2E',
+    lineHeight: '1.6',
+  },
+  educationHeader: {
+    marginBottom: '20px',
+  },
+  educationIntro: {
+    textAlign: 'center',
+    marginBottom: '28px',
+  },
+  educationBadge: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '6px',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    borderRadius: '20px',
+    padding: '6px 14px',
+    marginBottom: '16px',
+  },
+  educationBadgeIcon: {
+    fontSize: '14px',
+  },
+  educationBadgeText: {
+    color: '#FFFFFF',
+    fontSize: '12px',
+    fontWeight: '500',
+  },
+  educationTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '28px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '8px',
+  },
+  educationSubtitle: {
+    fontSize: '14px',
+    color: '#6B6B6B',
+    lineHeight: '1.5',
+    maxWidth: '300px',
+    margin: '0 auto',
+  },
+  progressOverview: {
+    marginTop: '20px',
+  },
+  progressText: {
+    fontSize: '13px',
+    color: '#4A6741',
+    fontWeight: '500',
+    marginBottom: '8px',
+    display: 'block',
+  },
+  progressBarSmall: {
+    height: '6px',
+    background: '#E8EDE6',
+    borderRadius: '3px',
+    overflow: 'hidden',
+    maxWidth: '200px',
+    margin: '0 auto',
+  },
+  progressFillSmall: {
+    height: '100%',
+    background: '#4A6741',
+    borderRadius: '3px',
+    transition: 'width 0.3s ease',
+  },
+  categoriesGrid: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px',
+    marginBottom: '28px',
+  },
+  categoryCard: {
+    background: '#FFFFFF',
+    borderRadius: '14px',
+    padding: '16px',
+    borderLeft: '4px solid',
+    cursor: 'pointer',
+  },
+  categoryCardHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '8px',
+  },
+  categoryCardIcon: {
+    fontSize: '24px',
+  },
+  categoryCardProgress: {
+    fontSize: '12px',
+    color: '#9B9B9B',
+    fontWeight: '500',
+  },
+  categoryCardTitle: {
+    fontSize: '16px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '4px',
+  },
+  categoryCardDesc: {
+    fontSize: '13px',
+    color: '#6B6B6B',
+    marginBottom: '12px',
+  },
+  categoryCardBar: {
+    height: '4px',
+    background: '#F0EFED',
+    borderRadius: '2px',
+    overflow: 'hidden',
+  },
+  categoryCardBarFill: {
+    height: '100%',
+    borderRadius: '2px',
+    transition: 'width 0.3s ease',
+  },
+  quickTipsList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+  },
+  quickTipCard: {
+    background: '#FFFFFF',
+    borderRadius: '12px',
+    padding: '14px 16px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+  },
+  quickTipIcon: {
+    fontSize: '20px',
+  },
+  quickTipTitle: {
+    fontSize: '14px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '2px',
+  },
+  quickTipText: {
+    fontSize: '12px',
+    color: '#6B6B6B',
+  },
+  categoryHeaderLarge: {
+    borderRadius: '20px',
+    padding: '24px',
+    textAlign: 'center',
+    marginBottom: '24px',
+  },
+  categoryIconLarge: {
+    fontSize: '48px',
+    display: 'block',
+    marginBottom: '12px',
+  },
+  categoryTitleLarge: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '24px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '8px',
+  },
+  categoryDescLarge: {
+    fontSize: '14px',
+    color: '#6B6B6B',
+    marginBottom: '8px',
+  },
+  categoryCount: {
+    fontSize: '13px',
+    color: '#4A6741',
+    fontWeight: '500',
+  },
+  mistakesList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px',
+  },
+  mistakeCard: {
+    background: '#FFFFFF',
+    borderRadius: '14px',
+    padding: '16px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    cursor: 'pointer',
+  },
+  mistakeCardLeft: {
+    flexShrink: 0,
+  },
+  mistakeNumber: {
+    color: '#FFFFFF',
+    fontSize: '12px',
+    fontWeight: '600',
+    padding: '6px 10px',
+    borderRadius: '8px',
+  },
+  mistakeCardContent: {
+    flex: 1,
+  },
+  mistakeCardTitle: {
+    fontSize: '15px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '4px',
+  },
+  mistakeCardSummary: {
+    fontSize: '13px',
+    color: '#6B6B6B',
+  },
+  mistakeCompletedBadge: {
+    color: '#4A6741',
+    fontWeight: '600',
+    fontSize: '16px',
+  },
+  mistakeArrow: {
+    color: '#CCCCCC',
+    fontSize: '18px',
+  },
+  mistakeCategoryBadge: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '6px',
+    padding: '6px 14px',
+    borderRadius: '20px',
+    fontSize: '12px',
+    fontWeight: '500',
+    marginBottom: '16px',
+  },
+  mistakeDetailTitle: {
+    fontSize: '14px',
+    color: '#9B9B9B',
+    textTransform: 'uppercase',
+    letterSpacing: '1px',
+    marginBottom: '4px',
+  },
+  mistakeDetailName: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '26px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '20px',
+  },
+  mistakeContent: {
+    marginBottom: '24px',
+  },
+  mistakeParagraph: {
+    fontSize: '15px',
+    color: '#4B4B4B',
+    lineHeight: '1.7',
+    marginBottom: '16px',
+  },
+  mistakeSubheading: {
+    fontSize: '16px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '12px',
+    marginTop: '20px',
+  },
+  mistakeBulletList: {
+    marginBottom: '16px',
+    paddingLeft: '8px',
+  },
+  mistakeBullet: {
+    fontSize: '15px',
+    color: '#4B4B4B',
+    lineHeight: '1.7',
+    marginBottom: '4px',
+  },
+  keyTakeawayBox: {
+    background: '#F5F8F4',
+    borderRadius: '14px',
+    padding: '20px',
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '14px',
+    marginBottom: '24px',
+    border: '1px solid #E8EDE6',
+  },
+  keyTakeawayIcon: {
+    fontSize: '24px',
+  },
+  keyTakeawayLabel: {
+    fontSize: '12px',
+    color: '#4A6741',
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+    marginBottom: '6px',
+  },
+  keyTakeawayText: {
+    fontSize: '15px',
+    color: '#4A6741',
+    lineHeight: '1.5',
+    fontWeight: '500',
+  },
+  markCompleteButton: {
+    width: '100%',
+    padding: '16px',
+    borderRadius: '14px',
+    border: 'none',
+    fontSize: '15px',
+    fontWeight: '500',
+    cursor: 'pointer',
+  },
+
+  // ==================== KICKSTART GUIDE STYLES ====================
+  kickstartHeader: {
+    marginBottom: '20px',
+  },
+  kickstartHero: {
+    background: 'linear-gradient(135deg, #2AABB3 0%, #1D8A91 100%)',
+    borderRadius: '20px',
+    padding: '28px 24px',
+    marginBottom: '24px',
+    textAlign: 'center',
+  },
+  kickstartBadge: {
+    display: 'inline-block',
+    background: 'rgba(255,255,255,0.2)',
+    borderRadius: '20px',
+    padding: '6px 14px',
+    fontSize: '12px',
+    color: '#FFFFFF',
+    marginBottom: '12px',
+  },
+  kickstartTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '26px',
+    fontWeight: '500',
+    color: '#FFFFFF',
+    marginBottom: '6px',
+  },
+  kickstartAuthor: {
+    fontSize: '13px',
+    color: 'rgba(255,255,255,0.8)',
+    marginBottom: '12px',
+  },
+  kickstartDesc: {
+    fontSize: '14px',
+    color: 'rgba(255,255,255,0.9)',
+    lineHeight: '1.5',
+  },
+  kickstartSections: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px',
+  },
+  kickstartSectionCard: {
+    background: '#FFFFFF',
+    borderRadius: '16px',
+    padding: '18px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    cursor: 'pointer',
+    borderLeft: '4px solid',
+  },
+  kickstartSectionIcon: {
+    fontSize: '28px',
+    width: '48px',
+    height: '48px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: '#F5F4F2',
+    borderRadius: '12px',
+  },
+  kickstartSectionContent: {
+    flex: 1,
+  },
+  kickstartSectionTitle: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+    marginBottom: '4px',
+  },
+  kickstartSectionDesc: {
+    fontSize: '13px',
+    color: '#6B6B6B',
+    lineHeight: '1.4',
+  },
+  kickstartArrow: {
+    fontSize: '18px',
+    color: '#9B9B9B',
+  },
+  sectionHeader: {
+    textAlign: 'center',
+    marginBottom: '24px',
+  },
+  sectionHeaderIcon: {
+    fontSize: '40px',
+    marginBottom: '12px',
+    display: 'block',
+  },
+  sectionHeaderTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '24px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '8px',
+  },
+  sectionHeaderDesc: {
+    fontSize: '14px',
+    color: '#6B6B6B',
+    lineHeight: '1.5',
+  },
+  fearsList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+  },
+  fearCard: {
+    background: '#FFFFFF',
+    borderRadius: '14px',
+    padding: '18px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    cursor: 'pointer',
+  },
+  fearIcon: {
+    fontSize: '24px',
+  },
+  fearQuestion: {
+    flex: 1,
+    fontSize: '15px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  fearArrow: {
+    fontSize: '16px',
+    color: '#9B9B9B',
+  },
+  fearDetailCard: {
+    background: '#FFFFFF',
+    borderRadius: '20px',
+    padding: '28px 24px',
+  },
+  fearDetailIcon: {
+    fontSize: '48px',
+    display: 'block',
+    textAlign: 'center',
+    marginBottom: '16px',
+  },
+  fearDetailQuestion: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '22px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    textAlign: 'center',
+    marginBottom: '24px',
+  },
+  fearDetailAnswer: {
+    fontSize: '15px',
+    color: '#4B4B4B',
+    lineHeight: '1.7',
+  },
+  fearParagraph: {
+    marginBottom: '16px',
+    fontSize: '15px',
+    color: '#4B4B4B',
+    lineHeight: '1.7',
+  },
+  weeksList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+    marginBottom: '24px',
+  },
+  weekCard: {
+    background: '#FFFFFF',
+    borderRadius: '14px',
+    padding: '18px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    cursor: 'pointer',
+  },
+  weekIcon: {
+    fontSize: '24px',
+  },
+  weekTitle: {
+    flex: 1,
+    fontSize: '15px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  weekArrow: {
+    fontSize: '16px',
+    color: '#9B9B9B',
+  },
+  weekDetailHeader: {
+    textAlign: 'center',
+    marginBottom: '24px',
+  },
+  weekDetailIcon: {
+    fontSize: '48px',
+    marginBottom: '12px',
+    display: 'block',
+  },
+  weekDetailTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '22px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  weekSection: {
+    background: '#FFFFFF',
+    borderRadius: '16px',
+    padding: '20px',
+    marginBottom: '16px',
+  },
+  weekSectionTitle: {
+    fontSize: '14px',
+    fontWeight: '600',
+    color: '#4A6741',
+    marginBottom: '14px',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+  },
+  weekItem: {
+    display: 'flex',
+    gap: '10px',
+    marginBottom: '10px',
+  },
+  weekItemBullet: {
+    color: '#4A6741',
+    fontWeight: '600',
+  },
+  weekItemText: {
+    flex: 1,
+    fontSize: '14px',
+    color: '#4B4B4B',
+    lineHeight: '1.5',
+  },
+  successBox: {
+    background: '#E8EDE6',
+    borderRadius: '16px',
+    padding: '20px',
+    marginBottom: '16px',
+  },
+  successTitle: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#4A6741',
+    marginBottom: '14px',
+  },
+  successSubtitle: {
+    fontSize: '13px',
+    fontWeight: '600',
+    color: '#6B6B6B',
+    marginBottom: '8px',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+  },
+  successNotItem: {
+    fontSize: '14px',
+    color: '#9B7E9B',
+    marginBottom: '6px',
+  },
+  successIsItem: {
+    fontSize: '14px',
+    color: '#4A6741',
+    marginBottom: '6px',
+  },
+  redFlagsBox: {
+    background: '#FFF5F0',
+    borderRadius: '16px',
+    padding: '20px',
+    marginBottom: '20px',
+  },
+  redFlagsTitle: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#C4956A',
+    marginBottom: '14px',
+  },
+  redFlagItem: {
+    fontSize: '14px',
+    color: '#6B6B6B',
+    marginBottom: '6px',
+  },
+  preventionEssentials: {
+    background: '#E8F4F8',
+    borderRadius: '16px',
+    padding: '20px',
+    marginBottom: '20px',
+  },
+  essentialsTitle: {
+    fontSize: '14px',
+    fontWeight: '600',
+    color: '#2AABB3',
+    marginBottom: '12px',
+  },
+  essentialTag: {
+    display: 'inline-block',
+    background: '#FFFFFF',
+    borderRadius: '20px',
+    padding: '8px 14px',
+    fontSize: '13px',
+    color: '#2AABB3',
+    marginRight: '8px',
+    marginBottom: '8px',
+  },
+  strategiesGrid: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px',
+    marginBottom: '20px',
+  },
+  strategyCard: {
+    background: '#FFFFFF',
+    borderRadius: '16px',
+    padding: '18px',
+  },
+  strategyHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    marginBottom: '12px',
+  },
+  strategyIcon: {
+    fontSize: '24px',
+  },
+  strategySymptom: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+  },
+  strategyTips: {
+    paddingLeft: '8px',
+  },
+  strategyTip: {
+    fontSize: '14px',
+    color: '#6B6B6B',
+    marginBottom: '6px',
+  },
+  supplyListBox: {
+    background: '#F5F4F2',
+    borderRadius: '16px',
+    padding: '20px',
+  },
+  supplyListTitle: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+    marginBottom: '14px',
+  },
+  supplyItem: {
+    fontSize: '14px',
+    color: '#4B4B4B',
+    marginBottom: '8px',
+  },
+  checklistProgress: {
+    background: '#FFFFFF',
+    borderRadius: '14px',
+    padding: '16px',
+    marginBottom: '20px',
+  },
+  checklistProgressBar: {
+    height: '8px',
+    background: '#F0EFED',
+    borderRadius: '4px',
+    overflow: 'hidden',
+    marginBottom: '8px',
+  },
+  checklistProgressFill: {
+    height: '100%',
+    background: 'linear-gradient(90deg, #4A6741 0%, #5B7B50 100%)',
+    borderRadius: '4px',
+    transition: 'width 0.3s ease',
+  },
+  checklistProgressText: {
+    fontSize: '13px',
+    fontWeight: '500',
+    color: '#4A6741',
+    textAlign: 'center',
+    display: 'block',
+  },
+  checklistCategory: {
+    background: '#FFFFFF',
+    borderRadius: '16px',
+    padding: '20px',
+    marginBottom: '12px',
+  },
+  checklistCategoryHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    marginBottom: '14px',
+    paddingBottom: '12px',
+    borderBottom: '1px solid #F0EFED',
+  },
+  checklistCategoryIcon: {
+    fontSize: '20px',
+  },
+  checklistCategoryTitle: {
+    fontSize: '15px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+  },
+  checklistItem: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '12px',
+    padding: '10px 0',
+    cursor: 'pointer',
+  },
+  checkbox: {
+    width: '22px',
+    height: '22px',
+    borderRadius: '6px',
+    border: '2px solid #E0E0E0',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '14px',
+    color: '#FFFFFF',
+    flexShrink: 0,
+    transition: 'all 0.2s ease',
+  },
+  checkboxChecked: {
+    background: '#4A6741',
+    borderColor: '#4A6741',
+  },
+  checklistItemText: {
+    fontSize: '14px',
+    color: '#4B4B4B',
+    lineHeight: '1.4',
+  },
+  checklistItemChecked: {
+    textDecoration: 'line-through',
+    color: '#9B9B9B',
+  },
+  essentialsList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px',
+  },
+  essentialCard: {
+    background: '#FFFFFF',
+    borderRadius: '16px',
+    padding: '20px',
+    borderLeft: '4px solid',
+  },
+  essentialHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    marginBottom: '12px',
+  },
+  essentialNumber: {
+    width: '28px',
+    height: '28px',
+    borderRadius: '14px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#FFFFFF',
+    fontSize: '14px',
+    fontWeight: '600',
+  },
+  essentialIcon: {
+    fontSize: '24px',
+  },
+  essentialTitle: {
+    fontSize: '18px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+  },
+  essentialSummary: {
+    fontSize: '14px',
+    fontWeight: '500',
+    color: '#4A6741',
+    marginBottom: '10px',
+  },
+  essentialDetails: {
+    fontSize: '14px',
+    color: '#6B6B6B',
+    lineHeight: '1.6',
+    marginBottom: '14px',
+  },
+  essentialTipBox: {
+    borderRadius: '12px',
+    padding: '14px',
+    display: 'flex',
+    gap: '10px',
+    alignItems: 'flex-start',
+  },
+  essentialTipIcon: {
+    fontSize: '16px',
+  },
+  essentialTipText: {
+    fontSize: '13px',
+    color: '#4B4B4B',
+    lineHeight: '1.5',
+    flex: 1,
+  },
+  kickstartPreviewCard: {
+    background: 'linear-gradient(135deg, #2AABB3 0%, #1D8A91 100%)',
+    borderRadius: '16px',
+    padding: '18px',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    marginTop: '12px',
+  },
+  kickstartPreviewIcon: {
+    fontSize: '32px',
+    width: '50px',
+    height: '50px',
+    background: 'rgba(255,255,255,0.2)',
+    borderRadius: '12px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  kickstartPreviewContent: {
+    flex: 1,
+  },
+  kickstartPreviewBadge: {
+    fontSize: '10px',
+    color: 'rgba(255,255,255,0.8)',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+    marginBottom: '4px',
+    display: 'block',
+  },
+  kickstartPreviewTitle: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#FFFFFF',
+    marginBottom: '4px',
+  },
+  kickstartPreviewText: {
+    fontSize: '13px',
+    color: 'rgba(255,255,255,0.9)',
   },
 };
