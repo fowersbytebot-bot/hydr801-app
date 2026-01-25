@@ -19,7 +19,7 @@ export default function HYDR801App() {
     mealPlan: null,
     dietaryPreferences: null,
     // Progress & Engagement
-    week: 3,
+    week: 1,
     startDate: '2024-12-01',
     currentStreak: 12,
     longestStreak: 14,
@@ -1170,6 +1170,7 @@ function HomeScreen({ user, setUser, setActiveModal }) {
   const [showEducation, setShowEducation] = useState(false);
   const [showKickstart, setShowKickstart] = useState(false);
   const [showInjectionTracker, setShowInjectionTracker] = useState(false);
+  const [showJourneyWeek, setShowJourneyWeek] = useState(null); // null, 1, 2, or 3 (for weeks 3-4)
   
   const greeting = () => {
     const hour = new Date().getHours();
@@ -1231,6 +1232,10 @@ function HomeScreen({ user, setUser, setActiveModal }) {
     return <InjectionTrackerScreen user={user} setUser={setUser} onBack={() => setShowInjectionTracker(false)} />;
   }
 
+  if (showJourneyWeek !== null) {
+    return <JourneyWeekDetail week={showJourneyWeek} onBack={() => setShowJourneyWeek(null)} />;
+  }
+
   return (
     <div style={styles.screenContent} className="fade-in">
       {/* HYDR801 Logo Header */}
@@ -1253,6 +1258,14 @@ function HomeScreen({ user, setUser, setActiveModal }) {
           <span style={styles.weekNumber}>{user.week}</span>
         </div>
       </header>
+
+      {/* First 30 Days Journey - Show only for weeks 1-4 */}
+      {user.week <= 4 && (
+        <First30DaysJourney 
+          currentWeek={user.week} 
+          onWeekSelect={setShowJourneyWeek}
+        />
+      )}
 
       <div style={styles.heroCard} className="slide-up">
         <div style={styles.heroContent}>
@@ -1404,6 +1417,227 @@ function HomeScreen({ user, setUser, setActiveModal }) {
   );
 }
 
+
+// First 30 Days Journey Component
+function First30DaysJourney({ currentWeek, onWeekSelect }) {
+  const journeyWeeks = [
+    { 
+      id: 1, 
+      title: 'Week 1: Getting Started',
+      shortTitle: 'Getting Started',
+      icon: '1️⃣',
+      active: currentWeek === 1
+    },
+    { 
+      id: 2, 
+      title: 'Week 2: Adjusting',
+      shortTitle: 'Adjusting',
+      icon: '2️⃣',
+      active: currentWeek === 2
+    },
+    { 
+      id: 3, 
+      title: 'Weeks 3-4: Finding Your Rhythm',
+      shortTitle: 'Finding Your Rhythm',
+      icon: '3️⃣',
+      active: currentWeek >= 3 && currentWeek <= 4
+    }
+  ];
+
+  return (
+    <div style={styles.first30DaysContainer}>
+      <div style={styles.first30DaysHeader}>
+        <span style={styles.first30DaysIcon}>📅</span>
+        <div>
+          <h3 style={styles.first30DaysTitle}>Your First 30 Days</h3>
+          <p style={styles.first30DaysSubtitle}>Week-by-week guidance for GLP-1 success</p>
+        </div>
+      </div>
+      
+      <div style={styles.journeyWeeksList}>
+        {journeyWeeks.map((week) => (
+          <div 
+            key={week.id}
+            style={{
+              ...styles.journeyWeekCard,
+              ...(week.active ? styles.journeyWeekCardActive : {})
+            }}
+            className="card-hover"
+            onClick={() => onWeekSelect(week.id)}
+          >
+            <div style={{
+              ...styles.journeyWeekIcon,
+              ...(week.active ? styles.journeyWeekIconActive : {})
+            }}>
+              {week.icon}
+            </div>
+            <div style={styles.journeyWeekContent}>
+              <p style={{
+                ...styles.journeyWeekTitle,
+                ...(week.active ? styles.journeyWeekTitleActive : {})
+              }}>{week.shortTitle}</p>
+              {week.active && (
+                <span style={styles.journeyWeekCurrentBadge}>Current</span>
+              )}
+            </div>
+            <span style={styles.journeyWeekArrow}>→</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Success in Month 1 Card */}
+      <div style={styles.successMonth1Card}>
+        <div style={styles.successMonth1Header}>
+          <span style={styles.successMonth1Icon}>🎯</span>
+          <h4 style={styles.successMonth1Title}>Success in Month 1</h4>
+        </div>
+        
+        <div style={styles.successMonth1Content}>
+          <div style={styles.successNotAbout}>
+            <p style={styles.successSectionLabel}>IS NOT ABOUT:</p>
+            <div style={styles.successListNot}>
+              <p style={styles.successItemNot}>✗ Losing a specific amount of weight</p>
+              <p style={styles.successItemNot}>✗ Having zero side effects</p>
+              <p style={styles.successItemNot}>✗ Perfect eating</p>
+              <p style={styles.successItemNot}>✗ Comparing your results to others</p>
+            </div>
+          </div>
+          
+          <div style={styles.successIsAbout}>
+            <p style={styles.successSectionLabel}>IS ABOUT:</p>
+            <div style={styles.successListIs}>
+              <p style={styles.successItemIs}>✓ Learning your body's new signals</p>
+              <p style={styles.successItemIs}>✓ Establishing sustainable habits</p>
+              <p style={styles.successItemIs}>✓ Managing side effects effectively</p>
+              <p style={styles.successItemIs}>✓ Building a foundation for long-term success</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* When to Call Your Provider */}
+      <div style={styles.callProviderCard}>
+        <div style={styles.callProviderHeader}>
+          <span style={styles.callProviderIcon}>⚠️</span>
+          <h4 style={styles.callProviderTitle}>When to Call Your Provider</h4>
+        </div>
+        <div style={styles.callProviderList}>
+          <p style={styles.callProviderItem}>• Severe or persistent vomiting</p>
+          <p style={styles.callProviderItem}>• Unable to keep fluids down</p>
+          <p style={styles.callProviderItem}>• Severe abdominal pain</p>
+          <p style={styles.callProviderItem}>• Extreme fatigue</p>
+          <p style={styles.callProviderItem}>• Severe headaches</p>
+          <p style={styles.callProviderItem}>• Any concerning symptoms that worry you</p>
+        </div>
+        <a href="tel:801-917-4386" style={styles.callProviderButton}>
+          📞 Call HYDR801: 801-917-4386
+        </a>
+      </div>
+    </div>
+  );
+}
+
+// Journey Week Detail Component
+function JourneyWeekDetail({ week, onBack }) {
+  const weekContent = {
+    1: {
+      title: 'Week 1: Getting Started',
+      icon: '1️⃣',
+      expectations: [
+        'Minimal appetite suppression at first—medication takes time to build up',
+        'Side effects may begin: nausea (especially 24-48 hours after injection), fatigue, headaches',
+        'Potential constipation or diarrhea'
+      ],
+      tips: [
+        { text: 'Take your injection at night to sleep through initial side effects', checked: true },
+        { text: 'Keep meals simple but nutritious', checked: true },
+        { text: 'Stay well hydrated', checked: true },
+        { text: 'Consider taking an acid reducer before bedtime if experiencing reflux', checked: true }
+      ]
+    },
+    2: {
+      title: 'Week 2: Adjusting',
+      icon: '2️⃣',
+      expectations: [
+        'Slightly decreased appetite',
+        'Early satiety (feeling full faster)',
+        'Better control around food choices',
+        'Side effects may still be present but potentially improving'
+      ],
+      tips: [
+        { text: 'Establish a regular eating schedule', checked: true },
+        { text: 'Learn to recognize your new fullness cues', checked: true },
+        { text: 'Get enough protein with each meal', checked: true },
+        { text: 'Take it slow with meals—no rushing', checked: true }
+      ]
+    },
+    3: {
+      title: 'Weeks 3-4: Finding Your Rhythm',
+      icon: '3️⃣',
+      expectations: [
+        'More consistent appetite suppression',
+        'Better management of side effects',
+        'Possible initial weight loss (though this varies greatly)',
+        'More stable energy levels'
+      ],
+      tips: [
+        { text: 'Eat regular meals even if not hungry', checked: true },
+        { text: 'Focus on protein and fiber', checked: true },
+        { text: 'Stay ahead of constipation', checked: true },
+        { text: 'Regular hydration', checked: true },
+        { text: 'Gentle movement if you feel up to it', checked: true }
+      ]
+    }
+  };
+
+  const content = weekContent[week];
+
+  return (
+    <div style={styles.screenContent} className="fade-in">
+      <button style={styles.backButton} onClick={onBack}>← Back</button>
+      
+      <div style={styles.journeyDetailHeader}>
+        <div style={styles.journeyDetailIcon}>{content.icon}</div>
+        <h1 style={styles.journeyDetailTitle}>{content.title}</h1>
+      </div>
+
+      <div style={styles.journeyDetailSection}>
+        <h3 style={styles.journeyDetailSectionTitle}>WHAT TO EXPECT</h3>
+        <div style={styles.journeyDetailCard}>
+          {content.expectations.map((item, idx) => (
+            <div key={idx} style={styles.journeyExpectationItem}>
+              <span style={styles.journeyExpectationBullet}>•</span>
+              <p style={styles.journeyExpectationText}>{item}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={styles.journeyDetailSection}>
+        <h3 style={styles.journeyDetailSectionTitle}>TIPS FOR SUCCESS</h3>
+        <div style={styles.journeyDetailCard}>
+          {content.tips.map((tip, idx) => (
+            <div key={idx} style={styles.journeyTipItem}>
+              <span style={styles.journeyTipCheck}>✓</span>
+              <p style={styles.journeyTipText}>{tip.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Quick reminder about provider */}
+      <div style={styles.journeyProviderReminder}>
+        <span style={styles.journeyProviderIcon}>💬</span>
+        <p style={styles.journeyProviderText}>
+          Questions or concerns? Your HYDR801 team is here to help.
+        </p>
+        <a href="tel:801-917-4386" style={styles.journeyProviderLink}>
+          Call 801-917-4386
+        </a>
+      </div>
+    </div>
+  );
+}
 
 // Goal Card Component
 function GoalCard({ icon, label, current, goal, unit, color, onIncrement }) {
@@ -13700,5 +13934,303 @@ const styles = {
     fontWeight: '500',
     padding: '4px 10px',
     borderRadius: '12px',
+  },
+
+  // First 30 Days Journey Styles
+  first30DaysContainer: {
+    marginBottom: '24px',
+  },
+  first30DaysHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    marginBottom: '16px',
+  },
+  first30DaysIcon: {
+    fontSize: '28px',
+  },
+  first30DaysTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '18px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '2px',
+  },
+  first30DaysSubtitle: {
+    fontSize: '13px',
+    color: '#8B8B8B',
+  },
+  journeyWeeksList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+    marginBottom: '16px',
+  },
+  journeyWeekCard: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    background: '#FFFFFF',
+    borderRadius: '14px',
+    padding: '14px 16px',
+    cursor: 'pointer',
+    border: '2px solid transparent',
+    transition: 'all 0.2s ease',
+  },
+  journeyWeekCardActive: {
+    background: '#F5F8F4',
+    borderColor: '#4A6741',
+  },
+  journeyWeekIcon: {
+    width: '40px',
+    height: '40px',
+    borderRadius: '10px',
+    background: '#F0EFED',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '18px',
+  },
+  journeyWeekIconActive: {
+    background: '#4A6741',
+  },
+  journeyWeekContent: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+  },
+  journeyWeekTitle: {
+    fontSize: '15px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  journeyWeekTitleActive: {
+    color: '#4A6741',
+    fontWeight: '600',
+  },
+  journeyWeekCurrentBadge: {
+    background: '#4A6741',
+    color: '#FFFFFF',
+    fontSize: '10px',
+    fontWeight: '600',
+    padding: '3px 8px',
+    borderRadius: '10px',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+  },
+  journeyWeekArrow: {
+    fontSize: '16px',
+    color: '#CCCCCC',
+  },
+  
+  // Success in Month 1 Card
+  successMonth1Card: {
+    background: '#F5F8F4',
+    borderRadius: '16px',
+    padding: '18px',
+    marginBottom: '16px',
+  },
+  successMonth1Header: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    marginBottom: '14px',
+  },
+  successMonth1Icon: {
+    fontSize: '20px',
+  },
+  successMonth1Title: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '17px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  successMonth1Content: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '14px',
+  },
+  successNotAbout: {
+    background: '#FFFFFF',
+    borderRadius: '12px',
+    padding: '14px',
+  },
+  successIsAbout: {
+    background: '#FFFFFF',
+    borderRadius: '12px',
+    padding: '14px',
+  },
+  successSectionLabel: {
+    fontSize: '11px',
+    fontWeight: '600',
+    color: '#8B8B8B',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+    marginBottom: '10px',
+  },
+  successListNot: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
+  },
+  successListIs: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
+  },
+  successItemNot: {
+    fontSize: '13px',
+    color: '#9B9B9B',
+    lineHeight: '1.4',
+  },
+  successItemIs: {
+    fontSize: '13px',
+    color: '#4A6741',
+    lineHeight: '1.4',
+  },
+
+  // Call Provider Card
+  callProviderCard: {
+    background: '#FFF5F0',
+    borderRadius: '16px',
+    padding: '18px',
+    borderLeft: '4px solid #E57373',
+  },
+  callProviderHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    marginBottom: '12px',
+  },
+  callProviderIcon: {
+    fontSize: '20px',
+  },
+  callProviderTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '16px',
+    fontWeight: '500',
+    color: '#C75050',
+  },
+  callProviderList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
+    marginBottom: '14px',
+  },
+  callProviderItem: {
+    fontSize: '13px',
+    color: '#6B6B6B',
+    lineHeight: '1.4',
+  },
+  callProviderButton: {
+    display: 'block',
+    background: '#C75050',
+    color: '#FFFFFF',
+    textDecoration: 'none',
+    textAlign: 'center',
+    padding: '12px',
+    borderRadius: '10px',
+    fontSize: '14px',
+    fontWeight: '600',
+  },
+
+  // Journey Week Detail Styles
+  journeyDetailHeader: {
+    textAlign: 'center',
+    marginBottom: '28px',
+    paddingTop: '20px',
+  },
+  journeyDetailIcon: {
+    width: '60px',
+    height: '60px',
+    borderRadius: '16px',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '28px',
+    margin: '0 auto 16px',
+  },
+  journeyDetailTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '24px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  journeyDetailSection: {
+    marginBottom: '24px',
+  },
+  journeyDetailSectionTitle: {
+    fontSize: '12px',
+    fontWeight: '600',
+    color: '#4A6741',
+    textTransform: 'uppercase',
+    letterSpacing: '1px',
+    marginBottom: '12px',
+  },
+  journeyDetailCard: {
+    background: '#FFFFFF',
+    borderRadius: '16px',
+    padding: '18px',
+  },
+  journeyExpectationItem: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '10px',
+    marginBottom: '12px',
+  },
+  journeyExpectationBullet: {
+    fontSize: '16px',
+    color: '#4A6741',
+    lineHeight: '1.5',
+    flexShrink: 0,
+  },
+  journeyExpectationText: {
+    fontSize: '14px',
+    color: '#4B4B4B',
+    lineHeight: '1.5',
+  },
+  journeyTipItem: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '10px',
+    marginBottom: '12px',
+  },
+  journeyTipCheck: {
+    fontSize: '14px',
+    color: '#4A6741',
+    fontWeight: '600',
+    lineHeight: '1.5',
+    flexShrink: 0,
+  },
+  journeyTipText: {
+    fontSize: '14px',
+    color: '#4B4B4B',
+    lineHeight: '1.5',
+  },
+  journeyProviderReminder: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '10px',
+    background: '#F5F8F4',
+    borderRadius: '16px',
+    padding: '20px',
+    textAlign: 'center',
+  },
+  journeyProviderIcon: {
+    fontSize: '24px',
+  },
+  journeyProviderText: {
+    fontSize: '14px',
+    color: '#6B6B6B',
+    lineHeight: '1.5',
+  },
+  journeyProviderLink: {
+    color: '#4A6741',
+    fontSize: '14px',
+    fontWeight: '600',
+    textDecoration: 'none',
   },
 };
