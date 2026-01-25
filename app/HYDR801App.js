@@ -1278,6 +1278,9 @@ function HomeScreen({ user, setUser, setActiveModal }) {
         </div>
       </div>
 
+      {/* Integrated Calendar Tracker */}
+      <HomeCalendar user={user} setUser={setUser} />
+
       <section style={styles.section}>
         <h3 style={styles.sectionTitle}>Daily Goals</h3>
         <div style={styles.goalsGrid}>
@@ -1636,6 +1639,249 @@ function JourneyWeekDetail({ week, onBack }) {
         </a>
       </div>
     </div>
+  );
+}
+
+// Home Calendar Component - Integrated tracking calendar
+function HomeCalendar({ user, setUser }) {
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [showDayDetail, setShowDayDetail] = useState(false);
+  
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                      'July', 'August', 'September', 'October', 'November', 'December'];
+  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  // Get calendar days for current month
+  const getDaysInMonth = (date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startingDay = firstDay.getDay();
+    
+    const days = [];
+    
+    // Previous month's trailing days
+    const prevMonth = new Date(year, month, 0);
+    const prevMonthDays = prevMonth.getDate();
+    for (let i = startingDay - 1; i >= 0; i--) {
+      days.push({ 
+        day: prevMonthDays - i, 
+        isCurrentMonth: false,
+        date: new Date(year, month - 1, prevMonthDays - i)
+      });
+    }
+    
+    // Current month's days
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push({ 
+        day: i, 
+        isCurrentMonth: true,
+        date: new Date(year, month, i)
+      });
+    }
+    
+    // Next month's leading days
+    const remainingDays = 42 - days.length;
+    for (let i = 1; i <= remainingDays; i++) {
+      days.push({ 
+        day: i, 
+        isCurrentMonth: false,
+        date: new Date(year, month + 1, i)
+      });
+    }
+    
+    return days;
+  };
+
+  // Check if a date has injection data
+  const hasInjectionData = (date) => {
+    const dateStr = date.toISOString().split('T')[0];
+    return user.injectionLog?.some(inj => inj.date === dateStr);
+  };
+
+  // Check if a date has weight data
+  const hasWeightData = (date) => {
+    const dateStr = date.toISOString().split('T')[0];
+    return user.weightLog?.some(w => w.date === dateStr);
+  };
+
+  // Get data for selected date
+  const getDateData = (date) => {
+    const dateStr = date.toISOString().split('T')[0];
+    const injections = user.injectionLog?.filter(inj => inj.date === dateStr) || [];
+    const weight = user.weightLog?.find(w => w.date === dateStr);
+    return { injections, weight };
+  };
+
+  const isToday = (date) => {
+    const today = new Date();
+    return date.toDateString() === today.toDateString();
+  };
+
+  const isSelected = (date) => {
+    return date.toDateString() === selectedDate.toDateString();
+  };
+
+  const goToPrevMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
+  };
+
+  const goToNextMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
+  };
+
+  const goToToday = () => {
+    const today = new Date();
+    setCurrentMonth(today);
+    setSelectedDate(today);
+    setShowDayDetail(true);
+  };
+
+  const handleDateClick = (dayInfo) => {
+    setSelectedDate(dayInfo.date);
+    setShowDayDetail(true);
+  };
+
+  const days = getDaysInMonth(currentMonth);
+  const selectedData = getDateData(selectedDate);
+
+  return (
+    <section style={styles.section}>
+      <div style={styles.homeCalendarContainer}>
+        {/* Calendar Header */}
+        <div style={styles.homeCalHeader}>
+          <div style={styles.homeCalTitleRow}>
+            <span style={styles.homeCalIcon}>📅</span>
+            <h3 style={styles.homeCalTitle}>Calendar</h3>
+          </div>
+          <button style={styles.homeCalTodayBtn} onClick={goToToday}>Today</button>
+        </div>
+
+        {/* Month Navigation */}
+        <div style={styles.homeCalMonthNav}>
+          <button style={styles.homeCalNavBtn} onClick={goToPrevMonth}>‹</button>
+          <span style={styles.homeCalMonthLabel}>
+            {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+          </span>
+          <button style={styles.homeCalNavBtn} onClick={goToNextMonth}>›</button>
+        </div>
+
+        {/* Day Headers */}
+        <div style={styles.homeCalDayHeaders}>
+          {dayNames.map(day => (
+            <div key={day} style={styles.homeCalDayHeader}>{day}</div>
+          ))}
+        </div>
+
+        {/* Calendar Grid */}
+        <div style={styles.homeCalGrid}>
+          {days.map((dayInfo, idx) => (
+            <div
+              key={idx}
+              style={{
+                ...styles.homeCalDay,
+                ...(dayInfo.isCurrentMonth ? {} : styles.homeCalDayOther),
+                ...(isToday(dayInfo.date) ? styles.homeCalDayToday : {}),
+                ...(isSelected(dayInfo.date) ? styles.homeCalDaySelected : {})
+              }}
+              onClick={() => handleDateClick(dayInfo)}
+            >
+              <span style={{
+                ...styles.homeCalDayNum,
+                ...(isSelected(dayInfo.date) ? styles.homeCalDayNumSelected : {})
+              }}>{dayInfo.day}</span>
+              {/* Indicator dots */}
+              <div style={styles.homeCalDots}>
+                {hasInjectionData(dayInfo.date) && (
+                  <span style={{...styles.homeCalDot, background: '#4A6741'}} />
+                )}
+                {hasWeightData(dayInfo.date) && (
+                  <span style={{...styles.homeCalDot, background: '#2AABB3'}} />
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Selected Day Detail Panel */}
+        {showDayDetail && (
+          <div style={styles.homeCalDetail}>
+            <div style={styles.homeCalDetailHeader}>
+              <h4 style={styles.homeCalDetailTitle}>
+                {selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+              </h4>
+              <button style={styles.homeCalDetailClose} onClick={() => setShowDayDetail(false)}>×</button>
+            </div>
+
+            {/* Injection Info */}
+            {selectedData.injections.length > 0 ? (
+              selectedData.injections.map((inj, idx) => (
+                <div key={idx} style={styles.homeCalInjectionCard}>
+                  <div style={styles.homeCalInjHeader}>
+                    <span style={styles.homeCalInjIcon}>💉</span>
+                    <span style={styles.homeCalInjType}>
+                      {inj.type === 'glp1' ? 'GLP-1' : 'Lipo-C'}
+                    </span>
+                  </div>
+                  <div style={styles.homeCalInjDetails}>
+                    <span style={styles.homeCalInjDose}>{inj.dose}</span>
+                    {inj.site && (
+                      <span style={styles.homeCalInjSite}>{inj.site}</span>
+                    )}
+                  </div>
+                  {inj.notes && (
+                    <p style={styles.homeCalInjNotes}>{inj.notes}</p>
+                  )}
+                </div>
+              ))
+            ) : (
+              <div style={styles.homeCalNoData}>
+                <span style={styles.homeCalNoDataIcon}>💉</span>
+                <span style={styles.homeCalNoDataText}>No injection logged</span>
+              </div>
+            )}
+
+            {/* Quick Stats Row */}
+            <div style={styles.homeCalStatsRow}>
+              <div style={styles.homeCalStatBox}>
+                <span style={styles.homeCalStatIcon}>⚖️</span>
+                <span style={styles.homeCalStatLabel}>Weight</span>
+                <span style={styles.homeCalStatValue}>
+                  {selectedData.weight ? `${selectedData.weight.weight} lbs` : '—'}
+                </span>
+              </div>
+              <div style={styles.homeCalStatBox}>
+                <span style={styles.homeCalStatIcon}>🔥</span>
+                <span style={styles.homeCalStatLabel}>Calories</span>
+                <span style={styles.homeCalStatValue}>
+                  {isToday(selectedDate) ? '1,850 kcal' : '—'}
+                </span>
+              </div>
+            </div>
+
+            <div style={styles.homeCalStatsRow}>
+              <div style={styles.homeCalStatBox}>
+                <span style={styles.homeCalStatIcon}>🥩</span>
+                <span style={styles.homeCalStatLabel}>Protein</span>
+                <span style={styles.homeCalStatValue}>
+                  {isToday(selectedDate) ? `${user.proteinCurrent} g` : '—'}
+                </span>
+              </div>
+              <div style={styles.homeCalStatBox}>
+                <span style={styles.homeCalStatIcon}>💧</span>
+                <span style={styles.homeCalStatLabel}>Water</span>
+                <span style={styles.homeCalStatValue}>
+                  {isToday(selectedDate) ? `${user.waterCurrent} oz` : '—'}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
   );
 }
 
@@ -14232,5 +14478,233 @@ const styles = {
     fontSize: '14px',
     fontWeight: '600',
     textDecoration: 'none',
+  },
+
+  // Home Calendar Styles
+  homeCalendarContainer: {
+    background: '#FFFFFF',
+    borderRadius: '20px',
+    padding: '18px',
+    boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
+  },
+  homeCalHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '16px',
+  },
+  homeCalTitleRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+  },
+  homeCalIcon: {
+    fontSize: '20px',
+  },
+  homeCalTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '18px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  homeCalTodayBtn: {
+    background: 'none',
+    border: 'none',
+    color: '#2AABB3',
+    fontSize: '14px',
+    fontWeight: '600',
+    cursor: 'pointer',
+  },
+  homeCalMonthNav: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '16px',
+  },
+  homeCalNavBtn: {
+    background: 'none',
+    border: 'none',
+    fontSize: '24px',
+    color: '#9B9B9B',
+    cursor: 'pointer',
+    padding: '4px 12px',
+  },
+  homeCalMonthLabel: {
+    fontSize: '16px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  homeCalDayHeaders: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(7, 1fr)',
+    marginBottom: '8px',
+  },
+  homeCalDayHeader: {
+    textAlign: 'center',
+    fontSize: '12px',
+    color: '#9B9B9B',
+    fontWeight: '500',
+    padding: '4px 0',
+  },
+  homeCalGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(7, 1fr)',
+    gap: '2px',
+  },
+  homeCalDay: {
+    aspectRatio: '1',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    borderRadius: '8px',
+    transition: 'background 0.2s',
+    padding: '4px',
+  },
+  homeCalDayOther: {
+    opacity: 0.3,
+  },
+  homeCalDayToday: {
+    background: '#E8F4F8',
+  },
+  homeCalDaySelected: {
+    background: '#4A6741',
+  },
+  homeCalDayNum: {
+    fontSize: '14px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  homeCalDayNumSelected: {
+    color: '#FFFFFF',
+  },
+  homeCalDots: {
+    display: 'flex',
+    gap: '3px',
+    marginTop: '2px',
+    height: '6px',
+  },
+  homeCalDot: {
+    width: '6px',
+    height: '6px',
+    borderRadius: '3px',
+  },
+  homeCalDetail: {
+    marginTop: '16px',
+    padding: '16px',
+    background: '#FAFAFA',
+    borderRadius: '14px',
+    borderTop: '1px solid #F0EFED',
+  },
+  homeCalDetailHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '14px',
+  },
+  homeCalDetailTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '16px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  homeCalDetailClose: {
+    background: 'none',
+    border: 'none',
+    fontSize: '24px',
+    color: '#9B9B9B',
+    cursor: 'pointer',
+    padding: '0',
+    lineHeight: '1',
+  },
+  homeCalInjectionCard: {
+    background: '#FFFFFF',
+    borderRadius: '12px',
+    padding: '14px',
+    marginBottom: '12px',
+    borderLeft: '4px solid #4A6741',
+  },
+  homeCalInjHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    marginBottom: '8px',
+  },
+  homeCalInjIcon: {
+    fontSize: '16px',
+  },
+  homeCalInjType: {
+    fontSize: '14px',
+    fontWeight: '600',
+    color: '#4A6741',
+  },
+  homeCalInjDetails: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+  },
+  homeCalInjDose: {
+    fontSize: '18px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+  },
+  homeCalInjSite: {
+    background: '#E8F4F8',
+    color: '#2AABB3',
+    fontSize: '12px',
+    fontWeight: '500',
+    padding: '4px 10px',
+    borderRadius: '12px',
+  },
+  homeCalInjNotes: {
+    fontSize: '13px',
+    color: '#8B8B8B',
+    marginTop: '8px',
+    fontStyle: 'italic',
+  },
+  homeCalNoData: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    padding: '12px',
+    background: '#FFFFFF',
+    borderRadius: '10px',
+    marginBottom: '12px',
+  },
+  homeCalNoDataIcon: {
+    fontSize: '16px',
+    opacity: 0.4,
+  },
+  homeCalNoDataText: {
+    fontSize: '14px',
+    color: '#9B9B9B',
+  },
+  homeCalStatsRow: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '10px',
+    marginBottom: '10px',
+  },
+  homeCalStatBox: {
+    background: '#FFFFFF',
+    borderRadius: '10px',
+    padding: '12px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: '4px',
+  },
+  homeCalStatIcon: {
+    fontSize: '16px',
+  },
+  homeCalStatLabel: {
+    fontSize: '12px',
+    color: '#9B9B9B',
+  },
+  homeCalStatValue: {
+    fontSize: '18px',
+    fontWeight: '600',
+    color: '#2D2D2D',
   },
 };
