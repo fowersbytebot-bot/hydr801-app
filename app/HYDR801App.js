@@ -200,7 +200,7 @@ export default function HYDR801App() {
     home: <HomeScreen user={user} setUser={setUser} setActiveModal={setActiveModal} />,
     nutrition: <NutritionScreen user={user} setUser={setUser} />,
     fitness: <FitnessScreen user={user} setUser={setUser} />,
-    treatments: <TreatmentsScreen setActiveModal={setActiveModal} />,
+    education: <EducationScreen user={user} />,
     profile: <ProfileScreen user={user} setUser={setUser} />,
   };
 
@@ -1359,30 +1359,6 @@ function HomeScreen({ user, setUser, setActiveModal }) {
               <span style={styles.iqsValue}>{user.glp1Supply?.currentDose || user.medicationDose}</span>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* GLP-1 Education Card */}
-      <section style={styles.section}>
-        <h3 style={styles.sectionTitle}>Learn & Succeed</h3>
-        <div style={styles.educationPreviewCard} className="card-hover" onClick={() => setShowEducation(true)}>
-          <div style={styles.educationPreviewIcon}>📚</div>
-          <div style={styles.educationPreviewContent}>
-            <h4 style={styles.educationPreviewTitle}>21 GLP-1 Mistakes to Avoid</h4>
-            <p style={styles.educationPreviewText}>Learn what actually works for sustainable results</p>
-          </div>
-          <div style={styles.treatmentArrow}>→</div>
-        </div>
-        
-        {/* Kickstart Guide Card */}
-        <div style={styles.kickstartPreviewCard} className="card-hover" onClick={() => setShowKickstart(true)}>
-          <div style={styles.kickstartPreviewIcon}>🚀</div>
-          <div style={styles.kickstartPreviewContent}>
-            <span style={styles.kickstartPreviewBadge}>Your Complete Roadmap</span>
-            <h4 style={styles.kickstartPreviewTitle}>GLP-1 Kickstart Guide</h4>
-            <p style={styles.kickstartPreviewText}>First 30 days, side effects, checklists & more</p>
-          </div>
-          <div style={{...styles.treatmentArrow, color: '#FFFFFF'}}>→</div>
         </div>
       </section>
 
@@ -6617,6 +6593,292 @@ function FitnessHomeScreen({ user }) {
   );
 }
 
+// Education Screen - GLP-1 Learning Center
+function EducationScreen({ user }) {
+  const [activeSection, setActiveSection] = useState(null);
+  const [showMistakes, setShowMistakes] = useState(false);
+  const [showKickstart, setShowKickstart] = useState(false);
+
+  // 21 GLP-1 Mistakes content
+  const glp1Mistakes = [
+    { id: 1, title: "Not eating enough protein", desc: "Aim for 25-35g protein per meal to preserve muscle mass during weight loss.", category: "nutrition" },
+    { id: 2, title: "Skipping meals entirely", desc: "Even with reduced appetite, your body needs regular nutrition. Eat small, nutrient-dense meals.", category: "nutrition" },
+    { id: 3, title: "Not drinking enough water", desc: "GLP-1s can reduce thirst sensation. Set reminders and aim for 64+ oz daily.", category: "hydration" },
+    { id: 4, title: "Eating too fast", desc: "Slow down! GLP-1s work by making you feel full faster—give your body time to register satiety.", category: "nutrition" },
+    { id: 5, title: "Ignoring fiber intake", desc: "Constipation is common. Aim for 25-30g fiber daily from vegetables, fruits, and whole grains.", category: "nutrition" },
+    { id: 6, title: "Not timing meals properly", desc: "Eat protein first, then vegetables, then carbs. This optimizes absorption and satiety.", category: "nutrition" },
+    { id: 7, title: "Drinking alcohol regularly", desc: "Alcohol can worsen side effects and slow weight loss. Limit or avoid during treatment.", category: "lifestyle" },
+    { id: 8, title: "Expecting instant results", desc: "GLP-1s work gradually. Focus on the process, not daily scale fluctuations.", category: "mindset" },
+    { id: 9, title: "Not exercising at all", desc: "Even light movement helps preserve muscle. Start with walks and build from there.", category: "fitness" },
+    { id: 10, title: "Over-exercising initially", desc: "High-intensity workouts can be too much early on. Start gentle and increase gradually.", category: "fitness" },
+    { id: 11, title: "Ignoring side effects", desc: "Track and report persistent symptoms to your provider. Many can be managed.", category: "medical" },
+    { id: 12, title: "Missing injection doses", desc: "Consistency is key. Set a recurring reminder for your injection day.", category: "medical" },
+    { id: 13, title: "Not rotating injection sites", desc: "Rotate between belly, thigh, and arm to prevent tissue issues.", category: "medical" },
+    { id: 14, title: "Eating greasy/fried foods", desc: "High-fat foods can trigger nausea and digestive issues with GLP-1s.", category: "nutrition" },
+    { id: 15, title: "Drinking with meals", desc: "Avoid large amounts of liquid with meals—it can increase nausea.", category: "hydration" },
+    { id: 16, title: "Not tracking progress", desc: "Log food, weight, and symptoms to identify patterns and share with your provider.", category: "tracking" },
+    { id: 17, title: "Comparing to others", desc: "Everyone's GLP-1 journey is different. Focus on your own progress.", category: "mindset" },
+    { id: 18, title: "Stopping too soon", desc: "Weight management is ongoing. Work with your provider on a long-term plan.", category: "medical" },
+    { id: 19, title: "Not addressing emotional eating", desc: "GLP-1s reduce hunger, but habits need work too. Consider therapy or support groups.", category: "mindset" },
+    { id: 20, title: "Forgetting supplements", desc: "Consider B12, vitamin D, and a multivitamin—absorption may change on GLP-1s.", category: "nutrition" },
+    { id: 21, title: "Not celebrating wins", desc: "Acknowledge non-scale victories: energy, sleep, clothes fit, mobility!", category: "mindset" }
+  ];
+
+  // Kickstart Guide sections
+  const kickstartSections = [
+    {
+      id: 'week1',
+      title: 'Week 1: Getting Started',
+      icon: '1️⃣',
+      content: {
+        expect: [
+          'Minimal appetite changes initially',
+          'Possible nausea 24-48 hours after injection',
+          'Fatigue or headaches as body adjusts'
+        ],
+        tips: [
+          'Inject at night to sleep through initial side effects',
+          'Keep meals small and simple',
+          'Stay very well hydrated',
+          'Consider over-the-counter nausea remedies if needed'
+        ]
+      }
+    },
+    {
+      id: 'week2',
+      title: 'Week 2: Adjusting',
+      icon: '2️⃣',
+      content: {
+        expect: [
+          'Decreased appetite becoming noticeable',
+          'Feeling full faster (early satiety)',
+          'Side effects may persist but often improving'
+        ],
+        tips: [
+          'Establish a consistent eating schedule',
+          'Focus on protein at every meal',
+          'Listen to your new fullness cues',
+          'Take it slow—eat mindfully'
+        ]
+      }
+    },
+    {
+      id: 'weeks34',
+      title: 'Weeks 3-4: Finding Rhythm',
+      icon: '3️⃣',
+      content: {
+        expect: [
+          'More consistent appetite suppression',
+          'Better management of side effects',
+          'Possible initial weight loss (varies greatly)',
+          'More stable energy levels'
+        ],
+        tips: [
+          'Eat regular meals even if not hungry',
+          'Prioritize protein and fiber',
+          'Stay ahead of constipation with fiber/water',
+          'Add gentle movement if feeling up to it'
+        ]
+      }
+    },
+    {
+      id: 'month2plus',
+      title: 'Month 2 & Beyond',
+      icon: '🚀',
+      content: {
+        expect: [
+          'Dose increases may bring new adjustments',
+          'Steady weight loss pattern emerges',
+          'Food relationship continues evolving'
+        ],
+        tips: [
+          'Continue tracking your progress',
+          'Celebrate non-scale victories',
+          'Build sustainable exercise habits',
+          'Stay in touch with your provider'
+        ]
+      }
+    }
+  ];
+
+  // Did You Know facts
+  const didYouKnowFacts = [
+    { icon: '💡', fact: "Side effects aren't always unavoidable. Many symptoms like nausea and fatigue are often tied to not eating enough—not just the medication." },
+    { icon: '🥩', fact: "Protein is your best friend on GLP-1s. It helps preserve muscle mass, keeps you satisfied longer, and supports your metabolism." },
+    { icon: '💧', fact: "GLP-1 medications can reduce your thirst sensation. Set reminders to drink water—you may not feel thirsty even when dehydrated." },
+    { icon: '🌙', fact: "Taking your injection at bedtime can help you sleep through the initial side effects that often occur in the first 24-48 hours." },
+    { icon: '🎯', fact: "The average GLP-1 patient loses 15-20% of their body weight over 12-18 months. Patience and consistency are key." },
+    { icon: '💪', fact: "Resistance training while on GLP-1s helps preserve muscle mass. Aim for 2-3 strength sessions per week." }
+  ];
+
+  if (showMistakes) {
+    return (
+      <div style={styles.screenContent} className="fade-in">
+        <button style={styles.backButton} onClick={() => setShowMistakes(false)}>← Back</button>
+        
+        <div style={styles.eduDetailHeader}>
+          <span style={styles.eduDetailIcon}>📚</span>
+          <h1 style={styles.eduDetailTitle}>21 GLP-1 Mistakes to Avoid</h1>
+          <p style={styles.eduDetailSubtitle}>Learn what actually works for sustainable results</p>
+        </div>
+
+        <div style={styles.mistakesList}>
+          {glp1Mistakes.map((mistake, idx) => (
+            <div key={mistake.id} style={styles.mistakeCard}>
+              <div style={styles.mistakeNumber}>{mistake.id}</div>
+              <div style={styles.mistakeContent}>
+                <h4 style={styles.mistakeTitle}>{mistake.title}</h4>
+                <p style={styles.mistakeDesc}>{mistake.desc}</p>
+                <span style={styles.mistakeCategory}>{mistake.category}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (showKickstart) {
+    return (
+      <div style={styles.screenContent} className="fade-in">
+        <button style={styles.backButton} onClick={() => setShowKickstart(false)}>← Back</button>
+        
+        <div style={styles.kickstartHeader}>
+          <span style={styles.kickstartIcon}>🚀</span>
+          <h1 style={styles.kickstartTitle}>GLP-1 Kickstart Guide</h1>
+          <p style={styles.kickstartSubtitle}>Your complete roadmap to success</p>
+        </div>
+
+        {kickstartSections.map((section) => (
+          <div key={section.id} style={styles.kickstartSection}>
+            <div 
+              style={styles.kickstartSectionHeader}
+              onClick={() => setActiveSection(activeSection === section.id ? null : section.id)}
+            >
+              <span style={styles.kickstartSectionIcon}>{section.icon}</span>
+              <span style={styles.kickstartSectionTitle}>{section.title}</span>
+              <span style={styles.kickstartSectionArrow}>
+                {activeSection === section.id ? '−' : '+'}
+              </span>
+            </div>
+            
+            {activeSection === section.id && (
+              <div style={styles.kickstartSectionContent}>
+                <div style={styles.kickstartExpect}>
+                  <h4 style={styles.kickstartExpectTitle}>What to Expect</h4>
+                  {section.content.expect.map((item, idx) => (
+                    <div key={idx} style={styles.kickstartExpectItem}>
+                      <span style={styles.kickstartBullet}>•</span>
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                <div style={styles.kickstartTips}>
+                  <h4 style={styles.kickstartTipsTitle}>Tips for Success</h4>
+                  {section.content.tips.map((tip, idx) => (
+                    <div key={idx} style={styles.kickstartTipItem}>
+                      <span style={styles.kickstartCheck}>✓</span>
+                      <span>{tip}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+
+        {/* Provider reminder */}
+        <div style={styles.eduProviderCard}>
+          <span style={styles.eduProviderIcon}>📞</span>
+          <div>
+            <p style={styles.eduProviderText}>Questions? We're here to help.</p>
+            <a href="tel:801-917-4386" style={styles.eduProviderLink}>Call 801-917-4386</a>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={styles.screenContent} className="fade-in">
+      <header style={styles.pageHeader}>
+        <h1 style={styles.pageTitle}>Learn</h1>
+        <p style={styles.pageSubtitle}>GLP-1 education & resources</p>
+      </header>
+
+      {/* Featured Guides */}
+      <section style={styles.section}>
+        <h3 style={styles.sectionTitle}>Essential Guides</h3>
+        
+        <div style={styles.eduFeaturedCard} className="card-hover" onClick={() => setShowMistakes(true)}>
+          <div style={styles.eduFeaturedIcon}>📚</div>
+          <div style={styles.eduFeaturedContent}>
+            <h4 style={styles.eduFeaturedTitle}>21 GLP-1 Mistakes to Avoid</h4>
+            <p style={styles.eduFeaturedDesc}>Learn what actually works for sustainable results</p>
+          </div>
+          <div style={styles.eduFeaturedArrow}>→</div>
+        </div>
+
+        <div style={styles.eduKickstartCard} className="card-hover" onClick={() => setShowKickstart(true)}>
+          <div style={styles.eduKickstartIcon}>🚀</div>
+          <div style={styles.eduKickstartContent}>
+            <span style={styles.eduKickstartBadge}>Your Complete Roadmap</span>
+            <h4 style={styles.eduKickstartTitle}>GLP-1 Kickstart Guide</h4>
+            <p style={styles.eduKickstartDesc}>First 30 days, side effects, checklists & more</p>
+          </div>
+          <div style={styles.eduKickstartArrow}>→</div>
+        </div>
+      </section>
+
+      {/* Did You Know Section */}
+      <section style={styles.section}>
+        <h3 style={styles.sectionTitle}>Did You Know?</h3>
+        <div style={styles.eduFactsContainer}>
+          {didYouKnowFacts.map((item, idx) => (
+            <div key={idx} style={styles.eduFactCard}>
+              <span style={styles.eduFactIcon}>{item.icon}</span>
+              <p style={styles.eduFactText}>{item.fact}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Quick Tips Categories */}
+      <section style={styles.section}>
+        <h3 style={styles.sectionTitle}>Quick Tips by Category</h3>
+        <div style={styles.eduCategoryGrid}>
+          {[
+            { icon: '🥗', label: 'Nutrition', color: '#4A6741' },
+            { icon: '💧', label: 'Hydration', color: '#2AABB3' },
+            { icon: '💪', label: 'Fitness', color: '#9B7E9B' },
+            { icon: '💊', label: 'Medication', color: '#C4956A' },
+            { icon: '😌', label: 'Side Effects', color: '#E57373' },
+            { icon: '🎯', label: 'Mindset', color: '#5B7B50' },
+          ].map((cat, idx) => (
+            <div key={idx} style={{...styles.eduCategoryCard, borderLeftColor: cat.color}}>
+              <span style={styles.eduCategoryIcon}>{cat.icon}</span>
+              <span style={styles.eduCategoryLabel}>{cat.label}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Contact Provider */}
+      <div style={styles.eduContactCard}>
+        <div style={styles.eduContactIcon}>💬</div>
+        <div style={styles.eduContactContent}>
+          <h4 style={styles.eduContactTitle}>Have Questions?</h4>
+          <p style={styles.eduContactText}>Our team is here to support your journey</p>
+          <a href="tel:801-917-4386" style={styles.eduContactLink}>
+            📞 Call 801-917-4386
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // Treatments Screen - All HYDR801 Services
 function TreatmentsScreen({ setActiveModal }) {
   const [activeCategory, setActiveCategory] = useState('weight-loss');
@@ -8227,7 +8489,7 @@ function BottomNav({ currentScreen, setCurrentScreen }) {
     { id: 'home', icon: <HomeIcon />, label: 'Home' },
     { id: 'nutrition', icon: <NutritionIcon />, label: 'Nutrition' },
     { id: 'fitness', icon: <FitnessIcon />, label: 'Fitness' },
-    { id: 'treatments', icon: <TreatmentIcon />, label: 'Treatments' },
+    { id: 'education', icon: <EducationIcon />, label: 'Learn' },
     { id: 'profile', icon: <ProfileIcon />, label: 'Profile' },
   ];
 
@@ -8293,6 +8555,16 @@ function ProfileIcon({ color = '#9B9B9B' }) {
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
       <circle cx="12" cy="8" r="4" stroke={color} strokeWidth="2"/>
       <path d="M4 20C4 16 8 14 12 14C16 14 20 16 20 20" stroke={color} strokeWidth="2" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function EducationIcon({ color = '#9B9B9B' }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M12 3L2 9L12 15L22 9L12 3Z" stroke={color} strokeWidth="2" strokeLinejoin="round"/>
+      <path d="M6 11V17L12 21L18 17V11" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M22 9V15" stroke={color} strokeWidth="2" strokeLinecap="round"/>
     </svg>
   );
 }
@@ -14706,5 +14978,361 @@ const styles = {
     fontSize: '18px',
     fontWeight: '600',
     color: '#2D2D2D',
+  },
+
+  // Education Screen Styles
+  eduFeaturedCard: {
+    background: '#FFFFFF',
+    borderRadius: '16px',
+    padding: '18px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    marginBottom: '12px',
+    cursor: 'pointer',
+    border: '1px solid #E8E8E8',
+  },
+  eduFeaturedIcon: {
+    fontSize: '32px',
+    width: '50px',
+    height: '50px',
+    background: '#F5F4F2',
+    borderRadius: '12px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  eduFeaturedContent: {
+    flex: 1,
+  },
+  eduFeaturedTitle: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+    marginBottom: '4px',
+  },
+  eduFeaturedDesc: {
+    fontSize: '13px',
+    color: '#8B8B8B',
+  },
+  eduFeaturedArrow: {
+    fontSize: '18px',
+    color: '#4A6741',
+  },
+  eduKickstartCard: {
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    borderRadius: '16px',
+    padding: '18px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    cursor: 'pointer',
+  },
+  eduKickstartIcon: {
+    fontSize: '32px',
+    width: '50px',
+    height: '50px',
+    background: 'rgba(255,255,255,0.2)',
+    borderRadius: '12px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  eduKickstartContent: {
+    flex: 1,
+  },
+  eduKickstartBadge: {
+    fontSize: '10px',
+    color: 'rgba(255,255,255,0.8)',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+  },
+  eduKickstartTitle: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#FFFFFF',
+    marginBottom: '4px',
+  },
+  eduKickstartDesc: {
+    fontSize: '13px',
+    color: 'rgba(255,255,255,0.85)',
+  },
+  eduKickstartArrow: {
+    fontSize: '18px',
+    color: '#FFFFFF',
+  },
+  eduFactsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+  },
+  eduFactCard: {
+    background: '#FFFBEB',
+    borderRadius: '12px',
+    padding: '14px 16px',
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '12px',
+  },
+  eduFactIcon: {
+    fontSize: '20px',
+    flexShrink: 0,
+  },
+  eduFactText: {
+    fontSize: '14px',
+    color: '#5B5B5B',
+    lineHeight: '1.5',
+  },
+  eduCategoryGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: '10px',
+  },
+  eduCategoryCard: {
+    background: '#FFFFFF',
+    borderRadius: '12px',
+    padding: '14px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    borderLeft: '4px solid',
+    cursor: 'pointer',
+  },
+  eduCategoryIcon: {
+    fontSize: '20px',
+  },
+  eduCategoryLabel: {
+    fontSize: '14px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  eduContactCard: {
+    background: 'linear-gradient(135deg, #E8EDE6 0%, #D8E0D5 100%)',
+    borderRadius: '16px',
+    padding: '20px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '16px',
+    marginTop: '8px',
+  },
+  eduContactIcon: {
+    fontSize: '32px',
+  },
+  eduContactContent: {
+    flex: 1,
+  },
+  eduContactTitle: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+    marginBottom: '4px',
+  },
+  eduContactText: {
+    fontSize: '13px',
+    color: '#6B6B6B',
+    marginBottom: '8px',
+  },
+  eduContactLink: {
+    fontSize: '14px',
+    color: '#4A6741',
+    fontWeight: '600',
+    textDecoration: 'none',
+  },
+  eduDetailHeader: {
+    textAlign: 'center',
+    marginBottom: '24px',
+  },
+  eduDetailIcon: {
+    fontSize: '48px',
+    display: 'block',
+    marginBottom: '12px',
+  },
+  eduDetailTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '24px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '8px',
+  },
+  eduDetailSubtitle: {
+    fontSize: '14px',
+    color: '#8B8B8B',
+  },
+  mistakesList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px',
+  },
+  mistakeCard: {
+    background: '#FFFFFF',
+    borderRadius: '14px',
+    padding: '16px',
+    display: 'flex',
+    gap: '14px',
+  },
+  mistakeNumber: {
+    width: '32px',
+    height: '32px',
+    borderRadius: '16px',
+    background: '#4A6741',
+    color: '#FFFFFF',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '14px',
+    fontWeight: '600',
+    flexShrink: 0,
+  },
+  mistakeContent: {
+    flex: 1,
+  },
+  mistakeTitle: {
+    fontSize: '15px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+    marginBottom: '4px',
+  },
+  mistakeDesc: {
+    fontSize: '13px',
+    color: '#6B6B6B',
+    lineHeight: '1.5',
+    marginBottom: '8px',
+  },
+  mistakeCategory: {
+    fontSize: '11px',
+    color: '#4A6741',
+    background: '#E8EDE6',
+    padding: '4px 10px',
+    borderRadius: '12px',
+    textTransform: 'capitalize',
+  },
+  kickstartHeader: {
+    textAlign: 'center',
+    marginBottom: '24px',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    margin: '-24px -20px 24px',
+    padding: '32px 20px',
+    borderRadius: '0 0 24px 24px',
+  },
+  kickstartIcon: {
+    fontSize: '48px',
+    display: 'block',
+    marginBottom: '12px',
+  },
+  kickstartTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '24px',
+    fontWeight: '500',
+    color: '#FFFFFF',
+    marginBottom: '8px',
+  },
+  kickstartSubtitle: {
+    fontSize: '14px',
+    color: 'rgba(255,255,255,0.85)',
+  },
+  kickstartSection: {
+    background: '#FFFFFF',
+    borderRadius: '14px',
+    marginBottom: '12px',
+    overflow: 'hidden',
+  },
+  kickstartSectionHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    padding: '16px',
+    cursor: 'pointer',
+  },
+  kickstartSectionIcon: {
+    fontSize: '24px',
+  },
+  kickstartSectionTitle: {
+    flex: 1,
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+  },
+  kickstartSectionArrow: {
+    fontSize: '20px',
+    color: '#9B9B9B',
+    fontWeight: '300',
+  },
+  kickstartSectionContent: {
+    padding: '0 16px 16px',
+    borderTop: '1px solid #F0EFED',
+  },
+  kickstartExpect: {
+    marginBottom: '16px',
+    marginTop: '12px',
+  },
+  kickstartExpectTitle: {
+    fontSize: '13px',
+    fontWeight: '600',
+    color: '#4A6741',
+    marginBottom: '10px',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+  },
+  kickstartExpectItem: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '10px',
+    marginBottom: '8px',
+    fontSize: '14px',
+    color: '#4B4B4B',
+    lineHeight: '1.4',
+  },
+  kickstartBullet: {
+    color: '#4A6741',
+    fontWeight: '600',
+  },
+  kickstartTips: {
+    background: '#F5F8F4',
+    borderRadius: '10px',
+    padding: '14px',
+  },
+  kickstartTipsTitle: {
+    fontSize: '13px',
+    fontWeight: '600',
+    color: '#4A6741',
+    marginBottom: '10px',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+  },
+  kickstartTipItem: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '10px',
+    marginBottom: '8px',
+    fontSize: '14px',
+    color: '#4B4B4B',
+    lineHeight: '1.4',
+  },
+  kickstartCheck: {
+    color: '#4A6741',
+    fontWeight: '600',
+  },
+  eduProviderCard: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    background: '#E8EDE6',
+    borderRadius: '14px',
+    padding: '16px',
+    marginTop: '20px',
+  },
+  eduProviderIcon: {
+    fontSize: '24px',
+  },
+  eduProviderText: {
+    fontSize: '14px',
+    color: '#4B4B4B',
+    marginBottom: '4px',
+  },
+  eduProviderLink: {
+    fontSize: '14px',
+    fontWeight: '600',
+    color: '#4A6741',
+    textDecoration: 'none',
   },
 };
