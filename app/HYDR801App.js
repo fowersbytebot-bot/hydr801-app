@@ -2059,9 +2059,740 @@ function MacroCircle({ label, current, goal, color, unit = 'g' }) {
   );
 }
 
+// ==================== WORKOUT PLAYER ====================
+function WorkoutPlayer({ workout, user, onComplete, onExit }) {
+  const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
+  const [currentSet, setCurrentSet] = useState(1);
+  const [isResting, setIsResting] = useState(false);
+  const [restTime, setRestTime] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [showVideo, setShowVideo] = useState(true);
+  const [workoutComplete, setWorkoutComplete] = useState(false);
+
+  // Exercise video database - YouTube embed IDs for common exercises
+  const exerciseVideos = {
+    // Beginner exercises
+    'wall push-ups': 'a6YHbXD2XlU',
+    'wall push-up': 'a6YHbXD2XlU',
+    'chair squats': 'MVKvgiM9vWQ',
+    'chair squat': 'MVKvgiM9vWQ',
+    'standing marches': 'bNskaOqYtb4',
+    'standing march': 'bNskaOqYtb4',
+    'arm circles': 'UJbIQxMVL6E',
+    'seated leg lifts': 'c4Ncm4ZsGzQ',
+    'wall slides': 'e_-tIeJG14g',
+    
+    // Intermediate exercises
+    'push-ups': 'IODxDxX7oi4',
+    'push-up': 'IODxDxX7oi4',
+    'pushups': 'IODxDxX7oi4',
+    'squats': 'aclHkVaku9U',
+    'squat': 'aclHkVaku9U',
+    'bodyweight squats': 'aclHkVaku9U',
+    'lunges': 'QOVaHwm-Q6U',
+    'lunge': 'QOVaHwm-Q6U',
+    'plank': 'pSHjTRCQxIw',
+    'planks': 'pSHjTRCQxIw',
+    'glute bridges': 'OUgsJ8-Vi0E',
+    'glute bridge': 'OUgsJ8-Vi0E',
+    'bird dogs': 'wiFNA3sqjCA',
+    'bird dog': 'wiFNA3sqjCA',
+    'mountain climbers': 'nmwgirgXLYM',
+    'mountain climber': 'nmwgirgXLYM',
+    'jumping jacks': 'c4DAnQ6DtF8',
+    'burpees': 'dZgVxmf6jkA',
+    'burpee': 'dZgVxmf6jkA',
+    
+    // Dumbbell exercises
+    'dumbbell rows': 'pYcpY20QaE8',
+    'dumbbell row': 'pYcpY20QaE8',
+    'bent over rows': 'pYcpY20QaE8',
+    'dumbbell press': 'VmB1G1K7v94',
+    'shoulder press': 'qEwKCR5JCog',
+    'bicep curls': 'ykJmrZ5v0Oo',
+    'bicep curl': 'ykJmrZ5v0Oo',
+    'tricep extensions': 'nRiJVZDpdL0',
+    'tricep extension': 'nRiJVZDpdL0',
+    'goblet squats': 'MeIiIdhvXT4',
+    'goblet squat': 'MeIiIdhvXT4',
+    'deadlifts': '1ZXobu7JvvE',
+    'deadlift': '1ZXobu7JvvE',
+    'romanian deadlifts': 'jEy_czb3RKA',
+    'lateral raises': '3VcKaXpzqRo',
+    'lateral raise': '3VcKaXpzqRo',
+    
+    // Resistance band exercises
+    'band pull aparts': 'JObYtU7Y7ag',
+    'band pull apart': 'JObYtU7Y7ag',
+    'band rows': 'xQNrFHEMhI4',
+    'band squats': 'ph3pddpKzzQ',
+    
+    // Core exercises
+    'crunches': '5ER5Of4MOPI',
+    'crunch': '5ER5Of4MOPI',
+    'russian twists': 'wkD8rjkodUI',
+    'russian twist': 'wkD8rjkodUI',
+    'leg raises': 'JB2oyawG9KI',
+    'dead bugs': 'g_BYB0R-4Ts',
+    'dead bug': 'g_BYB0R-4Ts',
+    'side planks': 'K2VljzCC16g',
+    'side plank': 'K2VljzCC16g',
+    
+    // Stretching
+    'cat cow': 'kqnua4rHVVA',
+    'cat-cow': 'kqnua4rHVVA',
+    'hip flexor stretch': '0Y6hQrGR3nk',
+    'hamstring stretch': 'g-3Gorz5xEA',
+    'quad stretch': 'JllLD3uqXrg',
+    'shoulder stretch': 'SEdqd1n0cvg',
+    'child pose': '2MJvjzUafy8',
+    "child's pose": '2MJvjzUafy8',
+    
+    // Default fallback
+    'default': 'IODxDxX7oi4'
+  };
+
+  const exercises = workout?.exercises || [
+    { name: 'Wall Push-ups', sets: 2, reps: 10, notes: 'Keep core engaged' },
+    { name: 'Chair Squats', sets: 2, reps: 12, notes: 'Go as low as comfortable' },
+    { name: 'Standing Marches', sets: 2, reps: 20, notes: 'Lift knees high' }
+  ];
+
+  const currentExercise = exercises[currentExerciseIndex];
+  const totalSets = parseInt(currentExercise?.sets) || 3;
+  const reps = currentExercise?.reps || 10;
+
+  // Get video ID for current exercise
+  const getVideoId = (exerciseName) => {
+    const name = exerciseName?.toLowerCase() || '';
+    // Try exact match first
+    if (exerciseVideos[name]) return exerciseVideos[name];
+    // Try partial match
+    for (const [key, value] of Object.entries(exerciseVideos)) {
+      if (name.includes(key) || key.includes(name)) return value;
+    }
+    return exerciseVideos['default'];
+  };
+
+  const videoId = getVideoId(currentExercise?.name);
+
+  // Rest timer
+  useEffect(() => {
+    let interval;
+    if (isResting && restTime > 0 && !isPaused) {
+      interval = setInterval(() => {
+        setRestTime(prev => prev - 1);
+      }, 1000);
+    } else if (isResting && restTime === 0) {
+      setIsResting(false);
+    }
+    return () => clearInterval(interval);
+  }, [isResting, restTime, isPaused]);
+
+  const completeSet = () => {
+    if (currentSet < totalSets) {
+      // More sets to do
+      setCurrentSet(currentSet + 1);
+      setIsResting(true);
+      setRestTime(45); // 45 second rest
+    } else {
+      // Move to next exercise
+      if (currentExerciseIndex < exercises.length - 1) {
+        setCurrentExerciseIndex(currentExerciseIndex + 1);
+        setCurrentSet(1);
+        setIsResting(true);
+        setRestTime(60); // 60 second rest between exercises
+      } else {
+        // Workout complete!
+        setWorkoutComplete(true);
+      }
+    }
+  };
+
+  const skipRest = () => {
+    setIsResting(false);
+    setRestTime(0);
+  };
+
+  const previousExercise = () => {
+    if (currentExerciseIndex > 0) {
+      setCurrentExerciseIndex(currentExerciseIndex - 1);
+      setCurrentSet(1);
+      setIsResting(false);
+    }
+  };
+
+  const nextExercise = () => {
+    if (currentExerciseIndex < exercises.length - 1) {
+      setCurrentExerciseIndex(currentExerciseIndex + 1);
+      setCurrentSet(1);
+      setIsResting(false);
+    }
+  };
+
+  // Workout complete screen
+  if (workoutComplete) {
+    return (
+      <div style={workoutPlayerStyles.container}>
+        <div style={workoutPlayerStyles.completeScreen}>
+          <div style={workoutPlayerStyles.completeIcon}>🎉</div>
+          <h1 style={workoutPlayerStyles.completeTitle}>Workout Complete!</h1>
+          <p style={workoutPlayerStyles.completeSubtitle}>Great job! You finished all {exercises.length} exercises.</p>
+          
+          <div style={workoutPlayerStyles.statsGrid}>
+            <div style={workoutPlayerStyles.statCard}>
+              <span style={workoutPlayerStyles.statValue}>{exercises.length}</span>
+              <span style={workoutPlayerStyles.statLabel}>Exercises</span>
+            </div>
+            <div style={workoutPlayerStyles.statCard}>
+              <span style={workoutPlayerStyles.statValue}>{exercises.reduce((sum, ex) => sum + (parseInt(ex.sets) || 3), 0)}</span>
+              <span style={workoutPlayerStyles.statLabel}>Total Sets</span>
+            </div>
+            <div style={workoutPlayerStyles.statCard}>
+              <span style={workoutPlayerStyles.statValue}>+100</span>
+              <span style={workoutPlayerStyles.statLabel}>Points</span>
+            </div>
+          </div>
+
+          <button style={workoutPlayerStyles.primaryButton} onClick={onComplete}>
+            Done
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={workoutPlayerStyles.container}>
+      {/* Header */}
+      <div style={workoutPlayerStyles.header}>
+        <button style={workoutPlayerStyles.backButton} onClick={onExit}>
+          ← Exit
+        </button>
+        <div style={workoutPlayerStyles.progress}>
+          <span style={workoutPlayerStyles.progressText}>
+            Exercise {currentExerciseIndex + 1} of {exercises.length}
+          </span>
+          <div style={workoutPlayerStyles.progressBar}>
+            <div 
+              style={{
+                ...workoutPlayerStyles.progressFill,
+                width: `${((currentExerciseIndex + 1) / exercises.length) * 100}%`
+              }}
+            />
+          </div>
+        </div>
+        <button 
+          style={workoutPlayerStyles.toggleVideoBtn}
+          onClick={() => setShowVideo(!showVideo)}
+        >
+          {showVideo ? '📺' : '📺'}
+        </button>
+      </div>
+
+      {/* Video Section */}
+      {showVideo && !isResting && (
+        <div style={workoutPlayerStyles.videoContainer}>
+          <iframe
+            style={workoutPlayerStyles.video}
+            src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1`}
+            title={currentExercise?.name}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+          <div style={workoutPlayerStyles.videoOverlay}>
+            <span style={workoutPlayerStyles.videoLabel}>📹 Demo Video</span>
+          </div>
+        </div>
+      )}
+
+      {/* Rest Timer */}
+      {isResting && (
+        <div style={workoutPlayerStyles.restContainer}>
+          <div style={workoutPlayerStyles.restCircle}>
+            <span style={workoutPlayerStyles.restTime}>{restTime}</span>
+            <span style={workoutPlayerStyles.restLabel}>seconds</span>
+          </div>
+          <h2 style={workoutPlayerStyles.restTitle}>Rest Time</h2>
+          <p style={workoutPlayerStyles.restSubtitle}>
+            {currentSet <= totalSets ? `Get ready for set ${currentSet}` : `Next: ${exercises[currentExerciseIndex + 1]?.name || 'Finish'}`}
+          </p>
+          <button style={workoutPlayerStyles.skipButton} onClick={skipRest}>
+            Skip Rest →
+          </button>
+        </div>
+      )}
+
+      {/* Exercise Info */}
+      <div style={workoutPlayerStyles.exerciseInfo}>
+        <h1 style={workoutPlayerStyles.exerciseName}>{currentExercise?.name}</h1>
+        
+        <div style={workoutPlayerStyles.setsReps}>
+          <div style={workoutPlayerStyles.setIndicator}>
+            <span style={workoutPlayerStyles.setLabel}>Set</span>
+            <span style={workoutPlayerStyles.setNumber}>{currentSet} / {totalSets}</span>
+          </div>
+          <div style={workoutPlayerStyles.repIndicator}>
+            <span style={workoutPlayerStyles.repLabel}>Reps</span>
+            <span style={workoutPlayerStyles.repNumber}>{reps}</span>
+          </div>
+        </div>
+
+        {currentExercise?.notes && (
+          <div style={workoutPlayerStyles.tips}>
+            <span style={workoutPlayerStyles.tipsIcon}>💡</span>
+            <span style={workoutPlayerStyles.tipsText}>{currentExercise.notes}</span>
+          </div>
+        )}
+
+        {/* Set Progress Dots */}
+        <div style={workoutPlayerStyles.setDots}>
+          {Array.from({ length: totalSets }).map((_, idx) => (
+            <div 
+              key={idx}
+              style={{
+                ...workoutPlayerStyles.setDot,
+                backgroundColor: idx < currentSet - 1 ? '#4A6741' : idx === currentSet - 1 ? '#2AABB3' : '#E0E0E0'
+              }}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div style={workoutPlayerStyles.controls}>
+        <button 
+          style={workoutPlayerStyles.navButton}
+          onClick={previousExercise}
+          disabled={currentExerciseIndex === 0}
+        >
+          ← Prev
+        </button>
+        
+        {!isResting && (
+          <button style={workoutPlayerStyles.completeSetBtn} onClick={completeSet}>
+            ✓ Complete Set
+          </button>
+        )}
+
+        <button 
+          style={workoutPlayerStyles.navButton}
+          onClick={nextExercise}
+          disabled={currentExerciseIndex === exercises.length - 1}
+        >
+          Next →
+        </button>
+      </div>
+
+      {/* Exercise List Preview */}
+      <div style={workoutPlayerStyles.exerciseList}>
+        <h4 style={workoutPlayerStyles.listTitle}>Exercises</h4>
+        <div style={workoutPlayerStyles.listScroll}>
+          {exercises.map((ex, idx) => (
+            <div 
+              key={idx}
+              style={{
+                ...workoutPlayerStyles.listItem,
+                backgroundColor: idx === currentExerciseIndex ? '#E8EDE6' : 'transparent',
+                opacity: idx < currentExerciseIndex ? 0.5 : 1
+              }}
+              onClick={() => {
+                setCurrentExerciseIndex(idx);
+                setCurrentSet(1);
+                setIsResting(false);
+              }}
+            >
+              <span style={{
+                ...workoutPlayerStyles.listNumber,
+                backgroundColor: idx < currentExerciseIndex ? '#4A6741' : idx === currentExerciseIndex ? '#2AABB3' : '#E0E0E0',
+                color: idx <= currentExerciseIndex ? '#FFFFFF' : '#666666'
+              }}>
+                {idx < currentExerciseIndex ? '✓' : idx + 1}
+              </span>
+              <span style={workoutPlayerStyles.listName}>{ex.name}</span>
+              <span style={workoutPlayerStyles.listSets}>{ex.sets}×{ex.reps}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Workout Player Styles
+const workoutPlayerStyles = {
+  container: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#FFFFFF',
+    zIndex: 1000,
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'auto',
+  },
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '16px 20px',
+    borderBottom: '1px solid #E8E8E8',
+    backgroundColor: '#FFFFFF',
+    position: 'sticky',
+    top: 0,
+    zIndex: 10,
+  },
+  backButton: {
+    background: 'none',
+    border: 'none',
+    fontSize: '16px',
+    color: '#4A6741',
+    fontWeight: '600',
+    cursor: 'pointer',
+    padding: '8px 0',
+  },
+  progress: {
+    flex: 1,
+    marginLeft: '16px',
+    marginRight: '16px',
+  },
+  progressText: {
+    fontSize: '12px',
+    color: '#666666',
+    marginBottom: '4px',
+    display: 'block',
+    textAlign: 'center',
+  },
+  progressBar: {
+    height: '4px',
+    backgroundColor: '#E8E8E8',
+    borderRadius: '2px',
+    overflow: 'hidden',
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: '#4A6741',
+    borderRadius: '2px',
+    transition: 'width 0.3s ease',
+  },
+  toggleVideoBtn: {
+    background: 'none',
+    border: 'none',
+    fontSize: '20px',
+    cursor: 'pointer',
+    padding: '8px',
+  },
+  videoContainer: {
+    position: 'relative',
+    width: '100%',
+    aspectRatio: '16/9',
+    backgroundColor: '#000',
+    maxHeight: '250px',
+  },
+  video: {
+    width: '100%',
+    height: '100%',
+  },
+  videoOverlay: {
+    position: 'absolute',
+    top: '10px',
+    left: '10px',
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    padding: '4px 10px',
+    borderRadius: '12px',
+  },
+  videoLabel: {
+    color: '#FFFFFF',
+    fontSize: '12px',
+    fontWeight: '500',
+  },
+  restContainer: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '40px 20px',
+    backgroundColor: '#F5F7F4',
+    minHeight: '250px',
+  },
+  restCircle: {
+    width: '140px',
+    height: '140px',
+    borderRadius: '70px',
+    backgroundColor: '#FFFFFF',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+    marginBottom: '20px',
+  },
+  restTime: {
+    fontSize: '48px',
+    fontWeight: '700',
+    color: '#2AABB3',
+  },
+  restLabel: {
+    fontSize: '14px',
+    color: '#666666',
+  },
+  restTitle: {
+    fontSize: '24px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+    marginBottom: '8px',
+  },
+  restSubtitle: {
+    fontSize: '16px',
+    color: '#666666',
+    marginBottom: '20px',
+  },
+  skipButton: {
+    backgroundColor: '#4A6741',
+    color: '#FFFFFF',
+    border: 'none',
+    padding: '12px 32px',
+    borderRadius: '25px',
+    fontSize: '16px',
+    fontWeight: '600',
+    cursor: 'pointer',
+  },
+  exerciseInfo: {
+    padding: '24px 20px',
+    textAlign: 'center',
+  },
+  exerciseName: {
+    fontSize: '28px',
+    fontWeight: '700',
+    color: '#2D2D2D',
+    marginBottom: '20px',
+  },
+  setsReps: {
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '40px',
+    marginBottom: '20px',
+  },
+  setIndicator: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  setLabel: {
+    fontSize: '14px',
+    color: '#666666',
+    marginBottom: '4px',
+  },
+  setNumber: {
+    fontSize: '32px',
+    fontWeight: '700',
+    color: '#4A6741',
+  },
+  repIndicator: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  repLabel: {
+    fontSize: '14px',
+    color: '#666666',
+    marginBottom: '4px',
+  },
+  repNumber: {
+    fontSize: '32px',
+    fontWeight: '700',
+    color: '#2AABB3',
+  },
+  tips: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '8px',
+    backgroundColor: '#FFF9E6',
+    padding: '12px 20px',
+    borderRadius: '12px',
+    marginBottom: '16px',
+  },
+  tipsIcon: {
+    fontSize: '18px',
+  },
+  tipsText: {
+    fontSize: '14px',
+    color: '#666666',
+  },
+  setDots: {
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '8px',
+  },
+  setDot: {
+    width: '12px',
+    height: '12px',
+    borderRadius: '6px',
+    transition: 'background-color 0.3s ease',
+  },
+  controls: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '16px 20px',
+    gap: '12px',
+    borderTop: '1px solid #E8E8E8',
+    backgroundColor: '#FFFFFF',
+  },
+  navButton: {
+    backgroundColor: '#F5F5F5',
+    color: '#666666',
+    border: 'none',
+    padding: '12px 20px',
+    borderRadius: '10px',
+    fontSize: '14px',
+    fontWeight: '600',
+    cursor: 'pointer',
+  },
+  completeSetBtn: {
+    flex: 1,
+    backgroundColor: '#4A6741',
+    color: '#FFFFFF',
+    border: 'none',
+    padding: '16px 24px',
+    borderRadius: '12px',
+    fontSize: '18px',
+    fontWeight: '600',
+    cursor: 'pointer',
+  },
+  exerciseList: {
+    padding: '16px 20px',
+    borderTop: '1px solid #E8E8E8',
+    backgroundColor: '#FAFAFA',
+  },
+  listTitle: {
+    fontSize: '14px',
+    fontWeight: '600',
+    color: '#666666',
+    marginBottom: '12px',
+  },
+  listScroll: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+  },
+  listItem: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '10px 12px',
+    borderRadius: '10px',
+    cursor: 'pointer',
+    transition: 'background-color 0.2s ease',
+  },
+  listNumber: {
+    width: '28px',
+    height: '28px',
+    borderRadius: '14px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '14px',
+    fontWeight: '600',
+    marginRight: '12px',
+  },
+  listName: {
+    flex: 1,
+    fontSize: '15px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  listSets: {
+    fontSize: '13px',
+    color: '#888888',
+  },
+  completeScreen: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '40px 20px',
+    textAlign: 'center',
+  },
+  completeIcon: {
+    fontSize: '80px',
+    marginBottom: '24px',
+  },
+  completeTitle: {
+    fontSize: '32px',
+    fontWeight: '700',
+    color: '#4A6741',
+    marginBottom: '12px',
+  },
+  completeSubtitle: {
+    fontSize: '18px',
+    color: '#666666',
+    marginBottom: '32px',
+  },
+  statsGrid: {
+    display: 'flex',
+    gap: '16px',
+    marginBottom: '40px',
+  },
+  statCard: {
+    backgroundColor: '#F5F7F4',
+    padding: '20px 24px',
+    borderRadius: '16px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  statValue: {
+    fontSize: '28px',
+    fontWeight: '700',
+    color: '#4A6741',
+  },
+  statLabel: {
+    fontSize: '14px',
+    color: '#666666',
+    marginTop: '4px',
+  },
+  primaryButton: {
+    backgroundColor: '#4A6741',
+    color: '#FFFFFF',
+    border: 'none',
+    padding: '16px 48px',
+    borderRadius: '30px',
+    fontSize: '18px',
+    fontWeight: '600',
+    cursor: 'pointer',
+  },
+};
+
 // Fitness Screen
 function FitnessScreen({ user, setUser }) {
   const [showAssessment, setShowAssessment] = useState(false);
+  const [showWorkoutPlayer, setShowWorkoutPlayer] = useState(false);
+
+  // Show workout player when started
+  if (showWorkoutPlayer && user.workoutPlan) {
+    return (
+      <WorkoutPlayer 
+        workout={user.workoutPlan?.weeklyPlan?.workouts?.[0]}
+        user={user}
+        onComplete={() => {
+          setShowWorkoutPlayer(false);
+          // Award points for completing workout
+          setUser({
+            ...user,
+            totalPoints: (user.totalPoints || 0) + 100,
+            exerciseCurrent: user.exerciseGoal // Mark as completed
+          });
+        }}
+        onExit={() => setShowWorkoutPlayer(false)}
+      />
+    );
+  }
 
   if (!user.fitnessAssessmentComplete && !showAssessment) {
     return (
@@ -2367,28 +3098,36 @@ function AIFitnessAssessment({ onComplete, onCancel }) {
     }
   }, [exerciseState, countdown]);
 
-  // Capture frames during exercise
+  // Capture frames periodically during exercise (but don't auto-advance)
   useEffect(() => {
     if (exerciseState === 'performing') {
-      const exercise = exercises[currentExercise];
+      // Capture a frame every 2 seconds for analysis
       const captureInterval = setInterval(() => {
         const frame = captureFrame();
         if (frame) {
-          setCapturedFrames(prev => [...prev, frame]);
+          setCapturedFrames(prev => {
+            // Keep only last 5 frames to avoid memory issues
+            const newFrames = [...prev, frame];
+            return newFrames.slice(-5);
+          });
         }
-      }, 500); // Capture every 500ms
-
-      const exerciseTimer = setTimeout(() => {
-        clearInterval(captureInterval);
-        setExerciseState('captured');
-      }, exercise.duration * 1000);
+      }, 2000);
 
       return () => {
         clearInterval(captureInterval);
-        clearTimeout(exerciseTimer);
       };
     }
-  }, [exerciseState, currentExercise, captureFrame]);
+  }, [exerciseState, captureFrame]);
+
+  // User manually completes exercise
+  const completeExercise = useCallback(() => {
+    // Capture one final frame
+    const finalFrame = captureFrame();
+    if (finalFrame) {
+      setCapturedFrames(prev => [...prev, finalFrame]);
+    }
+    setExerciseState('captured');
+  }, [captureFrame]);
 
   // Analyze captured frames with AI
   useEffect(() => {
@@ -2846,12 +3585,22 @@ Important considerations:
 
           {exerciseState === 'performing' && (
             <div style={styles.centerContent}>
-              <div style={styles.recordingIndicator}>
-                <div style={styles.recordingDot} />
-                <span style={styles.recordingText}>Analyzing...</span>
-              </div>
-              <div style={styles.scanningOverlay}>
-                <div style={styles.scanningLine} className="scanning-line" />
+              <div style={styles.performingContainer}>
+                <div style={styles.recordingIndicator}>
+                  <div style={styles.recordingDot} />
+                  <span style={styles.recordingText}>Recording</span>
+                </div>
+                <p style={styles.performingInstructions}>
+                  Perform the exercise at your own pace
+                </p>
+                <button 
+                  style={styles.completeExerciseButton} 
+                  onClick={completeExercise}
+                  className="btn-primary"
+                >
+                  ✓ I Did It!
+                </button>
+                <p style={styles.performingHint}>Tap when you've completed the exercise</p>
               </div>
             </div>
           )}
@@ -3125,7 +3874,12 @@ function FitnessHomeScreen({ user }) {
           <span style={styles.todayTag}>{user.fitnessLevel || 'Beginner'}</span>
           <span style={styles.todayTag}>{todayWorkout.type}</span>
         </div>
-        <button style={styles.primaryButtonWhite}>Start Workout</button>
+        <button 
+          style={styles.primaryButtonWhite}
+          onClick={() => setShowWorkoutPlayer(true)}
+        >
+          Start Workout
+        </button>
       </div>
 
       {todayWorkout.exercises?.length > 0 && (
@@ -6530,6 +7284,38 @@ const styles = {
     color: '#FFFFFF',
     fontSize: '14px',
     fontWeight: '500',
+  },
+  performingContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '16px',
+  },
+  performingInstructions: {
+    color: '#FFFFFF',
+    fontSize: '18px',
+    fontWeight: '500',
+    textAlign: 'center',
+    textShadow: '0 2px 4px rgba(0,0,0,0.5)',
+    marginTop: '12px',
+  },
+  completeExerciseButton: {
+    backgroundColor: '#4A6741',
+    color: '#FFFFFF',
+    border: 'none',
+    padding: '18px 48px',
+    borderRadius: '30px',
+    fontSize: '20px',
+    fontWeight: '700',
+    cursor: 'pointer',
+    boxShadow: '0 4px 20px rgba(74, 103, 65, 0.4)',
+    marginTop: '20px',
+  },
+  performingHint: {
+    color: 'rgba(255,255,255,0.7)',
+    fontSize: '14px',
+    textAlign: 'center',
+    marginTop: '8px',
   },
   scanningOverlay: {
     position: 'absolute',
