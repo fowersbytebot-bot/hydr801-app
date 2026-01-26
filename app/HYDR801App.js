@@ -33,9 +33,9 @@ export default function HYDR801App() {
       { date: '2024-12-22', weight: 179.8 },
     ],
     // Daily goals
-    waterGoal: 64,
+    waterGoal: 80,
     waterCurrent: 48,
-    proteinGoal: 100,
+    proteinGoal: 120,
     proteinCurrent: 65,
     fiberGoal: 25,
     fiberCurrent: 12,
@@ -1854,6 +1854,15 @@ function NutritionScreen({ user, setUser }) {
   const [showMealPlanner, setShowMealPlanner] = useState(false);
   const [selectedDay, setSelectedDay] = useState(0);
 
+  // Calculate calorie goal based on current weight
+  // For GLP-1 patients: 10-11 calories per pound of body weight for weight loss
+  const currentWeight = user.weightLog?.length > 0 
+    ? user.weightLog[user.weightLog.length - 1].weight 
+    : 180; // default if no weight logged
+  const calorieGoal = Math.round(currentWeight * 10.5); // 10.5 cal/lb for moderate deficit
+  const carbGoal = Math.round(calorieGoal * 0.35 / 4); // 35% of calories from carbs, 4 cal/g
+  const fatGoal = Math.round(calorieGoal * 0.30 / 9); // 30% of calories from fat, 9 cal/g
+
   const tips = [
     { icon: '🥩', title: 'Protein First', desc: 'Aim for 25-35g protein per meal to preserve muscle' },
     { icon: '💧', title: 'Hydrate Proactively', desc: 'GLP-1 can reduce thirst awareness—set reminders' },
@@ -1970,10 +1979,10 @@ function NutritionScreen({ user, setUser }) {
 
   // Show meal plan
   const todayPlan = user.mealPlan?.weeklyPlan?.[selectedDay] || user.mealPlan?.weeklyPlan?.[0];
-  const totalProtein = todayPlan?.meals?.reduce((sum, m) => sum + (m.protein || 0), 0) || 110;
-  const totalCarbs = todayPlan?.meals?.reduce((sum, m) => sum + (m.carbs || 0), 0) || 95;
-  const totalFat = todayPlan?.meals?.reduce((sum, m) => sum + (m.fat || 0), 0) || 45;
-  const totalCalories = todayPlan?.meals?.reduce((sum, m) => sum + (m.calories || 0), 0) || 1250;
+  const totalProtein = todayPlan?.meals?.reduce((sum, m) => sum + (m.protein || 0), 0) || Math.round(user.proteinGoal * 0.9);
+  const totalCarbs = todayPlan?.meals?.reduce((sum, m) => sum + (m.carbs || 0), 0) || Math.round(carbGoal * 0.8);
+  const totalFat = todayPlan?.meals?.reduce((sum, m) => sum + (m.fat || 0), 0) || Math.round(fatGoal * 0.8);
+  const totalCalories = todayPlan?.meals?.reduce((sum, m) => sum + (m.calories || 0), 0) || Math.round(calorieGoal * 0.85);
 
   return (
     <div style={styles.screenContent} className="fade-in">
@@ -2015,14 +2024,14 @@ function NutritionScreen({ user, setUser }) {
                 <circle 
                   cx="35" cy="35" r="28" fill="none" 
                   stroke="#C4956A" strokeWidth="6" strokeLinecap="round"
-                  strokeDasharray={`${(totalCarbs / 150) * 176} 176`}
+                  strokeDasharray={`${(totalCarbs / carbGoal) * 176} 176`}
                   transform="rotate(-90 35 35)"
                 />
               </svg>
               <span style={styles.secondaryMacroValue}>{totalCarbs}</span>
             </div>
             <span style={styles.secondaryMacroLabel}>Carbs</span>
-            <span style={styles.secondaryMacroGoal}>{totalCarbs}g / 150g</span>
+            <span style={styles.secondaryMacroGoal}>{totalCarbs}g / {carbGoal}g</span>
           </div>
           
           <div style={styles.secondaryMacroCard}>
@@ -2032,14 +2041,14 @@ function NutritionScreen({ user, setUser }) {
                 <circle 
                   cx="35" cy="35" r="28" fill="none" 
                   stroke="#2AABB3" strokeWidth="6" strokeLinecap="round"
-                  strokeDasharray={`${(totalFat / 65) * 176} 176`}
+                  strokeDasharray={`${(totalFat / fatGoal) * 176} 176`}
                   transform="rotate(-90 35 35)"
                 />
               </svg>
               <span style={styles.secondaryMacroValue}>{totalFat}</span>
             </div>
             <span style={styles.secondaryMacroLabel}>Fat</span>
-            <span style={styles.secondaryMacroGoal}>{totalFat}g / 65g</span>
+            <span style={styles.secondaryMacroGoal}>{totalFat}g / {fatGoal}g</span>
           </div>
         </div>
       </div>
@@ -2058,6 +2067,15 @@ function NutritionScreen({ user, setUser }) {
             {day}
           </button>
         ))}
+      </div>
+
+      {/* Calorie info based on weight */}
+      <div style={styles.calorieInfoBanner}>
+        <span style={styles.calorieInfoIcon}>⚖️</span>
+        <div style={styles.calorieInfoContent}>
+          <span style={styles.calorieInfoTitle}>Daily Target: {calorieGoal} cal</span>
+          <span style={styles.calorieInfoSubtext}>Based on your current weight ({currentWeight} lbs)</span>
+        </div>
       </div>
 
       {/* Daily summary - Protein first and emphasized */}
@@ -2079,7 +2097,7 @@ function NutritionScreen({ user, setUser }) {
         <div style={styles.summaryDivider} />
         <div style={styles.summaryItem}>
           <span style={styles.summaryValue}>{totalCalories}</span>
-          <span style={styles.summaryLabel}>CALORIES</span>
+          <span style={styles.summaryLabel}>/ {calorieGoal} CAL</span>
         </div>
       </div>
 
@@ -2277,6 +2295,16 @@ function MealPlanSetup({ user, onComplete, onCancel }) {
   const generateMealPlan = async () => {
     setIsGenerating(true);
 
+    // Calculate calorie goal based on patient's current weight
+    // For GLP-1 patients: 10-11 calories per pound of body weight for weight loss
+    const currentWeight = user.weightLog?.length > 0 
+      ? user.weightLog[user.weightLog.length - 1].weight 
+      : 180; // default if no weight logged
+    const calorieTarget = Math.round(currentWeight * 10.5); // 10.5 cal/lb for moderate deficit
+    const proteinTarget = Math.round(currentWeight * 0.7); // 0.7g protein per lb for muscle preservation
+    const minCalories = Math.max(1200, calorieTarget - 200); // Don't go below 1200
+    const maxCalories = calorieTarget + 100;
+
     const prefsDescription = `
 Diet Type: ${preferences.dietType || 'Omnivore'}
 Allergies/Restrictions: ${preferences.allergies.length > 0 ? preferences.allergies.join(', ') : 'None'}
@@ -2285,6 +2313,9 @@ Preferred Cuisines: ${preferences.cuisines.length > 0 ? preferences.cuisines.joi
 Cooking Time Preference: ${preferences.cookingTime || 'Any'}
 Meals Per Day: ${preferences.mealsPerDay}
 Snacks Per Day: ${preferences.snacksPerDay}
+Current Weight: ${currentWeight} lbs
+Daily Calorie Target: ${calorieTarget} calories (${minCalories}-${maxCalories} range)
+Daily Protein Target: ${proteinTarget}g minimum
     `.trim();
 
     try {
@@ -2298,16 +2329,17 @@ Snacks Per Day: ${preferences.snacksPerDay}
             role: 'user',
             content: `You are a nutrition AI creating a personalized 7-day meal plan for a GLP-1 weight loss patient. This person is on medication like Ozempic, Wegovy, or Mounjaro.
 
-Patient Dietary Preferences:
+Patient Info & Dietary Preferences:
 ${prefsDescription}
 
 CRITICAL GLP-1 NUTRITION REQUIREMENTS:
-1. HIGH PROTEIN: 25-35g protein per meal minimum (crucial for muscle preservation during weight loss)
-2. MODERATE FIBER: 25-30g daily total (helps with satiety but too much can cause GI issues with GLP-1)
-3. SMALLER PORTIONS: GLP-1 reduces appetite, so portions should be satisfying but not overwhelming
-4. HYDRATION FOCUS: Include water-rich foods; GLP-1 can reduce thirst sensation
-5. AVOID: Greasy/fried foods, very high-fat meals, excessive sugar (can cause dumping syndrome)
-6. PROTEIN FIRST: Structure meals to eat protein first, then vegetables, then carbs
+1. HIGH PROTEIN: ${Math.round(proteinTarget / preferences.mealsPerDay)}g+ protein per meal minimum (${proteinTarget}g daily - crucial for muscle preservation during weight loss)
+2. CALORIE TARGET: ${calorieTarget} calories daily (calculated from patient's current weight of ${currentWeight} lbs at 10.5 cal/lb)
+3. MODERATE FIBER: 25-30g daily total (helps with satiety but too much can cause GI issues with GLP-1)
+4. SMALLER PORTIONS: GLP-1 reduces appetite, so portions should be satisfying but not overwhelming
+5. HYDRATION FOCUS: Include water-rich foods; GLP-1 can reduce thirst sensation
+6. AVOID: Greasy/fried foods, very high-fat meals, excessive sugar (can cause dumping syndrome)
+7. PROTEIN FIRST: Structure meals to eat protein first, then vegetables, then carbs
 
 Create a JSON response with this structure (respond ONLY with JSON, no markdown):
 {
@@ -2340,8 +2372,8 @@ Create a JSON response with this structure (respond ONLY with JSON, no markdown)
         }
       ],
       "dailyTotals": {
-        "calories": 1400,
-        "protein": 100,
+        "calories": ${calorieTarget},
+        "protein": ${proteinTarget},
         "fiber": 28
       }
     }
@@ -2356,7 +2388,7 @@ Create a JSON response with this structure (respond ONLY with JSON, no markdown)
   }
 }
 
-Make meals delicious, varied, and realistic to prepare. Include a mix of simple and slightly more elaborate options. Each day should have ${preferences.mealsPerDay} meals and ${preferences.snacksPerDay} snack options. Target 1200-1600 calories daily with at least 90-120g protein.`
+Make meals delicious, varied, and realistic to prepare. Include a mix of simple and slightly more elaborate options. Each day should have ${preferences.mealsPerDay} meals and ${preferences.snacksPerDay} snack options. Target ${minCalories}-${maxCalories} calories daily with at least ${proteinTarget}g protein. Distribute calories appropriately across meals.`
           }]
         })
       });
@@ -2369,18 +2401,26 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
         const cleanJson = planText.replace(/```json|```/g, '').trim();
         mealPlan = JSON.parse(cleanJson);
       } catch {
-        mealPlan = getDefaultMealPlan(preferences);
+        mealPlan = getDefaultMealPlan(preferences, calorieTarget, proteinTarget);
       }
 
       onComplete(preferences, mealPlan);
 
     } catch (error) {
       console.error('Meal plan generation error:', error);
-      onComplete(preferences, getDefaultMealPlan(preferences));
+      onComplete(preferences, getDefaultMealPlan(preferences, calorieTarget, proteinTarget));
     }
   };
 
-  const getDefaultMealPlan = (prefs) => ({
+  const getDefaultMealPlan = (prefs, calorieTarget = 1500, proteinTarget = 110) => {
+    // Distribute calories across meals
+    const mealsPerDay = prefs.mealsPerDay || 3;
+    const snacksPerDay = prefs.snacksPerDay || 1;
+    const snackCalories = snacksPerDay * 120;
+    const mealCalories = Math.round((calorieTarget - snackCalories) / mealsPerDay);
+    const mealProtein = Math.round(proteinTarget / mealsPerDay);
+    
+    return {
     weeklyPlan: [
       {
         day: 'Monday',
@@ -2389,8 +2429,8 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
             type: 'breakfast',
             name: 'Greek Yogurt Protein Bowl',
             description: 'Creamy Greek yogurt topped with berries and a sprinkle of nuts',
-            calories: 350,
-            protein: 30,
+            calories: Math.round(mealCalories * 0.85),
+            protein: mealProtein,
             carbs: 28,
             fat: 12,
             fiber: 5,
@@ -2403,8 +2443,8 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
             type: 'lunch',
             name: 'Grilled Chicken Salad',
             description: 'Tender grilled chicken over fresh greens with avocado',
-            calories: 420,
-            protein: 38,
+            calories: mealCalories,
+            protein: Math.round(mealProtein * 1.15),
             carbs: 15,
             fat: 24,
             fiber: 8,
@@ -2417,8 +2457,8 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
             type: 'dinner',
             name: 'Baked Salmon with Vegetables',
             description: 'Flaky salmon fillet with roasted asparagus and quinoa',
-            calories: 480,
-            protein: 42,
+            calories: Math.round(mealCalories * 1.15),
+            protein: Math.round(mealProtein * 1.25),
             carbs: 28,
             fat: 22,
             fiber: 6,
@@ -2432,7 +2472,7 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
           { name: 'Cottage cheese with cucumber', emoji: '🥒', calories: 120, protein: 14, description: '1/2 cup cottage cheese with sliced cucumber' },
           { name: 'Turkey roll-ups', emoji: '🦃', calories: 100, protein: 12, description: '3 slices turkey wrapped around cheese stick' }
         ],
-        dailyTotals: { calories: 1250, protein: 110, fiber: 19 }
+        dailyTotals: { calories: calorieTarget, protein: proteinTarget, fiber: 19 }
       },
       {
         day: 'Tuesday',
@@ -2441,8 +2481,8 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
             type: 'breakfast',
             name: 'Veggie Egg White Scramble',
             description: 'Fluffy egg whites with spinach, tomatoes, and feta',
-            calories: 280,
-            protein: 28,
+            calories: Math.round(mealCalories * 0.7),
+            protein: mealProtein,
             carbs: 12,
             fat: 14,
             fiber: 4,
@@ -2455,8 +2495,8 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
             type: 'lunch',
             name: 'Turkey Lettuce Wraps',
             description: 'Seasoned ground turkey in crisp lettuce cups',
-            calories: 380,
-            protein: 35,
+            calories: mealCalories,
+            protein: Math.round(mealProtein * 1.1),
             carbs: 18,
             fat: 18,
             fiber: 5,
@@ -2469,8 +2509,8 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
             type: 'dinner',
             name: 'Shrimp Stir-Fry',
             description: 'Garlic shrimp with colorful vegetables over cauliflower rice',
-            calories: 420,
-            protein: 38,
+            calories: Math.round(mealCalories * 1.1),
+            protein: Math.round(mealProtein * 1.2),
             carbs: 22,
             fat: 20,
             fiber: 7,
@@ -2484,7 +2524,7 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
           { name: 'Hard-boiled eggs', emoji: '🥚', calories: 140, protein: 12, description: '2 hard-boiled eggs with everything seasoning' },
           { name: 'Edamame', emoji: '🫛', calories: 120, protein: 11, description: '1/2 cup shelled edamame with sea salt' }
         ],
-        dailyTotals: { calories: 1080, protein: 101, fiber: 16 }
+        dailyTotals: { calories: calorieTarget, protein: proteinTarget, fiber: 16 }
       }
     ],
     hydrationTip: 'Set a timer to drink 8oz of water every 2 hours. GLP-1 can reduce thirst signals, so stay proactive!',
@@ -2499,7 +2539,8 @@ Make meals delicious, varied, and realistic to prepare. Include a mix of simple 
       dairy: ['Feta cheese', 'String cheese'],
       pantry: ['Quinoa', 'Cauliflower rice', 'Olive oil', 'Chia seeds', 'Almond butter']
     }
-  });
+  };
+  };
 
   // Step 1: Diet Type
   if (step === 1) {
@@ -7880,14 +7921,15 @@ function LoyaltyProgramScreen({ user, setUser, onBack }) {
 function ProfileScreen({ user, setUser }) {
   const [showWeightLog, setShowWeightLog] = useState(false);
   const [showLoyalty, setShowLoyalty] = useState(false);
+  const [activeSubscreen, setActiveSubscreen] = useState(null);
 
   const menuItems = [
-    { icon: '👤', label: 'Personal Information' },
-    { icon: '📊', label: 'Progress & Metrics' },
-    { icon: '🎯', label: 'Goals & Preferences' },
-    { icon: '💊', label: 'My Treatments' },
-    { icon: '📱', label: 'Notifications' },
-    { icon: '❓', label: 'Help & Support' },
+    { icon: '👤', label: 'Personal Information', id: 'personal' },
+    { icon: '📊', label: 'Progress & Metrics', id: 'progress' },
+    { icon: '🎯', label: 'Goals & Preferences', id: 'goals' },
+    { icon: '💊', label: 'My Treatments', id: 'treatments' },
+    { icon: '📱', label: 'Notifications', id: 'notifications' },
+    { icon: '❓', label: 'Help & Support', id: 'help' },
   ];
 
   const badges = [
@@ -7905,6 +7947,641 @@ function ProfileScreen({ user, setUser }) {
 
   if (showLoyalty) {
     return <LoyaltyProgramScreen user={user} setUser={setUser} onBack={() => setShowLoyalty(false)} />;
+  }
+
+  // Personal Information Subscreen
+  if (activeSubscreen === 'personal') {
+    return (
+      <div style={styles.screenContent} className="fade-in">
+        <div style={styles.subscreenHeader}>
+          <button style={styles.backButton} onClick={() => setActiveSubscreen(null)}>← Back</button>
+          <h2 style={styles.subscreenTitle}>Personal Information</h2>
+        </div>
+        
+        <div style={styles.personalInfoSection}>
+          <div style={styles.personalInfoAvatar}>
+            <span style={styles.personalInfoAvatarText}>{user.name[0]}</span>
+            <button style={styles.editAvatarBtn}>📷</button>
+          </div>
+          
+          <div style={styles.infoFieldGroup}>
+            <div style={styles.infoField}>
+              <label style={styles.infoFieldLabel}>Full Name</label>
+              <input 
+                type="text" 
+                style={styles.infoFieldInput} 
+                defaultValue={user.name}
+                onBlur={(e) => setUser({...user, name: e.target.value})}
+              />
+            </div>
+            
+            <div style={styles.infoField}>
+              <label style={styles.infoFieldLabel}>Email</label>
+              <input 
+                type="email" 
+                style={styles.infoFieldInput} 
+                defaultValue={user.email}
+                onBlur={(e) => setUser({...user, email: e.target.value})}
+              />
+            </div>
+            
+            <div style={styles.infoField}>
+              <label style={styles.infoFieldLabel}>Phone Number</label>
+              <input 
+                type="tel" 
+                style={styles.infoFieldInput} 
+                defaultValue={user.phone || ''}
+                placeholder="(555) 123-4567"
+                onBlur={(e) => setUser({...user, phone: e.target.value})}
+              />
+            </div>
+            
+            <div style={styles.infoField}>
+              <label style={styles.infoFieldLabel}>Date of Birth</label>
+              <input 
+                type="date" 
+                style={styles.infoFieldInput} 
+                defaultValue={user.dob || ''}
+                onBlur={(e) => setUser({...user, dob: e.target.value})}
+              />
+            </div>
+          </div>
+          
+          <div style={styles.infoSection}>
+            <h4 style={styles.infoSectionTitle}>Emergency Contact</h4>
+            <div style={styles.infoField}>
+              <label style={styles.infoFieldLabel}>Contact Name</label>
+              <input 
+                type="text" 
+                style={styles.infoFieldInput} 
+                defaultValue={user.emergencyContact || ''}
+                placeholder="Emergency contact name"
+                onBlur={(e) => setUser({...user, emergencyContact: e.target.value})}
+              />
+            </div>
+            <div style={styles.infoField}>
+              <label style={styles.infoFieldLabel}>Contact Phone</label>
+              <input 
+                type="tel" 
+                style={styles.infoFieldInput} 
+                defaultValue={user.emergencyPhone || ''}
+                placeholder="(555) 123-4567"
+                onBlur={(e) => setUser({...user, emergencyPhone: e.target.value})}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Progress & Metrics Subscreen
+  if (activeSubscreen === 'progress') {
+    const weeklyAvg = user.weeklyHistory?.length > 0 
+      ? Math.round(user.weeklyHistory.reduce((sum, w) => sum + (w.protein + w.water + w.exercise + w.meals) / 4, 0) / user.weeklyHistory.length)
+      : 0;
+    
+    return (
+      <div style={styles.screenContent} className="fade-in">
+        <div style={styles.subscreenHeader}>
+          <button style={styles.backButton} onClick={() => setActiveSubscreen(null)}>← Back</button>
+          <h2 style={styles.subscreenTitle}>Progress & Metrics</h2>
+        </div>
+        
+        {/* Summary Stats */}
+        <div style={styles.progressStatsGrid}>
+          <div style={styles.progressStatCard}>
+            <span style={styles.progressStatValue}>{weightLoss}</span>
+            <span style={styles.progressStatLabel}>lbs Lost</span>
+          </div>
+          <div style={styles.progressStatCard}>
+            <span style={styles.progressStatValue}>{user.week}</span>
+            <span style={styles.progressStatLabel}>Weeks In</span>
+          </div>
+          <div style={styles.progressStatCard}>
+            <span style={styles.progressStatValue}>{user.currentStreak || 0}</span>
+            <span style={styles.progressStatLabel}>Day Streak</span>
+          </div>
+          <div style={styles.progressStatCard}>
+            <span style={styles.progressStatValue}>{weeklyAvg}%</span>
+            <span style={styles.progressStatLabel}>Avg Compliance</span>
+          </div>
+        </div>
+        
+        {/* Weight Chart */}
+        <div style={styles.progressSection}>
+          <h4 style={styles.progressSectionTitle}>📉 Weight History</h4>
+          <div style={styles.weightChartLarge}>
+            {user.weightLog?.map((entry, idx) => {
+              const maxWeight = Math.max(...user.weightLog.map(e => e.weight));
+              const minWeight = Math.min(...user.weightLog.map(e => e.weight));
+              const range = maxWeight - minWeight || 1;
+              const height = ((entry.weight - minWeight) / range) * 80 + 10;
+              
+              return (
+                <div key={idx} style={styles.weightChartPointLarge}>
+                  <div style={{...styles.weightChartBarLarge, height: `${height}%`}} />
+                  <span style={styles.weightChartValueLarge}>{entry.weight}</span>
+                  <span style={styles.weightChartDateLarge}>
+                    {new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        
+        {/* Weekly Compliance */}
+        <div style={styles.progressSection}>
+          <h4 style={styles.progressSectionTitle}>📊 Weekly Compliance</h4>
+          {user.weeklyHistory?.map((week, idx) => {
+            const avg = Math.round((week.protein + week.water + week.exercise + week.meals) / 4);
+            return (
+              <div key={idx} style={styles.weeklyComplianceRow}>
+                <span style={styles.weeklyComplianceLabel}>Week {week.week}</span>
+                <div style={styles.weeklyComplianceBar}>
+                  <div style={{...styles.weeklyComplianceBarFill, width: `${avg}%`, background: avg >= 80 ? '#4A6741' : avg >= 60 ? '#C4956A' : '#E57373'}} />
+                </div>
+                <span style={styles.weeklyComplianceValue}>{avg}%</span>
+              </div>
+            );
+          })}
+        </div>
+        
+        {/* Badges */}
+        <div style={styles.progressSection}>
+          <h4 style={styles.progressSectionTitle}>🏆 Achievements</h4>
+          <div style={styles.badgesGridLarge}>
+            {badges.map((badge, idx) => (
+              <div 
+                key={idx} 
+                style={{
+                  ...styles.badgeCardLarge,
+                  opacity: badge.earned ? 1 : 0.4,
+                  background: badge.earned ? '#E8EDE6' : '#F5F4F2'
+                }}
+              >
+                <span style={styles.badgeIconLarge}>{badge.icon}</span>
+                <span style={styles.badgeNameLarge}>{badge.name}</span>
+                {badge.earned && <span style={styles.badgeCheckLarge}>✓</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Goals & Preferences Subscreen
+  if (activeSubscreen === 'goals') {
+    return (
+      <div style={styles.screenContent} className="fade-in">
+        <div style={styles.subscreenHeader}>
+          <button style={styles.backButton} onClick={() => setActiveSubscreen(null)}>← Back</button>
+          <h2 style={styles.subscreenTitle}>Goals & Preferences</h2>
+        </div>
+        
+        <div style={styles.goalsSection}>
+          <h4 style={styles.goalsSectionTitle}>Daily Goals</h4>
+          
+          <div style={styles.goalSettingRow}>
+            <div style={styles.goalSettingInfo}>
+              <span style={styles.goalSettingIcon}>💧</span>
+              <span style={styles.goalSettingLabel}>Water Goal</span>
+            </div>
+            <div style={styles.goalSettingControl}>
+              <button 
+                style={styles.goalAdjustBtn}
+                onClick={() => setUser({...user, waterGoal: Math.max(40, user.waterGoal - 8)})}
+              >−</button>
+              <span style={styles.goalSettingValue}>{user.waterGoal}oz</span>
+              <button 
+                style={styles.goalAdjustBtn}
+                onClick={() => setUser({...user, waterGoal: user.waterGoal + 8})}
+              >+</button>
+            </div>
+          </div>
+          
+          <div style={styles.goalSettingRow}>
+            <div style={styles.goalSettingInfo}>
+              <span style={styles.goalSettingIcon}>🥩</span>
+              <span style={styles.goalSettingLabel}>Protein Goal</span>
+            </div>
+            <div style={styles.goalSettingControl}>
+              <button 
+                style={styles.goalAdjustBtn}
+                onClick={() => setUser({...user, proteinGoal: Math.max(50, user.proteinGoal - 10)})}
+              >−</button>
+              <span style={styles.goalSettingValue}>{user.proteinGoal}g</span>
+              <button 
+                style={styles.goalAdjustBtn}
+                onClick={() => setUser({...user, proteinGoal: user.proteinGoal + 10})}
+              >+</button>
+            </div>
+          </div>
+          
+          <div style={styles.goalSettingRow}>
+            <div style={styles.goalSettingInfo}>
+              <span style={styles.goalSettingIcon}>🥬</span>
+              <span style={styles.goalSettingLabel}>Fiber Goal</span>
+            </div>
+            <div style={styles.goalSettingControl}>
+              <button 
+                style={styles.goalAdjustBtn}
+                onClick={() => setUser({...user, fiberGoal: Math.max(15, user.fiberGoal - 5)})}
+              >−</button>
+              <span style={styles.goalSettingValue}>{user.fiberGoal}g</span>
+              <button 
+                style={styles.goalAdjustBtn}
+                onClick={() => setUser({...user, fiberGoal: user.fiberGoal + 5})}
+              >+</button>
+            </div>
+          </div>
+          
+          <div style={styles.goalSettingRow}>
+            <div style={styles.goalSettingInfo}>
+              <span style={styles.goalSettingIcon}>🏃</span>
+              <span style={styles.goalSettingLabel}>Exercise Goal</span>
+            </div>
+            <div style={styles.goalSettingControl}>
+              <button 
+                style={styles.goalAdjustBtn}
+                onClick={() => setUser({...user, exerciseGoal: Math.max(15, user.exerciseGoal - 5)})}
+              >−</button>
+              <span style={styles.goalSettingValue}>{user.exerciseGoal}min</span>
+              <button 
+                style={styles.goalAdjustBtn}
+                onClick={() => setUser({...user, exerciseGoal: user.exerciseGoal + 5})}
+              >+</button>
+            </div>
+          </div>
+        </div>
+        
+        <div style={styles.goalsSection}>
+          <h4 style={styles.goalsSectionTitle}>Injection Schedule</h4>
+          <div style={styles.injectionScheduleCard}>
+            <div style={styles.injectionScheduleRow}>
+              <span style={styles.injectionScheduleLabel}>Preferred Injection Day</span>
+              <select 
+                style={styles.injectionScheduleSelect}
+                value={user.injectionDay || 0}
+                onChange={(e) => setUser({...user, injectionDay: parseInt(e.target.value)})}
+              >
+                <option value={0}>Sunday</option>
+                <option value={1}>Monday</option>
+                <option value={2}>Tuesday</option>
+                <option value={3}>Wednesday</option>
+                <option value={4}>Thursday</option>
+                <option value={5}>Friday</option>
+                <option value={6}>Saturday</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div style={styles.goalsSection}>
+          <h4 style={styles.goalsSectionTitle}>Preferences</h4>
+          <div style={styles.preferenceRow}>
+            <span style={styles.preferenceLabel}>Daily Reminders</span>
+            <div 
+              style={{
+                ...styles.toggleSwitch,
+                background: user.dailyReminders ? '#4A6741' : '#E0E0E0'
+              }}
+              onClick={() => setUser({...user, dailyReminders: !user.dailyReminders})}
+            >
+              <div style={{
+                ...styles.toggleKnob,
+                transform: user.dailyReminders ? 'translateX(20px)' : 'translateX(0)'
+              }} />
+            </div>
+          </div>
+          <div style={styles.preferenceRow}>
+            <span style={styles.preferenceLabel}>Share Progress with Provider</span>
+            <div 
+              style={{
+                ...styles.toggleSwitch,
+                background: user.shareWithProvider !== false ? '#4A6741' : '#E0E0E0'
+              }}
+              onClick={() => setUser({...user, shareWithProvider: user.shareWithProvider === false ? true : false})}
+            >
+              <div style={{
+                ...styles.toggleKnob,
+                transform: user.shareWithProvider !== false ? 'translateX(20px)' : 'translateX(0)'
+              }} />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // My Treatments Subscreen
+  if (activeSubscreen === 'treatments') {
+    return (
+      <div style={styles.screenContent} className="fade-in">
+        <div style={styles.subscreenHeader}>
+          <button style={styles.backButton} onClick={() => setActiveSubscreen(null)}>← Back</button>
+          <h2 style={styles.subscreenTitle}>My Treatments</h2>
+        </div>
+        
+        {/* Current Medication */}
+        <div style={styles.treatmentSection}>
+          <h4 style={styles.treatmentSectionTitle}>Current Medication</h4>
+          <div style={styles.currentMedCard}>
+            <div style={styles.currentMedIcon}>💉</div>
+            <div style={styles.currentMedInfo}>
+              <h5 style={styles.currentMedName}>Semaglutide (GLP-1)</h5>
+              <p style={styles.currentMedDose}>Current Dose: {user.medicationDose}</p>
+              <p style={styles.currentMedSchedule}>{user.medicationSchedule}</p>
+            </div>
+          </div>
+        </div>
+        
+        {/* Dose History */}
+        <div style={styles.treatmentSection}>
+          <h4 style={styles.treatmentSectionTitle}>Dose History</h4>
+          <div style={styles.doseHistoryList}>
+            {[
+              { date: '2024-12-01', dose: '0.25mg', note: 'Starting dose' },
+              { date: '2024-12-15', dose: '0.5mg', note: 'First increase' },
+            ].map((entry, idx) => (
+              <div key={idx} style={styles.doseHistoryItem}>
+                <div style={styles.doseHistoryDate}>
+                  {new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                </div>
+                <div style={styles.doseHistoryInfo}>
+                  <span style={styles.doseHistoryDose}>{entry.dose}</span>
+                  <span style={styles.doseHistoryNote}>{entry.note}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Add-on Treatments */}
+        <div style={styles.treatmentSection}>
+          <h4 style={styles.treatmentSectionTitle}>Add-on Treatments</h4>
+          <div style={styles.addonTreatmentsList}>
+            <div style={styles.addonTreatmentCard}>
+              <span style={styles.addonTreatmentIcon}>💊</span>
+              <div style={styles.addonTreatmentInfo}>
+                <h5 style={styles.addonTreatmentName}>Lipo-C Injections</h5>
+                <p style={styles.addonTreatmentDesc}>Fat metabolism support</p>
+              </div>
+              <span style={styles.addonTreatmentPrice}>$20/mo</span>
+            </div>
+            <div style={styles.addonTreatmentCard}>
+              <span style={styles.addonTreatmentIcon}>💧</span>
+              <div style={styles.addonTreatmentInfo}>
+                <h5 style={styles.addonTreatmentName}>Physique Boost IV</h5>
+                <p style={styles.addonTreatmentDesc}>Monthly metabolism boost</p>
+              </div>
+              <span style={styles.addonTreatmentPrice}>$199/session</span>
+            </div>
+          </div>
+        </div>
+        
+        {/* Next Appointment */}
+        <div style={styles.treatmentSection}>
+          <h4 style={styles.treatmentSectionTitle}>Next Appointment</h4>
+          <div style={styles.appointmentCard}>
+            <span style={styles.appointmentIcon}>📅</span>
+            <div style={styles.appointmentInfo}>
+              <p style={styles.appointmentDate}>{user.nextAppointment || 'Not scheduled'}</p>
+              <p style={styles.appointmentType}>Check-in with Dr. Williams</p>
+            </div>
+            <button style={styles.appointmentBtn}>Reschedule</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Notifications Subscreen
+  if (activeSubscreen === 'notifications') {
+    return (
+      <div style={styles.screenContent} className="fade-in">
+        <div style={styles.subscreenHeader}>
+          <button style={styles.backButton} onClick={() => setActiveSubscreen(null)}>← Back</button>
+          <h2 style={styles.subscreenTitle}>Notifications</h2>
+        </div>
+        
+        <div style={styles.notificationsSection}>
+          <h4 style={styles.notificationsSectionTitle}>Reminders</h4>
+          
+          <div style={styles.notificationRow}>
+            <div style={styles.notificationInfo}>
+              <span style={styles.notificationIcon}>💉</span>
+              <div>
+                <p style={styles.notificationLabel}>Injection Reminder</p>
+                <p style={styles.notificationDesc}>Get reminded on injection day</p>
+              </div>
+            </div>
+            <div 
+              style={{
+                ...styles.toggleSwitch,
+                background: user.injectionReminder !== false ? '#4A6741' : '#E0E0E0'
+              }}
+              onClick={() => setUser({...user, injectionReminder: user.injectionReminder === false ? true : false})}
+            >
+              <div style={{
+                ...styles.toggleKnob,
+                transform: user.injectionReminder !== false ? 'translateX(20px)' : 'translateX(0)'
+              }} />
+            </div>
+          </div>
+          
+          <div style={styles.notificationRow}>
+            <div style={styles.notificationInfo}>
+              <span style={styles.notificationIcon}>💧</span>
+              <div>
+                <p style={styles.notificationLabel}>Hydration Reminders</p>
+                <p style={styles.notificationDesc}>Periodic water reminders</p>
+              </div>
+            </div>
+            <div 
+              style={{
+                ...styles.toggleSwitch,
+                background: user.hydrationReminder !== false ? '#4A6741' : '#E0E0E0'
+              }}
+              onClick={() => setUser({...user, hydrationReminder: user.hydrationReminder === false ? true : false})}
+            >
+              <div style={{
+                ...styles.toggleKnob,
+                transform: user.hydrationReminder !== false ? 'translateX(20px)' : 'translateX(0)'
+              }} />
+            </div>
+          </div>
+          
+          <div style={styles.notificationRow}>
+            <div style={styles.notificationInfo}>
+              <span style={styles.notificationIcon}>🍽️</span>
+              <div>
+                <p style={styles.notificationLabel}>Meal Logging</p>
+                <p style={styles.notificationDesc}>Remind to log meals</p>
+              </div>
+            </div>
+            <div 
+              style={{
+                ...styles.toggleSwitch,
+                background: user.mealReminder !== false ? '#4A6741' : '#E0E0E0'
+              }}
+              onClick={() => setUser({...user, mealReminder: user.mealReminder === false ? true : false})}
+            >
+              <div style={{
+                ...styles.toggleKnob,
+                transform: user.mealReminder !== false ? 'translateX(20px)' : 'translateX(0)'
+              }} />
+            </div>
+          </div>
+          
+          <div style={styles.notificationRow}>
+            <div style={styles.notificationInfo}>
+              <span style={styles.notificationIcon}>🏃</span>
+              <div>
+                <p style={styles.notificationLabel}>Exercise Reminder</p>
+                <p style={styles.notificationDesc}>Daily movement reminder</p>
+              </div>
+            </div>
+            <div 
+              style={{
+                ...styles.toggleSwitch,
+                background: user.exerciseReminder !== false ? '#4A6741' : '#E0E0E0'
+              }}
+              onClick={() => setUser({...user, exerciseReminder: user.exerciseReminder === false ? true : false})}
+            >
+              <div style={{
+                ...styles.toggleKnob,
+                transform: user.exerciseReminder !== false ? 'translateX(20px)' : 'translateX(0)'
+              }} />
+            </div>
+          </div>
+        </div>
+        
+        <div style={styles.notificationsSection}>
+          <h4 style={styles.notificationsSectionTitle}>Updates</h4>
+          
+          <div style={styles.notificationRow}>
+            <div style={styles.notificationInfo}>
+              <span style={styles.notificationIcon}>📰</span>
+              <div>
+                <p style={styles.notificationLabel}>Weekly Summary</p>
+                <p style={styles.notificationDesc}>Progress report every week</p>
+              </div>
+            </div>
+            <div 
+              style={{
+                ...styles.toggleSwitch,
+                background: user.weeklySummary !== false ? '#4A6741' : '#E0E0E0'
+              }}
+              onClick={() => setUser({...user, weeklySummary: user.weeklySummary === false ? true : false})}
+            >
+              <div style={{
+                ...styles.toggleKnob,
+                transform: user.weeklySummary !== false ? 'translateX(20px)' : 'translateX(0)'
+              }} />
+            </div>
+          </div>
+          
+          <div style={styles.notificationRow}>
+            <div style={styles.notificationInfo}>
+              <span style={styles.notificationIcon}>🎉</span>
+              <div>
+                <p style={styles.notificationLabel}>Promotions & Offers</p>
+                <p style={styles.notificationDesc}>Special deals from HYDR801</p>
+              </div>
+            </div>
+            <div 
+              style={{
+                ...styles.toggleSwitch,
+                background: user.promotions ? '#4A6741' : '#E0E0E0'
+              }}
+              onClick={() => setUser({...user, promotions: !user.promotions})}
+            >
+              <div style={{
+                ...styles.toggleKnob,
+                transform: user.promotions ? 'translateX(20px)' : 'translateX(0)'
+              }} />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Help & Support Subscreen
+  if (activeSubscreen === 'help') {
+    return (
+      <div style={styles.screenContent} className="fade-in">
+        <div style={styles.subscreenHeader}>
+          <button style={styles.backButton} onClick={() => setActiveSubscreen(null)}>← Back</button>
+          <h2 style={styles.subscreenTitle}>Help & Support</h2>
+        </div>
+        
+        <div style={styles.helpSection}>
+          <h4 style={styles.helpSectionTitle}>Contact Us</h4>
+          <a href="tel:801-917-4386" style={styles.helpContactCard}>
+            <span style={styles.helpContactIcon}>📞</span>
+            <div style={styles.helpContactInfo}>
+              <p style={styles.helpContactLabel}>Call Us</p>
+              <p style={styles.helpContactValue}>801-917-4386</p>
+            </div>
+          </a>
+          <a href="mailto:support@hydr801.com" style={styles.helpContactCard}>
+            <span style={styles.helpContactIcon}>✉️</span>
+            <div style={styles.helpContactInfo}>
+              <p style={styles.helpContactLabel}>Email</p>
+              <p style={styles.helpContactValue}>support@hydr801.com</p>
+            </div>
+          </a>
+        </div>
+        
+        <div style={styles.helpSection}>
+          <h4 style={styles.helpSectionTitle}>Locations</h4>
+          <div style={styles.locationCard}>
+            <span style={styles.locationIcon}>📍</span>
+            <div style={styles.locationInfo}>
+              <p style={styles.locationName}>West Haven</p>
+              <p style={styles.locationAddress}>1234 Main St, West Haven, UT</p>
+            </div>
+          </div>
+          <div style={styles.locationCard}>
+            <span style={styles.locationIcon}>📍</span>
+            <div style={styles.locationInfo}>
+              <p style={styles.locationName}>South Ogden</p>
+              <p style={styles.locationAddress}>5678 Washington Blvd, South Ogden, UT</p>
+            </div>
+          </div>
+        </div>
+        
+        <div style={styles.helpSection}>
+          <h4 style={styles.helpSectionTitle}>FAQs</h4>
+          <div style={styles.faqList}>
+            {[
+              { q: 'How do I track my injection?', a: 'Tap any date on the Home calendar to log your injection.' },
+              { q: 'What if I miss an injection?', a: 'Contact your provider. Generally, take it as soon as you remember unless your next dose is within 2 days.' },
+              { q: 'How do I update my goals?', a: 'Go to Profile → Goals & Preferences to adjust your daily targets.' },
+              { q: 'Can I change my injection day?', a: 'Yes! Update it in Goals & Preferences or on the Home calendar.' },
+            ].map((faq, idx) => (
+              <details key={idx} style={styles.faqItem}>
+                <summary style={styles.faqQuestion}>{faq.q}</summary>
+                <p style={styles.faqAnswer}>{faq.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+        
+        <div style={styles.helpSection}>
+          <h4 style={styles.helpSectionTitle}>App Info</h4>
+          <div style={styles.appInfoCard}>
+            <p style={styles.appInfoRow}><span>Version</span><span>1.0.0</span></p>
+            <p style={styles.appInfoRow}><span>Terms of Service</span><span style={styles.appInfoLink}>View →</span></p>
+            <p style={styles.appInfoRow}><span>Privacy Policy</span><span style={styles.appInfoLink}>View →</span></p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -8046,7 +8723,12 @@ function ProfileScreen({ user, setUser }) {
 
       <div style={styles.menuList}>
         {menuItems.map((item, idx) => (
-          <div key={idx} style={styles.menuItem} className="card-hover">
+          <div 
+            key={idx} 
+            style={styles.menuItem} 
+            className="card-hover"
+            onClick={() => setActiveSubscreen(item.id)}
+          >
             <span style={styles.menuIcon}>{item.icon}</span>
             <span style={styles.menuLabel}>{item.label}</span>
             <span style={styles.menuArrow}>›</span>
@@ -9387,6 +10069,36 @@ const styles = {
     fontSize: '13px',
     color: '#6B6B6B',
     lineHeight: '1.4',
+  },
+
+  // Calorie Info Banner (weight-based)
+  calorieInfoBanner: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    background: 'linear-gradient(135deg, #F5F8F4 0%, #E8EDE6 100%)',
+    borderRadius: '14px',
+    padding: '14px 16px',
+    marginBottom: '16px',
+    border: '1px solid #D8E0D5',
+  },
+  calorieInfoIcon: {
+    fontSize: '24px',
+  },
+  calorieInfoContent: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  calorieInfoTitle: {
+    fontSize: '15px',
+    fontWeight: '600',
+    color: '#4A6741',
+    marginBottom: '2px',
+  },
+  calorieInfoSubtext: {
+    fontSize: '12px',
+    color: '#6B6B6B',
   },
 
   // Edit Preferences Button
@@ -11844,6 +12556,600 @@ const styles = {
     fontSize: '15px',
     color: '#9B9B9B',
     cursor: 'pointer',
+  },
+  
+  // Profile Subscreens
+  subscreenHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '16px',
+    marginBottom: '24px',
+  },
+  subscreenTitle: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: '20px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  
+  // Personal Information
+  personalInfoSection: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '20px',
+  },
+  personalInfoAvatar: {
+    position: 'relative',
+    width: '100px',
+    height: '100px',
+    margin: '0 auto 10px',
+  },
+  personalInfoAvatarText: {
+    width: '100px',
+    height: '100px',
+    borderRadius: '50px',
+    background: 'linear-gradient(135deg, #4A6741 0%, #5B7B50 100%)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#FFFFFF',
+    fontSize: '40px',
+    fontWeight: '500',
+  },
+  editAvatarBtn: {
+    position: 'absolute',
+    bottom: '0',
+    right: '0',
+    width: '32px',
+    height: '32px',
+    borderRadius: '16px',
+    background: '#FFFFFF',
+    border: '2px solid #E0E0E0',
+    cursor: 'pointer',
+    fontSize: '14px',
+  },
+  infoFieldGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px',
+  },
+  infoField: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
+  },
+  infoFieldLabel: {
+    fontSize: '13px',
+    color: '#6B6B6B',
+    fontWeight: '500',
+  },
+  infoFieldInput: {
+    padding: '14px 16px',
+    borderRadius: '12px',
+    border: '1px solid #E0E0E0',
+    fontSize: '15px',
+    fontFamily: 'inherit',
+    outline: 'none',
+    background: '#FFFFFF',
+  },
+  infoSection: {
+    background: '#FFFFFF',
+    borderRadius: '16px',
+    padding: '16px',
+  },
+  infoSectionTitle: {
+    fontSize: '14px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+    marginBottom: '12px',
+  },
+  
+  // Progress & Metrics
+  progressStatsGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: '12px',
+    marginBottom: '24px',
+  },
+  progressStatCard: {
+    background: '#FFFFFF',
+    borderRadius: '14px',
+    padding: '16px',
+    textAlign: 'center',
+  },
+  progressStatValue: {
+    fontSize: '28px',
+    fontWeight: '600',
+    color: '#4A6741',
+    display: 'block',
+  },
+  progressStatLabel: {
+    fontSize: '12px',
+    color: '#9B9B9B',
+  },
+  progressSection: {
+    marginBottom: '24px',
+  },
+  progressSectionTitle: {
+    fontSize: '16px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '14px',
+  },
+  weightChartLarge: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'flex-end',
+    height: '150px',
+    background: '#FFFFFF',
+    borderRadius: '14px',
+    padding: '16px',
+  },
+  weightChartPointLarge: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '6px',
+  },
+  weightChartBarLarge: {
+    width: '20px',
+    background: 'linear-gradient(180deg, #4A6741 0%, #5B7B50 100%)',
+    borderRadius: '4px',
+  },
+  weightChartValueLarge: {
+    fontSize: '12px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+  },
+  weightChartDateLarge: {
+    fontSize: '10px',
+    color: '#9B9B9B',
+  },
+  weeklyComplianceRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    background: '#FFFFFF',
+    borderRadius: '10px',
+    padding: '12px 14px',
+    marginBottom: '8px',
+  },
+  weeklyComplianceLabel: {
+    fontSize: '13px',
+    color: '#6B6B6B',
+    width: '60px',
+  },
+  weeklyComplianceBar: {
+    flex: 1,
+    height: '8px',
+    background: '#F0EFED',
+    borderRadius: '4px',
+    overflow: 'hidden',
+  },
+  weeklyComplianceBarFill: {
+    height: '100%',
+    borderRadius: '4px',
+  },
+  weeklyComplianceValue: {
+    fontSize: '13px',
+    fontWeight: '600',
+    color: '#4A6741',
+    width: '40px',
+    textAlign: 'right',
+  },
+  badgesGridLarge: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: '10px',
+  },
+  badgeCardLarge: {
+    borderRadius: '12px',
+    padding: '14px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    position: 'relative',
+  },
+  badgeIconLarge: {
+    fontSize: '28px',
+  },
+  badgeNameLarge: {
+    fontSize: '13px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+  },
+  badgeCheckLarge: {
+    position: 'absolute',
+    top: '8px',
+    right: '8px',
+    fontSize: '12px',
+    color: '#4A6741',
+  },
+  
+  // Goals & Preferences
+  goalsSection: {
+    marginBottom: '24px',
+  },
+  goalsSectionTitle: {
+    fontSize: '16px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '14px',
+  },
+  goalSettingRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    background: '#FFFFFF',
+    borderRadius: '12px',
+    padding: '14px 16px',
+    marginBottom: '10px',
+  },
+  goalSettingInfo: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+  },
+  goalSettingIcon: {
+    fontSize: '20px',
+  },
+  goalSettingLabel: {
+    fontSize: '15px',
+    color: '#2D2D2D',
+  },
+  goalSettingControl: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+  },
+  goalAdjustBtn: {
+    width: '32px',
+    height: '32px',
+    borderRadius: '16px',
+    border: '1px solid #E0E0E0',
+    background: '#FFFFFF',
+    fontSize: '18px',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#4A6741',
+  },
+  goalSettingValue: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#4A6741',
+    minWidth: '60px',
+    textAlign: 'center',
+  },
+  injectionScheduleCard: {
+    background: '#FFFFFF',
+    borderRadius: '12px',
+    padding: '16px',
+  },
+  injectionScheduleRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  injectionScheduleLabel: {
+    fontSize: '14px',
+    color: '#2D2D2D',
+  },
+  injectionScheduleSelect: {
+    padding: '8px 12px',
+    borderRadius: '8px',
+    border: '1px solid #E0E0E0',
+    fontSize: '14px',
+    fontFamily: 'inherit',
+    background: '#FFFFFF',
+    color: '#4A6741',
+    fontWeight: '500',
+  },
+  preferenceRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    background: '#FFFFFF',
+    borderRadius: '12px',
+    padding: '14px 16px',
+    marginBottom: '10px',
+  },
+  preferenceLabel: {
+    fontSize: '15px',
+    color: '#2D2D2D',
+  },
+  toggleSwitch: {
+    width: '50px',
+    height: '30px',
+    borderRadius: '15px',
+    padding: '3px',
+    cursor: 'pointer',
+    transition: 'background 0.2s',
+  },
+  toggleKnob: {
+    width: '24px',
+    height: '24px',
+    borderRadius: '12px',
+    background: '#FFFFFF',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+    transition: 'transform 0.2s',
+  },
+  
+  // My Treatments
+  treatmentSection: {
+    marginBottom: '24px',
+  },
+  treatmentSectionTitle: {
+    fontSize: '16px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '14px',
+  },
+  currentMedCard: {
+    display: 'flex',
+    gap: '16px',
+    background: 'linear-gradient(135deg, #E8EDE6 0%, #D8E0D5 100%)',
+    borderRadius: '16px',
+    padding: '20px',
+  },
+  currentMedIcon: {
+    fontSize: '36px',
+  },
+  currentMedInfo: {
+    flex: 1,
+  },
+  currentMedName: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+    marginBottom: '4px',
+  },
+  currentMedDose: {
+    fontSize: '14px',
+    color: '#4A6741',
+    fontWeight: '500',
+    marginBottom: '2px',
+  },
+  currentMedSchedule: {
+    fontSize: '13px',
+    color: '#6B6B6B',
+  },
+  doseHistoryList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+  },
+  doseHistoryItem: {
+    display: 'flex',
+    gap: '14px',
+    background: '#FFFFFF',
+    borderRadius: '12px',
+    padding: '14px',
+  },
+  doseHistoryDate: {
+    fontSize: '12px',
+    color: '#9B9B9B',
+    width: '80px',
+  },
+  doseHistoryInfo: {
+    flex: 1,
+  },
+  doseHistoryDose: {
+    fontSize: '15px',
+    fontWeight: '600',
+    color: '#4A6741',
+    display: 'block',
+  },
+  doseHistoryNote: {
+    fontSize: '13px',
+    color: '#6B6B6B',
+  },
+  addonTreatmentsList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+  },
+  addonTreatmentCard: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    background: '#FFFFFF',
+    borderRadius: '12px',
+    padding: '14px',
+  },
+  addonTreatmentIcon: {
+    fontSize: '24px',
+  },
+  addonTreatmentInfo: {
+    flex: 1,
+  },
+  addonTreatmentName: {
+    fontSize: '14px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '2px',
+  },
+  addonTreatmentDesc: {
+    fontSize: '12px',
+    color: '#9B9B9B',
+  },
+  addonTreatmentPrice: {
+    fontSize: '14px',
+    fontWeight: '600',
+    color: '#4A6741',
+  },
+  appointmentCard: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    background: '#FFFFFF',
+    borderRadius: '12px',
+    padding: '16px',
+  },
+  appointmentIcon: {
+    fontSize: '24px',
+  },
+  appointmentInfo: {
+    flex: 1,
+  },
+  appointmentDate: {
+    fontSize: '15px',
+    fontWeight: '600',
+    color: '#2D2D2D',
+    marginBottom: '2px',
+  },
+  appointmentType: {
+    fontSize: '13px',
+    color: '#6B6B6B',
+  },
+  appointmentBtn: {
+    background: '#E8EDE6',
+    border: 'none',
+    borderRadius: '8px',
+    padding: '8px 14px',
+    fontSize: '13px',
+    color: '#4A6741',
+    fontWeight: '500',
+    cursor: 'pointer',
+  },
+  
+  // Notifications
+  notificationsSection: {
+    marginBottom: '24px',
+  },
+  notificationsSectionTitle: {
+    fontSize: '16px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '14px',
+  },
+  notificationRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    background: '#FFFFFF',
+    borderRadius: '12px',
+    padding: '14px 16px',
+    marginBottom: '10px',
+  },
+  notificationInfo: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+  },
+  notificationIcon: {
+    fontSize: '20px',
+  },
+  notificationLabel: {
+    fontSize: '15px',
+    color: '#2D2D2D',
+    fontWeight: '500',
+  },
+  notificationDesc: {
+    fontSize: '12px',
+    color: '#9B9B9B',
+  },
+  
+  // Help & Support
+  helpSection: {
+    marginBottom: '24px',
+  },
+  helpSectionTitle: {
+    fontSize: '16px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '14px',
+  },
+  helpContactCard: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    background: '#FFFFFF',
+    borderRadius: '12px',
+    padding: '16px',
+    marginBottom: '10px',
+    textDecoration: 'none',
+  },
+  helpContactIcon: {
+    fontSize: '24px',
+  },
+  helpContactInfo: {
+    flex: 1,
+  },
+  helpContactLabel: {
+    fontSize: '13px',
+    color: '#9B9B9B',
+    marginBottom: '2px',
+  },
+  helpContactValue: {
+    fontSize: '15px',
+    fontWeight: '500',
+    color: '#4A6741',
+  },
+  locationCard: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    background: '#FFFFFF',
+    borderRadius: '12px',
+    padding: '16px',
+    marginBottom: '10px',
+  },
+  locationIcon: {
+    fontSize: '24px',
+  },
+  locationInfo: {
+    flex: 1,
+  },
+  locationName: {
+    fontSize: '15px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    marginBottom: '2px',
+  },
+  locationAddress: {
+    fontSize: '13px',
+    color: '#6B6B6B',
+  },
+  faqList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+  },
+  faqItem: {
+    background: '#FFFFFF',
+    borderRadius: '12px',
+    padding: '14px 16px',
+  },
+  faqQuestion: {
+    fontSize: '14px',
+    fontWeight: '500',
+    color: '#2D2D2D',
+    cursor: 'pointer',
+  },
+  faqAnswer: {
+    fontSize: '13px',
+    color: '#6B6B6B',
+    marginTop: '10px',
+    lineHeight: '1.5',
+  },
+  appInfoCard: {
+    background: '#FFFFFF',
+    borderRadius: '12px',
+    padding: '16px',
+  },
+  appInfoRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    fontSize: '14px',
+    color: '#2D2D2D',
+    padding: '10px 0',
+    borderBottom: '1px solid #F0EFED',
+  },
+  appInfoLink: {
+    color: '#4A6741',
+    fontWeight: '500',
   },
   
   // Modal
