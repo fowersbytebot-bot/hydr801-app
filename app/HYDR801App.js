@@ -1220,8 +1220,17 @@ function HomeScreen({ user, setUser, setActiveModal }) {
           <p style={styles.greeting}>{greeting()},</p>
           <div style={styles.nameRow}>
             <h1 style={styles.userName}>{user.name}</h1>
-            <span style={styles.loyaltyBadgeSmall}>
-              {user.loyaltyTier === 'Platinum' ? '💎' : user.loyaltyTier === 'Gold' ? '🥇' : user.loyaltyTier === 'Silver' ? '🥈' : '🥉'} {user.loyaltyTier || 'Bronze'}
+            <span style={{
+              ...styles.loyaltyBadgeSmall,
+              background: user.loyaltyTier === 'Platinum' ? 'linear-gradient(135deg, #E8E8E8 0%, #A0A0A0 100%)' :
+                         user.loyaltyTier === 'Gold' ? 'linear-gradient(135deg, #FFE55C 0%, #D4AF37 100%)' :
+                         user.loyaltyTier === 'Silver' ? 'linear-gradient(135deg, #E8E8E8 0%, #A8A8A8 100%)' :
+                         'linear-gradient(135deg, #D4A574 0%, #CD7F32 100%)'
+            }}>
+              <span style={{fontSize: '10px', marginRight: '4px'}}>
+                {user.loyaltyTier === 'Platinum' ? '◆' : user.loyaltyTier === 'Gold' ? '✧' : user.loyaltyTier === 'Silver' ? '❖' : '✦'}
+              </span>
+              {user.loyaltyTier || 'Bronze'}
             </span>
           </div>
         </div>
@@ -7522,45 +7531,122 @@ function LoyaltyProgramScreen({ user, setUser, onBack }) {
   const [showShareModal, setShowShareModal] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  // Tier definitions
+  // Luxury Tier Badge Component
+  const TierBadge = ({ tier, size = 'large' }) => {
+    const sizes = {
+      small: { width: 32, height: 32, fontSize: 10, iconSize: 14 },
+      medium: { width: 48, height: 48, fontSize: 12, iconSize: 18 },
+      large: { width: 64, height: 64, fontSize: 14, iconSize: 24 }
+    };
+    const s = sizes[size];
+    
+    const tierStyles = {
+      Bronze: {
+        gradient: 'linear-gradient(145deg, #D4A574 0%, #8B6914 50%, #CD7F32 100%)',
+        border: '#8B6914',
+        shadow: '0 4px 15px rgba(205, 127, 50, 0.4)',
+        icon: '✦'
+      },
+      Silver: {
+        gradient: 'linear-gradient(145deg, #E8E8E8 0%, #A8A8A8 50%, #C0C0C0 100%)',
+        border: '#909090',
+        shadow: '0 4px 15px rgba(168, 168, 168, 0.4)',
+        icon: '❖'
+      },
+      Gold: {
+        gradient: 'linear-gradient(145deg, #FFE55C 0%, #D4AF37 50%, #B8860B 100%)',
+        border: '#B8860B',
+        shadow: '0 4px 15px rgba(212, 175, 55, 0.5)',
+        icon: '✧'
+      },
+      Platinum: {
+        gradient: 'linear-gradient(145deg, #F5F5F5 0%, #E5E4E2 30%, #A0A0A0 70%, #E8E8E8 100%)',
+        border: '#8A8A8A',
+        shadow: '0 4px 20px rgba(160, 160, 160, 0.5)',
+        icon: '◆'
+      }
+    };
+    
+    const style = tierStyles[tier] || tierStyles.Bronze;
+    
+    return (
+      <div style={{
+        width: s.width,
+        height: s.height,
+        borderRadius: '50%',
+        background: style.gradient,
+        border: `2px solid ${style.border}`,
+        boxShadow: style.shadow,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+        {/* Inner ring */}
+        <div style={{
+          position: 'absolute',
+          width: s.width - 8,
+          height: s.height - 8,
+          borderRadius: '50%',
+          border: `1px solid rgba(255,255,255,0.3)`,
+        }} />
+        {/* Center icon */}
+        <span style={{
+          fontSize: s.iconSize,
+          color: tier === 'Platinum' ? '#4A4A4A' : '#FFFFFF',
+          textShadow: tier === 'Platinum' ? 'none' : '0 1px 2px rgba(0,0,0,0.3)',
+          fontWeight: '300',
+        }}>
+          {style.icon}
+        </span>
+      </div>
+    );
+  };
+
+  // Tier definitions with luxury colors
   const tiers = [
     { 
       id: 'Bronze', 
-      icon: '🥉', 
       minSpend: 0, 
       maxSpend: 499,
-      color: '#CD7F32',
-      bgColor: '#FDF5E6',
+      color: '#8B6914',
+      textColor: '#6B4E11',
+      bgColor: 'linear-gradient(135deg, #FDF8F0 0%, #F5E6D3 100%)',
+      accentColor: '#CD7F32',
       benefits: ['5% off IV Therapy', '$20 referral credit', 'Birthday bonus'],
       discount: 5
     },
     { 
       id: 'Silver', 
-      icon: '🥈', 
       minSpend: 500, 
       maxSpend: 1499,
-      color: '#A8A8A8',
-      bgColor: '#F5F5F5',
+      color: '#6B6B6B',
+      textColor: '#4A4A4A',
+      bgColor: 'linear-gradient(135deg, #FAFAFA 0%, #E8E8E8 100%)',
+      accentColor: '#A8A8A8',
       benefits: ['10% off IV Therapy', '$20 referral credit', 'Priority scheduling', 'Free B12 monthly'],
       discount: 10
     },
     { 
       id: 'Gold', 
-      icon: '🥇', 
       minSpend: 1500, 
       maxSpend: 2999,
-      color: '#FFD700',
-      bgColor: '#FFFEF0',
+      color: '#B8860B',
+      textColor: '#8B6914',
+      bgColor: 'linear-gradient(135deg, #FFFEF5 0%, #F5E6C8 100%)',
+      accentColor: '#D4AF37',
       benefits: ['15% off all services', '$20 referral credit', 'VIP scheduling', 'Free monthly booster', 'Exclusive events'],
       discount: 15
     },
     { 
       id: 'Platinum', 
-      icon: '💎', 
       minSpend: 3000, 
       maxSpend: Infinity,
-      color: '#E5E4E2',
-      bgColor: '#F8F8FF',
+      color: '#5A5A5A',
+      textColor: '#3A3A3A',
+      bgColor: 'linear-gradient(135deg, #F8F8FA 0%, #E0E0E5 100%)',
+      accentColor: '#8A8A8A',
       benefits: ['20% off everything', '$20 referral credit', 'Concierge service', 'Free monthly IV', 'VIP events', 'First access to new treatments'],
       discount: 20
     },
@@ -7618,11 +7704,11 @@ function LoyaltyProgramScreen({ user, setUser, onBack }) {
       </div>
 
       {/* Current Tier Card */}
-      <div style={{...styles.tierCard, background: `linear-gradient(135deg, ${currentTier.bgColor} 0%, #FFFFFF 100%)`}}>
+      <div style={{...styles.tierCard, background: currentTier.bgColor}}>
         <div style={styles.tierCardHeader}>
-          <span style={styles.tierIcon}>{currentTier.icon}</span>
+          <TierBadge tier={currentTier.id} size="large" />
           <div style={styles.tierInfo}>
-            <h2 style={{...styles.tierName, color: currentTier.color}}>{currentTier.id} Member</h2>
+            <h2 style={{...styles.tierName, color: currentTier.textColor}}>{currentTier.id} Member</h2>
             <p style={styles.tierSpent}>${user.lifetimeSpent?.toLocaleString() || 0} lifetime spending</p>
           </div>
         </div>
@@ -7634,13 +7720,13 @@ function LoyaltyProgramScreen({ user, setUser, onBack }) {
               <span style={styles.tierProgressValue}>${spendToNextTier} to go</span>
             </div>
             <div style={styles.tierProgressBar}>
-              <div style={{...styles.tierProgressFill, width: `${progressToNext}%`, background: nextTier.color}} />
+              <div style={{...styles.tierProgressFill, width: `${progressToNext}%`, background: nextTier.accentColor}} />
             </div>
           </div>
         )}
         
         <div style={styles.tierDiscount}>
-          <span style={styles.discountBadge}>{currentTier.discount}% OFF</span>
+          <span style={{...styles.discountBadge, background: currentTier.accentColor}}>{currentTier.discount}% OFF</span>
           <span style={styles.discountText}>your services</span>
         </div>
       </div>
@@ -7826,15 +7912,15 @@ function LoyaltyProgramScreen({ user, setUser, onBack }) {
                   key={idx} 
                   style={{
                     ...styles.tierListItem,
-                    border: isCurrentTier ? `2px solid ${tier.color}` : '1px solid #E8E8E8',
+                    border: isCurrentTier ? `2px solid ${tier.accentColor}` : '1px solid #E8E8E8',
                     background: isCurrentTier ? tier.bgColor : '#FFFFFF',
                     opacity: isUnlocked ? 1 : 0.6
                   }}
                 >
                   <div style={styles.tierListHeader}>
-                    <span style={styles.tierListIcon}>{tier.icon}</span>
+                    <TierBadge tier={tier.id} size="medium" />
                     <div style={styles.tierListInfo}>
-                      <h4 style={{...styles.tierListName, color: tier.color}}>{tier.id}</h4>
+                      <h4 style={{...styles.tierListName, color: tier.textColor}}>{tier.id}</h4>
                       <p style={styles.tierListSpend}>
                         {tier.maxSpend === Infinity 
                           ? `$${tier.minSpend.toLocaleString()}+` 
@@ -7842,7 +7928,7 @@ function LoyaltyProgramScreen({ user, setUser, onBack }) {
                       </p>
                     </div>
                     {isCurrentTier && (
-                      <span style={styles.currentTierBadge}>Current</span>
+                      <span style={{...styles.currentTierBadge, background: tier.accentColor}}>Current</span>
                     )}
                     {!isUnlocked && (
                       <span style={styles.lockedBadge}>🔒</span>
@@ -8604,8 +8690,28 @@ function ProfileScreen({ user, setUser }) {
       {/* Loyalty Program Card */}
       <div style={styles.loyaltyPreviewCard} className="card-hover" onClick={() => setShowLoyalty(true)}>
         <div style={styles.loyaltyPreviewLeft}>
-          <div style={styles.loyaltyPreviewBadge}>
-            {user.loyaltyTier === 'Platinum' ? '💎' : user.loyaltyTier === 'Gold' ? '🥇' : user.loyaltyTier === 'Silver' ? '🥈' : '🥉'}
+          <div style={{
+            ...styles.loyaltyPreviewBadge,
+            background: user.loyaltyTier === 'Platinum' ? 'linear-gradient(145deg, #F5F5F5 0%, #A0A0A0 100%)' :
+                       user.loyaltyTier === 'Gold' ? 'linear-gradient(145deg, #FFE55C 0%, #B8860B 100%)' :
+                       user.loyaltyTier === 'Silver' ? 'linear-gradient(145deg, #E8E8E8 0%, #A8A8A8 100%)' :
+                       'linear-gradient(145deg, #D4A574 0%, #8B6914 100%)',
+            border: user.loyaltyTier === 'Platinum' ? '2px solid #8A8A8A' :
+                   user.loyaltyTier === 'Gold' ? '2px solid #B8860B' :
+                   user.loyaltyTier === 'Silver' ? '2px solid #909090' :
+                   '2px solid #8B6914',
+            boxShadow: user.loyaltyTier === 'Platinum' ? '0 3px 10px rgba(160,160,160,0.4)' :
+                      user.loyaltyTier === 'Gold' ? '0 3px 10px rgba(212,175,55,0.4)' :
+                      user.loyaltyTier === 'Silver' ? '0 3px 10px rgba(168,168,168,0.3)' :
+                      '0 3px 10px rgba(205,127,50,0.3)',
+          }}>
+            <span style={{
+              fontSize: '18px',
+              color: user.loyaltyTier === 'Platinum' ? '#4A4A4A' : '#FFFFFF',
+              textShadow: user.loyaltyTier === 'Platinum' ? 'none' : '0 1px 2px rgba(0,0,0,0.3)',
+            }}>
+              {user.loyaltyTier === 'Platinum' ? '◆' : user.loyaltyTier === 'Gold' ? '✧' : user.loyaltyTier === 'Silver' ? '❖' : '✦'}
+            </span>
           </div>
           <div style={styles.loyaltyPreviewInfo}>
             <h4 style={styles.loyaltyPreviewTitle}>{user.loyaltyTier || 'Bronze'} Rewards</h4>
@@ -9334,13 +9440,16 @@ const styles = {
     gap: '10px',
   },
   loyaltyBadgeSmall: {
-    background: 'linear-gradient(135deg, #F5E6D3 0%, #E8D5C4 100%)',
+    display: 'inline-flex',
+    alignItems: 'center',
     borderRadius: '14px',
     padding: '4px 10px',
-    fontSize: '12px',
-    fontWeight: '500',
-    color: '#8B6914',
+    fontSize: '11px',
+    fontWeight: '600',
+    color: '#FFFFFF',
     whiteSpace: 'nowrap',
+    textShadow: '0 1px 2px rgba(0,0,0,0.2)',
+    border: '1px solid rgba(255,255,255,0.2)',
   },
   weekBadge: {
     background: '#E8EDE6',
@@ -14806,7 +14915,12 @@ const styles = {
     gap: '14px',
   },
   loyaltyPreviewBadge: {
-    fontSize: '32px',
+    width: '44px',
+    height: '44px',
+    borderRadius: '22px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   loyaltyPreviewInfo: {
     flex: 1,
